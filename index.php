@@ -179,7 +179,8 @@ FROM         Title_Name LEFT OUTER JOIN Contact ON Title_Name.TITLE_KEY = Contac
 	   $day = explode("-", date("Y-m-d"));
 	   $sql_duc = "SELECT     DOC_KEY, MODULE_KEY, DOC_TITLE_NAME, DOC_NAME_THAI, DOC_NAME_ENG, DOC_SET_YEAR, DOC_SET_MONTH, DOC_RUN, DOC_DATE, DOC_REMARK, DOC_STATUS, DOC_CREATE_BY, DOC_REVISE_BY, DOC_LASTUPD, DOC_ISO, DOC_DAR, DOC_COMPANY_NAME_THAI, DOC_COMPANY_NAME_ENG, DOC_ADD, DOC_TEL, DOC_FAX, DOC_TAX, DOC_WEBSITE, DOC_LOGO, DOC_FORMPRINT
 FROM   Document_File WHERE  (DOC_STATUS = '1') AND (MODULE_KEY = 2)";
-	   $docresult = mssql_fetch_array(mssql_query($sql_duc));
+	    $stm = sqlsrv_query($con,$sql_duc);
+	   $docresult = sqlsrv_fetch_array($stm);
 	   $doc_keyy = $docresult['DOC_KEY'];
 	   $date_ex =  date('Y/m/d H:i:s',strtotime("+".$docresult['DOC_DATE']." day"));
 	   if($docresult[5] == 1){
@@ -197,11 +198,13 @@ FROM   Document_File WHERE  (DOC_STATUS = '1') AND (MODULE_KEY = 2)";
 			  $mm = $day[1]; 
 	   }
 	       if(empty($_SESSION['id_bo'])){
-			  $rec_run = mssql_fetch_array(mssql_query(" SELECT  ISNULL(MAX(AR_BO_ID),0)+1 AS AR_BO_KEY  FROM   [Dream_Thai].[dbo].[Book_Order] "));
+			$query = " SELECT  ISNULL(MAX(AR_BO_ID),0)+1 AS AR_BO_KEY  FROM   [Dream_Thai].[dbo].[Book_Order] ";
+			$stm = sqlsrv_query($con,$query);
+			  $rec_run = sqlsrv_fetch_array($stm);
 	          $_SESSION['id_bo'] = $rec_run[0]; 
 		    }
 		   $chk ="SELECT * FROM [Dream_Thai].[dbo].[Book_Order] WHERE AR_BO_ID = ".($_SESSION['id_bo'])." ;";
-		   if(mssql_num_rows(mssql_query($chk)) > 0){
+		   if(sqlsrv_num_rows(sqlsrv_query($con,$chk)) > 0){
 			  $temp = $_SESSION['id_bo'];
 			  $_SESSION['id_bo'] = $temp+1;  
 			  mssql_query("UPDATE [Dream_Thai].[dbo].[Book_Order_Detail_Temp] SET [AR_BO_ID] = ".$_SESSION['id_bo']." WHERE AR_BO_ID = ".$temp." ");
@@ -213,13 +216,13 @@ FROM   Document_File WHERE  (DOC_STATUS = '1') AND (MODULE_KEY = 2)";
 	          $_SESSION['key_bo']  = $BO_KEY; 
  echo "<script>alert('เลขที่ใบจอง ( "."".$docresult['DOC_TITLE_NAME']."-".$yy."".$mm."-".$run_id2.""." ) ซ้ำ เลขที่ใหม่คือ ( ".$_SESSION['key_bo']." )')</script>";
 		   }else{
-			  $rec_run = mssql_fetch_array(mssql_query(" SELECT  ISNULL(MAX(AR_BO_ID),0)+1 AS AR_BO_KEY  FROM   [Dream_Thai].[dbo].[Book_Order] "));
+			  $rec_run = sqlsrv_fetch_array(sqlsrv_query($con," SELECT  ISNULL(MAX(AR_BO_ID),0)+1 AS AR_BO_KEY  FROM   [Dream_Thai].[dbo].[Book_Order] "));
 	          $_SESSION['id_bo'] = $rec_run[0];
 			  $run_id =  sprintf ("%03d", $rec_run[0]); 
 	   	      $BO_KEY =  $docresult['DOC_TITLE_NAME']."-".$yy."".$mm."-".$run_id.""; 
 	          $_SESSION['key_bo']  = $BO_KEY; 
 		   }
-	   $emk = mssql_fetch_array(mssql_query(" SELECT     Employee_File.EMP_NAME_THAI, Employee_File.EMP_SURNAME_THAI, Title_Name.TITLE_NAME_THAI, Employee_File.EMP_KEY FROM  Employee_File INNER JOIN Title_Name ON Employee_File.TITLE_KEY = Title_Name.TITLE_KEY WHERE  (Employee_File.EMP_STATUS = '1')   AND  Employee_File.EMP_KEY = '".$_SESSION["user_id"]." ' " ));
+	   $emk = sqlsrv_fetch_array(sqlsrv_query($con," SELECT     Employee_File.EMP_NAME_THAI, Employee_File.EMP_SURNAME_THAI, Title_Name.TITLE_NAME_THAI, Employee_File.EMP_KEY FROM  Employee_File INNER JOIN Title_Name ON Employee_File.TITLE_KEY = Title_Name.TITLE_KEY WHERE  (Employee_File.EMP_STATUS = '1')   AND  Employee_File.EMP_KEY = '".$_SESSION["user_id"]." ' " ));
 	   ?>
       <form method="post" name="formA" action="index.php?id=<?=md5('addtable')?>" target="_blank">
         <fieldset style="width:96%; margin-left:11px; margin-bottom:10px;">
@@ -238,9 +241,15 @@ FROM   Document_File WHERE  (DOC_STATUS = '1') AND (MODULE_KEY = 2)";
                 <font color="#000000">ผู้ติดต่อ</font>
                 <select name="ID_CONTACT" class="frominput" >
                   <?php
-								$sql_c =  mssql_query(" SELECT DISTINCT  Contact.CONT_TITLE, Contact.CONT_NAME, Contact.CONT_SURNAME, AP_File.APF_KEY, Title_Name.TITLE_NAME_THAI FROM Title_Name INNER JOIN Contact ON Title_Name.TITLE_KEY = Contact.CONT_TITLE LEFT OUTER JOIN
+								$sql_c =  sqlsrv_query($con,"SELECT DISTINCT  Contact.CONT_TITLE, Contact.CONT_NAME, Contact.CONT_SURNAME, AP_File.APF_KEY, Title_Name.TITLE_NAME_THAI FROM Title_Name INNER JOIN Contact ON Title_Name.TITLE_KEY = Contact.CONT_TITLE LEFT OUTER JOIN
 AP_File ON Contact.APF_ARF_KEY = AP_File.APF_KEY WHERE  (Contact.CONT_DEFAULT = '1') " );
-						    	while($ckey = mssql_fetch_array($sql_c)){		 
+						    	while($ckey = sqlsrv_fetch_array($sql_c)):?>
+
+								<option value='<?php echo $ckey['AP_File.APF_KEY'];?>' ><?php echo $ckey['TITLE_NAME_THAI']." ".$ckey['CONT_NAME']."  ".$ckey['CONT_SURNAME'];?></option>
+								
+							<?php
+							endwhile;
+							/*
 									if($ckey[1] == $_SESSION["key_con"]){
 										$select = "selected='selected' ";
 									}else{
@@ -249,9 +258,11 @@ AP_File ON Contact.APF_ARF_KEY = AP_File.APF_KEY WHERE  (Contact.CONT_DEFAULT = 
                                     if ($_SESSION["key_con"] != ''){
 								echo "<option value='".$ckey['AP_File.APF_KEY']."' ".$select.">".$ckey['TITLE_NAME_THAI']." ".$ckey['CONT_NAME']."  ".$ckey['CONT_SURNAME']."</option>";	
 								    }
-							    }	
+							    }
+*/
+								
 					?>
-                  <option value=""   >&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;</option>
+               
                 </select>
                 <BR></td>
               <td valign="middle" align="left"> วันที่สร้างใบจอง

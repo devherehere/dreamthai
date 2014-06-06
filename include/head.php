@@ -1,13 +1,16 @@
-<meta http-equiv=Content-Type content="text/html; charset=tis-620">
+﻿<meta http-equiv=Content-Type content="text/html; charset=tis-620">
     <?PHP
-	 $head = mssql_fetch_array(mssql_query(" SELECT *  FROM [Dream_Thai].[dbo].[Document_File] WHERE  [DOC_KEY] ='DOC-01' "));    
+	
+	$query = " SELECT *  FROM [Dream_Thai].[dbo].[Document_File] WHERE  [DOC_KEY] ='DOC-01' ";
+	$stmt = sqlsrv_query($con,$query);
+	 $head = sqlsrv_fetch_array($stmt);    
 	 echo"<BR><center>".$head['DOC_COMPANY_NAME_THAI']."</center><BR>";
 	 echo"<center>".$head['DOC_ADD']." ".$head['DOC_WEBSITE']."</center><BR>";
-	 echo"<center>���Ѿ�� ".$head['DOC_TEL']." �š�� ".$head['DOC_FAX']." </center><BR>";
+	 echo"<center>โทรศัพท์ ".$head['DOC_TEL']." แฟลกซ์ ".$head['DOC_FAX']." </center><BR>";
     ?>
 <script language="JavaScript">
-<!-- 
-var message="�س�з�����?!?...";   //edit this message to say what you want
+/* 
+var message="คุณจะทำอะไร?!?...";   //edit this message to say what you want
 
 function clickIE() {if (document.all) {alert(message); return false;}}
 function clickNS(e) {if 
@@ -18,5 +21,5 @@ if (document.layers)
 else{document.onmouseup=clickNS;document.oncontextmenu=clickIE;}
 
 document.oncontextmenu=new Function("return false")
-// -->
+*/
 </script>

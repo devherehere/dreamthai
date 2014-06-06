@@ -90,7 +90,7 @@ ob_start();
 }
 	     $sql_duc = "SELECT     DOC_KEY, MODULE_KEY, DOC_TITLE_NAME, DOC_NAME_THAI, DOC_NAME_ENG, DOC_SET_YEAR, DOC_SET_MONTH, DOC_RUN, DOC_DATE, DOC_REMARK, DOC_STATUS, DOC_CREATE_BY, DOC_REVISE_BY, DOC_LASTUPD, DOC_ISO, DOC_DAR, DOC_COMPANY_NAME_THAI, DOC_COMPANY_NAME_ENG, DOC_ADD, DOC_TEL, DOC_FAX, DOC_TAX, DOC_WEBSITE, DOC_LOGO, DOC_FORMPRINT
 FROM  Document_File WHERE (DOC_STATUS = '1') AND (MODULE_KEY = 3)";
-	     $docrun = mssql_fetch_array(mssql_query($sql_duc));
+	     $docrun = sqlsrv_fetch_array(sqlsrv_query($con,$sql_duc));
 		 $date_ex =  date('Y/m/d H:i:s',strtotime("+".$docrun['DOC_DATE']." day"));
 		 $day = explode("-", date("Y-m-d"));
 	     if($docrun[5] == 1){
@@ -107,7 +107,7 @@ FROM  Document_File WHERE (DOC_STATUS = '1') AND (MODULE_KEY = 3)";
 		 }else{
 			  	$mm = $day[1]; 
 		 }
-		  $cn_run = mssql_fetch_array(mssql_query("SELECT ISNULL(MAX(AR_CN_ID),0)+1 AS  AR_CN_KEY FROM [Dream_Thai].[dbo].[Customer_Return] "));
+		  $cn_run = sqlsrv_fetch_array(sqlsrv_query($con,"SELECT ISNULL(MAX(AR_CN_ID),0)+1 AS  AR_CN_KEY FROM [Dream_Thai].[dbo].[Customer_Return] "));
 	      $_SESSION['id_cn'] = $cn_run[0];
 		  $cn_id =  sprintf ("%03d", $cn_run[0]); 
 		  $don_no = "".$docrun['DOC_TITLE_NAME']."-".$yy."".$mm."-".$cn_id;
