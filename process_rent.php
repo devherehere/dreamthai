@@ -180,9 +180,9 @@ FROM            Goods LEFT OUTER JOIN
                       Goods_Price_List ON Goods.GOODS_KEY = Goods_Price_List.GOODS_KEY
 WHERE       (Goods_Price_List.GPL_STATUS = '1')  AND ( ".$set." Goods.GOODS_KEY='#' )";	
 		}
-        $result = mssql_query($sql_dbgseh);
+        $result = sqlsrv_query($con,$sql_dbgseh);
 		$j = 1;
-        while($reccord = mssql_fetch_array($result)){
+        while($reccord = sqlsrv_fetch_array($result)){
         ?>
        <?PHP
        if($item_edt == "" && $gkey_edt  ==""){
@@ -252,10 +252,10 @@ WHERE       (Goods_Price_List.GPL_STATUS = '1')  AND ( ".$set." Goods.GOODS_KEY=
 	  ,[AR_BOD_TOTAL] = '".(($_POST['1'] * $_POST['gp1']) - ((($_POST['1'] * $_POST['gp1']) *  $_POST['ex1'] / 100)))."'
       ,[AR_BOD_REMARK] = '".$_POST['rm1']."'  
       WHERE AR_BOD_ITEM = ".$_REQUEST['item_edt']." AND  GOODS_KEY = '".$_REQUEST['gkey']."'  ";
-       mssql_query($sql_up);
+       sqlsrv_query($con,$sql_up);
 	 echo "<script>window.close();</script>";
 	}else if($_REQUEST['id_addtemp'] == md5('id_addtemp') && ($_REQUEST['gkey'] == "" && $_REQUEST['item_edt'] == "")) {
-	$run_item = mssql_fetch_array(mssql_query("SELECT ISNULL(MAX(AR_BOD_ITEM),0)+1 AS iTEM FROM [Dream_Thai].[dbo].[Book_Order_Detail_Temp];"));
+	$run_item = sqlsrv_fetch_array(sqlsrv_query($con,"SELECT ISNULL(MAX(AR_BOD_ITEM),0)+1 AS iTEM FROM [Dream_Thai].[dbo].[Book_Order_Detail_Temp];"));
 		for($k = 1; $k <= $itm; $k ++ ){
 		  if($run_item[0] == 1){
                 $item_no = $k;
@@ -300,7 +300,7 @@ WHERE       (Goods_Price_List.GPL_STATUS = '1')  AND ( ".$set." Goods.GOODS_KEY=
            , '".$_POST["rm".$k.""]."'
            ,'".date("Y/m/d H:i:s")."')";
 		  // echo $sql_add_temp."<BR>";
-		       $ap_file1  = mssql_query($sql_add_temp);
+		       $ap_file1  = sqlsrv_query($con,$sql_add_temp);
 		  	   if($ap_file1 == true){
 			//	  echo("<meta http-equiv='refresh' content='1;url=product_search.php' />");
 	          echo "<script>window.close();</script>";

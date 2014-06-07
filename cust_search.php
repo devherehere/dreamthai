@@ -41,14 +41,14 @@
         if($_REQUEST['id'] == 'search'){
 			if($_POST['search'] == ""){
 				
-			   $sql = mssql_query("SELECT  *, CASE ARF_STATUS WHEN 0 THEN 'ติดต่อไม่ได้' WHEN 1 THEN 'ติดต่อได้' END AS STATUS ,
+			   $sql = sqlsrv_query($con,"SELECT  *, CASE ARF_STATUS WHEN 0 THEN 'ติดต่อไม่ได้' WHEN 1 THEN 'ติดต่อได้' END AS STATUS ,
 								                                  CASE ARF_CREDIT_STATUS WHEN 1 THEN 'ไม่อนุมัติ' WHEN 2 THEN 'อนุมัติ' END AS CREDIT_STATUS,
 																  CASE ARF_TYPE WHEN 1 THEN 'ลูกหนี้การค้าในประเทศ' WHEN 2 THEN 'ลูกหนี้การค้าต่างประเทศ'
 																  WHEN 3 THEN 'ลูกหนี้การค้าอื่นๆ'  END AS TYPE
 						    FROM   AR_File
 							WHERE     (ARF_STATUS = '1')  ORDER BY ARF_COMPANY_NAME_THAI");
 			}else{   
-		       $sql = mssql_query("SELECT  *, CASE ARF_STATUS WHEN 0 THEN 'ติดต่อไม่ได้' WHEN 1 THEN 'ติดต่อได้' END AS STATUS,
+		       $sql = sqlsrv_query($con,"SELECT  *, CASE ARF_STATUS WHEN 0 THEN 'ติดต่อไม่ได้' WHEN 1 THEN 'ติดต่อได้' END AS STATUS,
 								                                  CASE ARF_CREDIT_STATUS WHEN 1 THEN 'ไม่อนุมัติ' WHEN 2 THEN 'อนุมัติ' END AS CREDIT_STATUS,
 																  CASE ARF_TYPE WHEN 1 THEN 'ลูกหนี้การค้าในประเทศ' WHEN 2 THEN 'ลูกหนี้การค้าต่างประเทศ' 
 																  WHEN 3 THEN 'ลูกหนี้การค้าอื่นๆ' END AS TYPE
@@ -57,7 +57,7 @@
 							ARF_COMPANY_NAME_ENG   LIKE '%".$_POST['search']."%'  ");  
 			}
 			$i = 1 ;	
-	                   while ($row_show = mssql_fetch_array($sql)){
+	                   while ($row_show = sqlsrv_fetch_array($sql)){
 								echo"<tr bgcolor=\"#CCCCCC\" height=\"30\">";
 								echo"   <td align=\"center\" width=\"41px\"  bgcolor=\"#888888\" >".$i."</td>
                                     		<td align=\"center\"  bgcolor=\"#888888\" >".$row_show['STATUS']."</td>

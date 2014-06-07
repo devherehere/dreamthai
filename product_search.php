@@ -35,8 +35,8 @@
             <td align="left"> หมวดสินค้า
               <select name="pro_g" class="frominput" >
                 <?php                     
-								$sql_cat = mssql_query("SELECT CATE_KEY, CATE_SHOT_NAME, CATE_NAME FROM  Category WHERE CATE_STATUS = '1'");
-								while($cat = mssql_fetch_array($sql_cat)){
+								$sql_cat = sqlsrv_query($con,"SELECT CATE_KEY, CATE_SHOT_NAME, CATE_NAME FROM  Category WHERE CATE_STATUS = '1'");
+								while($cat = sqlsrv_fetch_array($sql_cat)){
 								echo "<option value='".$cat[0]."'>".$cat[2]."</option>";	
 							    }		
 					  ?>
@@ -45,8 +45,8 @@
               ยี่ห้อ
               <select name="pro_b" class="frominput" >
                 <?php                     
-								$sql_band = mssql_query("SELECT BRAND_KEY, BRAND_SHOT_NAME, BRAND_NAME FROM Brand WHERE BRAND_STATUS = '1'");
-								while($band = mssql_fetch_array($sql_band)){
+								$sql_band = sqlsrv_query($con,"SELECT BRAND_KEY, BRAND_SHOT_NAME, BRAND_NAME FROM Brand WHERE BRAND_STATUS = '1'");
+								while($band = sqlsrv_fetch_array($sql_band)){
 								echo "<option value='".$band[0]."'>".$band[2]."</option>";	
 							    }		
 					  ?>
@@ -55,8 +55,8 @@
               ขนาดขอบยาง
               <select name="pro_s" class="frominput" >
                 <?php                     
-								$sql_size = mssql_query("SELECT SIZE_KEY, SIZE_NAME FROM Size WHERE (SIZE_STATUS = '1');");
-								while($size = mssql_fetch_array($sql_size)){
+								$sql_size = sqlsrv_query($con,"SELECT SIZE_KEY, SIZE_NAME FROM Size WHERE (SIZE_STATUS = '1');");
+								while($size = sqlsrv_fetch_array($sql_size)){
 								echo "<option value='".$size[0]."'>".$size[1]."</option>";	
 							    }		
 					  ?>
@@ -140,8 +140,8 @@ FROM         Size RIGHT OUTER JOIN
                       Goods_Price_List ON Goods.GOODS_KEY = Goods_Price_List.GOODS_KEY
 WHERE     (Goods_Price_List.GPL_STATUS = '1')";
 					 $i = 1;
-					  $seach = mssql_query($sql_dbgseh.$pro_g.$pro_b.$pro_s.$pro_id.$pro_name);
-					  while($dbgseh =  mssql_fetch_array($seach)){
+					  $seach = sqlsrv_query($con,$sql_dbgseh.$pro_g.$pro_b.$pro_s.$pro_id.$pro_name);
+					  while($dbgseh =  sqlsrv_fetch_array($seach)){
 				?>
                 <tr bgcolor="#CCCCCC" height="30">
                   <td align="center" width="35px" bgcolor="#888888"><?=$i ;?></td>

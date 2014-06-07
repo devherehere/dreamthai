@@ -61,7 +61,7 @@ include"include/connect.inc.php";
     <div class="content">
       <?PHP if ($_SESSION["user_ses"]  != ''  &&  $_SESSION["user_id"]  != ''){ ?>
       <?PHP
-    $rec_run = mssql_fetch_array(mssql_query(" SELECT ARF_KEY  FROM AR_File ORDER BY ARF_KEY DESC "));
+    $rec_run = sqlsrv_fetch_array(sqlsrv_query($con," SELECT ARF_KEY  FROM AR_File ORDER BY ARF_KEY DESC "));
 //	$run =  sprintf ("%03d", $rec_run[0]); 
     $id_run = "ARF-".date("Y")."".(sprintf ("%04d",iconv_substr($rec_run[0],8,11,"UTF-8")+1));
 	$add = md5('add');

@@ -14,11 +14,11 @@
 	cursor:pointer;
 }
 </style>
-<meta http-equiv="Content-Type" content="text/html; charset=TIS-620" />
+<meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
 <meta http-equiv=refresh content='30; url=productTemp.php'>
 </head>
 <body>
-<a href="productTemp.php"  class="refesh"  ></a> <a href="clear_temp.php?id=1" class="clear_list"   onclick="return confirm('คุณแน่ใจหรือไม่')"  ></a> <BR>
+<a href="productTemp.php"  class="refesh"  ></a> <a href="clear_temp.php?id=1" class="clear_list"   onclick="return confirm('๏ฟฝุณ๏ฟฝ๏ฟฝ๏ฟฝ๏ฟฝ๏ฟฝ๏ฟฝ๏ฟฝ๏ฟฝ๏ฟฝ๏ฟฝ')"  ></a> <BR>
 <?PHP 
 	ob_start();
 	@session_start();
@@ -36,28 +36,28 @@ FROM         Book_Order_Detail_Temp INNER JOIN
                       Units_of_Measurement ON Book_Order_Detail_Temp.UOM_KEY = Units_of_Measurement.UOM_KEY
 					  WHERE Book_Order_Detail_Temp.AR_BO_ID = ".$_SESSION['id_bo']." ";
 ?>
-<table width="100%" border="0" cellspacing="1" cellpadding="0"  style="color:#FFF; font-size:13px; font-family:Tahoma, Geneva, sans-serif; ">
+<table width="100%" border="0" cellspacing="1" cellpadding="0"  style="color:#FFF; font-size:13px;  ">
   <tr bgcolor="#333333" height="20">
-    <td align="center" >ลำดับ</td>
-    <td align="center">รหัสสินค้า</td>
-    <td align="center">ชื่อสินค้า</td>
-    <td align="center">หน่วย</td>
-    <td align="center">จำนวนที่จอง</td>
-    <td align="center">ราคา/หน่วย</td>
-    <td align="center">จำนวนเงิน</td>
-    <td align="center">ส่วนลด%</td>
-    <td align="center">จำนวนเงิน<br>
-      หลังหักส่วนลด</td>
-    <td align="center">วันที่<br>
-      ต้องการสินค้า</td>
-    <td align="center">หมายเหตุ</td>
+    <td align="center">เธฅเธณเธ”เธฑเธ</td>
+    <td align="center">เธฃเธซเธฑเธชเธชเธดเธเธเนเธฒ</td>
+    <td align="center">เธเธทเนเธญเธชเธดเธเธเนเธฒ</td>
+    <td align="center">เธซเธเนเธงเธข</td>
+    <td align="center">เธเธณเธเธงเธเธ—เธตเนเธเธญเธ</td>
+    <td align="center">เธฃเธฒเธเธฒ/เธซเธเนเธงเธข</td>
+    <td align="center">เธเธณเธเธงเธเน€เธเธดเธ</td>
+    <td align="center">เธชเนเธงเธเธฅเธ”</td>
+    <td align="center">เธเธณเธเธงเธเน€เธเธดเธ<br>
+      เธซเธฅเธฑเธเธซเธฑเธเธชเนเธงเธเธฅเธ”</td>
+    <td align="center">เธงเธฑเธเธ—เธตเน<br>
+      เธ•เนเธญเธเธเธฒเธฃเธชเธดเธเธเนเธฒ</td>
+    <td align="center">เธซเธกเธฒเธขเน€เธซเธ•เธธ</td>
     <td align="center"></td>
     <td align="center"></td>
   </tr>
   <?PHP
    $j = 1;
-          $result = mssql_query($sql);
-          while($reccord = mssql_fetch_array($result)){
+          $result = sqlsrv_query($con,$sql);
+          while($reccord = sqlsrv_fetch_array($result)){
    ?>
   <tr bgcolor="#7f7f7f" height="20">
     <td align="center" ><?=$j?></td>
@@ -82,7 +82,7 @@ FROM         Book_Order_Detail_Temp INNER JOIN
     <td align="left" bgcolor="#888888">&nbsp;
       <?=$reccord['AR_BOD_REMARK']?></td>
     <td align="center"><a href="../process_rent.php?ide=<?=md5('fu215')?>&gkey=<?=$reccord['GOODS_KEY']?>&item=<?=$reccord['AR_BOD_ITEM']?>"  target="_blank" > <img src="../img/edt_list.png"></a></td>
-    <td align="center"><a href="../clear_temp.php?id=<?=md5('del558')?>&gitem=<?=$reccord['AR_BOD_ITEM']?>"  target="_blank" onClick="return confirm('คุณแน่ใจหรือไม่')"> <img src="../img/del_list.png"></a></td>
+    <td align="center"><a href="../clear_temp.php?id=<?=md5('del558')?>&gitem=<?=$reccord['AR_BOD_ITEM']?>"  target="_blank" onClick="return confirm('๏ฟฝุณ๏ฟฝ๏ฟฝ๏ฟฝ๏ฟฝ๏ฟฝ๏ฟฝ๏ฟฝ๏ฟฝ๏ฟฝ๏ฟฝ')"> <img src="../img/del_list.png"></a></td>
   </tr>
   <?PHP
   $j++;

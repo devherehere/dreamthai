@@ -29,28 +29,28 @@ ob_start();
       <?PHP if ($_SESSION["user_ses"]  != ''  &&  $_SESSION["user_id"]  != ''){  
 	    if($_REQUEST['id'] == md5('add')){
 		if(isset($_POST['item_address'])  == 1 && isset($_POST['item_contact']) == 1 && isset($_POST['item_pay']) == 1  ){
-		 $sql_dbgadd = mssql_query("SELECT     Address.ADD_FAX, Address.ADD_EMAIL, Address.APF_ARF_KEY, AR_File.ARF_KEY, Address.ADD_ITEM, Address.ADD_NO, Amphoe.AMPHOE_NAME_THAI, Province.PROVINCE_NAME_THAI, Tambon.TAMBON_NAME_THAI, Address.ADD_PROVINCE, Address.ADD_AMPHOE, Address.ADD_TAMBON, Address.ADD_PHONE FROM    Tambon LEFT OUTER JOIN
+		 $sql_dbgadd = sqlsrv_query($con,"SELECT     Address.ADD_FAX, Address.ADD_EMAIL, Address.APF_ARF_KEY, AR_File.ARF_KEY, Address.ADD_ITEM, Address.ADD_NO, Amphoe.AMPHOE_NAME_THAI, Province.PROVINCE_NAME_THAI, Tambon.TAMBON_NAME_THAI, Address.ADD_PROVINCE, Address.ADD_AMPHOE, Address.ADD_TAMBON, Address.ADD_PHONE FROM    Tambon LEFT OUTER JOIN
                       Address ON Tambon.TAMBON_KEY = Address.ADD_TAMBON RIGHT OUTER JOIN
                       Amphoe ON Address.ADD_AMPHOE = Amphoe.AMPHOE_KEY RIGHT OUTER JOIN
                       Province ON Address.ADD_PROVINCE = Province.PROVINCE_KEY LEFT OUTER JOIN
                       AR_File ON Address.APF_ARF_KEY = AR_File.ARF_KEY
 					  WHERE  (Address.ADD_STATUS = '1') AND (Address.ADD_ITEM = '".$_POST['item_address']."');");
-		 $address_cn =  mssql_fetch_array($sql_dbgadd);
+		 $address_cn =  sqlsrv_fetch_array($sql_dbgadd);
 		 
-		 $sql_dbgcont = mssql_query("SELECT  Contact.CONT_TITLE, Title_Name.TITLE_NAME_THAI, Contact.CONT_NAME,
+		 $sql_dbgcont = sqlsrv_query($con,"SELECT  Contact.CONT_TITLE, Title_Name.TITLE_NAME_THAI, Contact.CONT_NAME,
 		Contact.CONT_SURNAME, Contact.CONT_DEPT, Contact.CONT_PHONE, Contact.CONT_EMAIL, AR_File.ARF_KEY, Contact.CONT_ITEM
 		FROM         Title_Name INNER JOIN Contact ON Title_Name.TITLE_KEY = Contact.CONT_TITLE RIGHT OUTER JOIN
          AR_File ON Contact.APF_ARF_KEY = AR_File.ARF_KEY  WHERE     (Contact.CONT_STATUS = '1') 
 		 AND (Contact.CONT_TITLE = '".$_POST['item_contact']."');");
-		$contact_ =  mssql_fetch_array($sql_dbgcont);
+		$contact_ =  sqlsrv_fetch_array($sql_dbgcont);
 		
-		 $sql_dbgpay = mssql_query("SELECT     AR_File.ARF_KEY, CASE Condition_Payment.COND_PUR_STATUS WHEN 0 THEN 'ขายสด' 
+		 $sql_dbgpay = sqlsrv_query($con,"SELECT     AR_File.ARF_KEY, CASE Condition_Payment.COND_PUR_STATUS WHEN 0 THEN 'ขายสด' 
 			WHEN 1 THEN 'ขายเชื่อ' END AS STATUS, Condition_Payment.TOF_NAME, Tax_Type.TAXT_NAME, Tax_Type.TAXT_KEY,    	
 			Condition_Payment.COND_ITEM, Condition_Payment.COND_DEFAULT  FROM         Tax_Type INNER JOIN
             Condition_Payment ON Tax_Type.TAXT_KEY = Condition_Payment.TAXT_KEY RIGHT OUTER JOIN  
 			AR_File ON Condition_Payment.APF_ARF_KEY = AR_File.ARF_KEY  WHERE  (Condition_Payment.COND_STATUS = '1') AND     
 			Condition_Payment.TOF_NAME =  ".$_POST['item_pay'].";");
-		$c_pay =  mssql_fetch_array($sql_dbgpay); 
+		$c_pay =  sqlsrv_fetch_array($sql_dbgpay); 
 		
 		$cn_cust_arf  = $_POST['cust_arf'];
 		$cn_cust_name = $_POST['cust_name'];
@@ -128,12 +128,12 @@ FROM  Document_File WHERE (DOC_STATUS = '1') AND (MODULE_KEY = 3)";
                 ผู้ติดต่อ
                 <select name="contact" class="frominput" >
                   <?php
-								$sql_c =  mssql_query(" SELECT     Contact.CONT_TITLE, Contact.CONT_NAME, Contact.CONT_SURNAME, AP_File.APF_KEY, Title_Name.TITLE_NAME_THAI, Contact.CONT_ITEM
+								$sql_c =  sqlsrv_query($con," SELECT     Contact.CONT_TITLE, Contact.CONT_NAME, Contact.CONT_SURNAME, AP_File.APF_KEY, Title_Name.TITLE_NAME_THAI, Contact.CONT_ITEM
 FROM         Title_Name LEFT OUTER JOIN
                       Contact ON Title_Name.TITLE_KEY = Contact.CONT_TITLE RIGHT OUTER JOIN
                       AP_File ON Contact.APF_ARF_KEY = AP_File.APF_KEY
 WHERE     (Contact.CONT_DEFAULT = '1') " );
-						    	while($ckey = mssql_fetch_array($sql_c)){		 
+						    	while($ckey = sqlsrv_fetch_array($sql_c)){		 
 									if($ckey[1] == $_SESSION["cn_key_con"]){
 										$select = "selected='selected' ";
 									}else{
@@ -150,10 +150,10 @@ WHERE     (Contact.CONT_DEFAULT = '1') " );
                   <?=$emk['EMP_NAME_THAI']."  ".$emk['EMP_SURNAME_THAI'];?>
                   </option>
                   <?PHP 
-								$sql_e =  mssql_query("SELECT  Employee_File.EMP_KEY,Title_Name.TITLE_NAME_THAI,
+								$sql_e =  sqlsrv_query($con,"SELECT  Employee_File.EMP_KEY,Title_Name.TITLE_NAME_THAI,
 													  Employee_File.EMP_NAME_THAI, Employee_File.EMP_SURNAME_THAI
  FROM Title_Name INNER JOIN Employee_File ON Title_Name.TITLE_KEY = Employee_File.TITLE_KEY WHERE  EMP_STATUS  = '1'");
-						    	while($ekey = mssql_fetch_array($sql_e)){
+						    	while($ekey = sqlsrv_fetch_array($sql_e)){
 								echo "<option value='".$ekey['EMP_KEY']."'>".$ekey['TITLE_NAME_THAI']." ".$ekey['EMP_NAME_THAI']." ".$ekey['EMP_SURNAME_THAI']."</option>";	
 							    }	 	
 				  ?>
@@ -173,8 +173,8 @@ WHERE     (Contact.CONT_DEFAULT = '1') " );
                 ประเภทการเครม
                 <select name="type_re"  class="frominput"  >
                   <?PHP 
-								$sql_e =  mssql_query("SELECT *FROM [Dream_Thai].[dbo].[Customer_Return_Type] WHERE (CNT_STATUS = '1')");
-						    	while($type_re = mssql_fetch_array($sql_e)){
+								$sql_e =  sqlsrv_query($con,"SELECT *FROM [Dream_Thai].[dbo].[Customer_Return_Type] WHERE (CNT_STATUS = '1')");
+						    	while($type_re = sqlsrv_fetch_array($sql_e)){
 								echo "<option value='".$type_re['CNT_KEY']."' selected=\"selected\" >".$type_re['CNT_NAME']."</option>";	
 							    }	 	
 				 			 ?>
@@ -266,10 +266,10 @@ WHERE     (Contact.CONT_DEFAULT = '1') " );
 		   $sql_temp_to_mas = "INSERT INTO [Dream_Thai].[dbo].[Customer_Return_Detail]  SELECT * FROM 
 		   [Dream_Thai].[dbo].[Customer_Return_Detail_Temp] WHERE [AR_CN_ID] = ".$_SESSION['id_cn']." ";
 		   $chkadd ="SELECT * FROM [Dream_Thai].[dbo].[Customer_Return_Detail_Temp] WHERE AR_CN_ID = ".($_SESSION['id_cn'])." ;";
-		     if(mssql_num_rows(mssql_query($chkadd)) > 0){
-		     $ap_file1 = mssql_query($sql_temp_to_mas); 
-		     $ap_file2 = mssql_query($sql); 
-	         $ap_file3 = mssql_query("DELETE FROM   Customer_Return_Detail_Temp WHERE AR_CN_ID = ".$_SESSION['id_cn']."");
+		     if(sqlsrv_num_rows(sqlsrv_query($chkadd)) > 0){
+		     $ap_file1 = sqlsrv_query($con,$sql_temp_to_mas); 
+		     $ap_file2 = sqlsrv_query($con,$sql); 
+	         $ap_file3 = sqlsrv_query($con,"DELETE FROM   Customer_Return_Detail_Temp WHERE AR_CN_ID = ".$_SESSION['id_cn']."");
 		    }else{
 				echo"ไม่สามารถบันทึกข้อมูลซ้ำอีกได้ได้!!";
 				mssql_close();

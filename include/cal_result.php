@@ -52,14 +52,14 @@ $sql_pro = "SELECT     PROM_KEY, PROM_NAME, PROM_DISCOUNT, PROM_START_DATE, PROM
 
 $pay_dis = "SELECT DISC_NAME, DISC_STATUS FROM Discount_Cash WHERE (DISC_STATUS = '1')";
 
-				      $dis_c = mssql_fetch_array(mssql_query($pay_dis));
-					  $promo = mssql_fetch_array(mssql_query($sql_pro));
+				      $dis_c = sqlsrv_fetch_array(sqlsrv_query($con,$pay_dis));
+					  $promo = sqlsrv_fetch_array(sqlsrv_query($con,$sql_pro));
 				     /*if($promo['PROM_DISCOUNT'] == ""){
 					  $chk = "disabled";	 
 					 }else{ 
 					  $chk = "";
 					 } */
-                      $reccord = mssql_fetch_array(mssql_query($sql_p));
+                      $reccord = sqlsrv_fetch_array(sqlsrv_query($con,$sql_p));
 					  $_SESSION['sumprice'] = $reccord['sumprice'];
                       $promo_txt_1 = $promo['PROM_DISCOUNT'];
 					  $_SESSION['promo_txt_1'] = $promo_txt_1;

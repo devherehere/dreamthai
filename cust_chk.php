@@ -31,7 +31,7 @@ ob_start();
 																  CASE ARF_TYPE WHEN 1 THEN 'ลูกหนี้การค้าในประเทศ' WHEN 2 THEN 'ลูกหนี้การค้าต่างประเทศ'
 																  WHEN 3 THEN 'ลูกหนี้การค้าอื่นๆ'  END AS TYPE
 						    FROM   AR_File  WHERE  (ARF_KEY = '".$_GET['id_search']."')";
-					  $arr_ss =  mssql_fetch_array(mssql_query($sql_ss));
+					  $arr_ss =  sqlsrv_fetch_array(sqlsrv_query($con,$sql_ss));
 				  }
 	?>
       <?PHP
@@ -104,8 +104,8 @@ FROM         Tambon LEFT OUTER JOIN
                       AR_File ON Address.APF_ARF_KEY = AR_File.ARF_KEY
 					  WHERE  (Address.ADD_STATUS = '1')AND (AR_File.ARF_KEY = '".$_GET['id_search']."')";
 					  $i = 1;
-					  $sql_dbgadd1 = mssql_query($sql_dbgadd);
-					  while($dbgadd =  mssql_fetch_array($sql_dbgadd1)){
+					  $sql_dbgadd1 = sqlsrv_query($con,$sql_dbgadd);
+					  while($dbgadd =  sqlsrv_fetch_array($sql_dbgadd1)){
 						  if($dbgadd['ADD_DEFAULT'] == TRUE){
 							$chkked = 'checked="checked"';  
 						  }else{
@@ -115,7 +115,7 @@ FROM         Tambon LEFT OUTER JOIN
                       <tr bgcolor="#CCCCCC" height="30">
                         <td align="center" width="35px" bgcolor="#888888"><?=$i ;?></td>
                         <td align="left" bgcolor="#888888">&nbsp;
-                          <?= " ".$dbgadd['TAMBON_NAME_THAI']."  ".$dbgadd['AMPHOE_NAME_THAI']."  ".$dbgadd['PROVINCE_NAME_THAI']." ".$dbgadd['TAMBON_POSTCODE'];?></td>
+                          <?= " ".$dbgadd['ADD_NO']." ".$dbgadd['TAMBON_NAME_THAI']."  ".$dbgadd['AMPHOE_NAME_THAI']."  ".$dbgadd['PROVINCE_NAME_THAI']." ".$dbgadd['TAMBON_POSTCODE'];?></td>
                         <td align="left" bgcolor="#888888">&nbsp;
                           <?=$dbgadd['ADD_MOBILE'];?></td>
                         <td align="left" bgcolor="#888888">&nbsp;
@@ -145,10 +145,10 @@ FROM         Tambon LEFT OUTER JOIN
                       </tr>
                       <?PHP
                  if($_GET['id_search'] != ""){
-					  $sql_dbgcont = mssql_query("SELECT     Contact.CONT_TITLE, Title_Name.TITLE_NAME_THAI, Contact.CONT_NAME, Contact.CONT_SURNAME, Contact.CONT_DEPT, Contact.CONT_PHONE,   Contact.CONT_EMAIL, AR_File.ARF_KEY, Contact.CONT_ITEM, Contact.CONT_DEFAULT
+					  $sql_dbgcont = sqlsrv_query($con,"SELECT     Contact.CONT_TITLE, Title_Name.TITLE_NAME_THAI, Contact.CONT_NAME, Contact.CONT_SURNAME, Contact.CONT_DEPT, Contact.CONT_PHONE,   Contact.CONT_EMAIL, AR_File.ARF_KEY, Contact.CONT_ITEM, Contact.CONT_DEFAULT
 FROM         Title_Name LEFT OUTER JOIN Contact ON Title_Name.TITLE_KEY = Contact.CONT_TITLE LEFT OUTER JOIN AR_File ON Contact.APF_ARF_KEY = AR_File.ARF_KEY  WHERE (Contact.CONT_STATUS = '1') AND (Contact.APF_ARF_KEY = '".$_GET['id_search']."')");
 					  $j = 1;
-					  while($dbgcont =  mssql_fetch_array($sql_dbgcont)){
+					  while($dbgcont = sqlsrv_fetch_array($sql_dbgcont)){
 						  if($dbgcont['CONT_DEFAULT'] == TRUE){
 							$chkked2 = 'checked="checked"';  
 						  }else{
@@ -187,13 +187,13 @@ FROM         Title_Name LEFT OUTER JOIN Contact ON Title_Name.TITLE_KEY = Contac
                       </tr>
                       <?PHP
                  if($_GET['id_search'] != ""){
-					  $sql_dbgpay = mssql_query("SELECT   DISTINCT   AR_File.ARF_KEY, CASE Condition_Payment.COND_PUR_STATUS WHEN 0 THEN 'ขายสด' 
+					  $sql_dbgpay = sqlsrv_query($con,"SELECT   DISTINCT   AR_File.ARF_KEY, CASE Condition_Payment.COND_PUR_STATUS WHEN 0 THEN 'ขายสด' 
 			WHEN 1 THEN 'ขายเชื่อ' END AS STATUS, Condition_Payment.TOF_NAME, Tax_Type.TAXT_NAME, Tax_Type.TAXT_KEY,    	
 			Condition_Payment.COND_ITEM, Condition_Payment.COND_DEFAULT  FROM         Tax_Type INNER JOIN
             Condition_Payment ON Tax_Type.TAXT_KEY = Condition_Payment.TAXT_KEY RIGHT OUTER JOIN  
 			AR_File ON Condition_Payment.APF_ARF_KEY = AR_File.ARF_KEY  WHERE  (Condition_Payment.COND_STATUS = '1')");
 					  $k = 1;
-					  while($dbgpay =  mssql_fetch_array($sql_dbgpay)){
+					  while($dbgpay =  sqlsrv_fetch_array($sql_dbgpay)){
 						  if($dbgpay['COND_DEFAULT'] == TRUE){
 							$chkked3 = 'checked="checked"';  
 						  }else{
