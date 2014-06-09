@@ -16,6 +16,33 @@ ob_start();
     <!-- DatePicker Jquery-->
     <script type="text/javascript" src="js/jquery-ui-1.8.10.offset.datepicker.min.js"></script>
     <link rel="stylesheet" href="jquery/themes/base/jquery-ui.css" type="text/css"/>
+	
+	<style>
+	<style>
+.frominput {
+	background-color:#e3efff;
+}
+input {
+	background-color:#e3efff;
+	border-radius:4px;
+	height:20px;
+	margin:3px;
+	text-align:right;
+}
+.cal {
+	background:url(../img/cal.png);
+	float:right;
+	margin-top:5px;
+	margin-right:0px;
+	margin-bottom:5px;
+	border:none;
+	display:block;
+	width:94px;
+	height:26px;
+	cursor:pointer;
+}
+</style>
+	</style>
     <script type="text/javascript">
         $(function () {
             $("#datepicker").datepicker({
@@ -399,14 +426,15 @@ WHERE     (Employee_File.EMP_STATUS = '1') ");
                                     <option value="1">อื่นๆ</option>
                                 </select></td>
                         </tr>
-                        <tr>
-                            <td><font color="#000000">ขนส่งอื่นๆ</font></td>
-                            <td><input type="text" name="trans_etc" size="60" id="input"></td>
-                        </tr>
+                        
                         <tr>
                             <td>สถานที่ส่ง</td>
                             <td><input type="text" name="send_pl" size="60" class="validate[required,length[0,50]]">
                             </td>
+                        </tr>
+						<tr>
+                            <td><font color="#000000">ขนส่งอื่นๆ</font></td>
+                            <td><input type="text" name="trans_etc" size="60" id="input"></td>
                         </tr>
                         <tr>
                             <td><font color="#000000">หมายเหตุ</font></td>
@@ -430,6 +458,8 @@ WHERE     (Employee_File.EMP_STATUS = '1') ");
                                 <!--  </select> -->
 								
 								<input name="promotion" size="60"  style="background-color:yellow;" value="<?php echo $row[3];?>" disabled>
+							
+								
 								
 								</td>
                         </tr>
@@ -438,14 +468,71 @@ WHERE     (Employee_File.EMP_STATUS = '1') ");
             </td>
             <td valign="top" width="1%">&nbsp;</td>
             <td valign="top" width="45%">
+			<!--
                 <iframe src="include/cal_result.php" width="97%" scrolling="no" height="182"
                         style="
                  display:block;
                  border:#FFF thin solid;
             "></iframe>
+			-->
+	<form method="post" action="cal_result.php?id=cal">
+	
+	<table width="100%" border="0" cellspacing="1" cellpadding="0"  style="color:#36C; font-size:13px; font-family:Tahoma, Geneva, sans-serif; ">
+	  <tr>
+		<td>มูลค่าสินค้ารวม</td>
+		<td></td>
+		<td>&nbsp;</td>
+		<td>&nbsp;</td>
+		<td><input type="text" name="PRICE" value="<?=$reccord['sumprice']?>" disabled  id='amount1'></td>
+	  </tr>
+	  <tr>
+		<td><font color="#000000">ส่วนลดตามโปรโมชั่น</font></td>
+		<td><input type='text' name='PROMO' size='5'  disabled value='<?php echo $row['PROM_DISCOUNT'];?>' ></td>
+		<td>%</td> 
+		<td><input type='text' name='SUMPROMO' size='5'  disabled  value='<? printf("%.2f",$promo_txt_2); ?>'  ></td>
+		<td><input type="text" name="PRICE_PROMO" disabled value="<? printf("%.2f",$promo_txt_3); ?>"></td>
+	  </tr>
+	  <tr>
+		<td><font color="#000000">ส่วนลดเงินสด</font></td>
+		<?PHP
+	  /*  if($_SESSION['vatsale'] != "ขายสด"){
+				$chkk = "disabled";	 
+			}else{
+				$chkk = "";
+			} */
+		?>
+		<td><input type='text' name='MONEY' size='5'    value='<? printf("%.2f",$dis_co_txt_1); ?>' disabled></td>
+		<td>%</td>
+		<td><input type='text' name='SUMMONEY' size='5'   value='<? printf("%.2f",$dis_co_txt_2); ?> ' disabled></td>
+		<td><input type="text" name="PRICE_MONNEY" disabled value="<? printf("%.2f",$dis_co_txt_3); ?>"></td>
+	  </tr>
+	  <tr>
+		<td>ภาษีมูลค่าเพิ่ม</td>
+		<td><input type="text" name="vat" size="5" value="<?=$vat_1?>"></td>
+		<td>&nbsp;</td>
+		<td>&nbsp;</td>
+		<td><input type="text" name="PRICE_VAT" disabled value="<? printf("%.2f",$vat_2); ?>" ></td>
+	  </tr>
+	  <tr>
+		<td>มูลค่าสุทธิ</td>
+		<td>&nbsp;</td>
+		<td>&nbsp;</td>
+		<td>&nbsp;</td>
+		<td><input type="text" name="TOTAL_PRICE" value="<?  printf("%.2f",$total);?>" disabled></td>
+	  </tr>
+	</table>
+	<input type="submit" value=""  class="cal" >
+	
+
+
+			
                 <BR></td>
         </tr>
     </table>
+	</form>
+	
+	
+	
     <fieldset style="width:96%; margin-left:11px; margin-bottom:10px;">
         <legend></legend>
         <input type="reset" value="  " class="Clear">

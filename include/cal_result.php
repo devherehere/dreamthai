@@ -25,7 +25,7 @@ input {
 }
 </style>
 <meta http-equiv="Content-Type" content="text/html; charset=TIS-620" />
-<meta http-equiv=refresh content='15; url=cal_result.php?id=cal'>
+<!-- <meta http-equiv=refresh content='15; url=cal_result.php?id=cal'> -->
 </head>
 <body>
 <?PHP 
@@ -96,7 +96,7 @@ $pay_dis = "SELECT DISC_NAME, DISC_STATUS FROM Discount_Cash WHERE (DISC_STATUS 
   </tr>
   <tr>
     <td><font color="#000000">ส่วนลดตามโปรโมชั่น</font></td>
-    <td><?PHP echo"<input type='text' name='PROMO' size='5'  disabled value='".$promo_txt_1."' >";?></td>
+    <td><input type='text' name='PROMO' size='5'  disabled value='<?PHP $promo_txt_1 ;?>' ></td>
     <td>%</td> 
     <td><input type='text' name='SUMPROMO' size='5'  disabled  value='<? printf("%.2f",$promo_txt_2); ?>'  ></td>
     <td><input type="text" name="PRICE_PROMO" disabled value="<? printf("%.2f",$promo_txt_3); ?>"></td>
