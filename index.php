@@ -457,7 +457,7 @@ WHERE     (Employee_File.EMP_STATUS = '1') ");
                                     ?>
                                 <!--  </select> -->
 								
-								<input name="promotion" size="60"  style="background-color:yellow;" value="<?php echo $row[3];?>" disabled>
+								<input name="promotion" size="60"  style="background-color:yellow;text-align:center" value="<?php echo $row[3];?>" disabled>
 							
 								
 								
@@ -468,66 +468,14 @@ WHERE     (Employee_File.EMP_STATUS = '1') ");
             </td>
             <td valign="top" width="1%">&nbsp;</td>
             <td valign="top" width="45%">
-			<!--
+			
                 <iframe src="include/cal_result.php" width="97%" scrolling="no" height="182"
                         style="
                  display:block;
                  border:#FFF thin solid;
-            "></iframe>
-			-->
-	<form method="post" action="cal_result.php?id=cal">
-	
-	<table width="100%" border="0" cellspacing="1" cellpadding="0"  style="color:#36C; font-size:13px; font-family:Tahoma, Geneva, sans-serif; ">
-	  <tr>
-		<td>มูลค่าสินค้ารวม</td>
-		<td></td>
-		<td>&nbsp;</td>
-		<td>&nbsp;</td>
-		<td><input type="text" name="PRICE" value="<?=$reccord['sumprice']?>" disabled  id='amount1'></td>
-	  </tr>
-	  <tr>
-		<td><font color="#000000">ส่วนลดตามโปรโมชั่น</font></td>
-		<td><input type='text' name='PROMO' size='5'  disabled value='<?php echo $row['PROM_DISCOUNT'];?>' ></td>
-		<td>%</td> 
-		<td><input type='text' name='SUMPROMO' size='5'  disabled  value='<? printf("%.2f",$promo_txt_2); ?>'  ></td>
-		<td><input type="text" name="PRICE_PROMO" disabled value="<? printf("%.2f",$promo_txt_3); ?>"></td>
-	  </tr>
-	  <tr>
-		<td><font color="#000000">ส่วนลดเงินสด</font></td>
-		<?PHP
-	  /*  if($_SESSION['vatsale'] != "ขายสด"){
-				$chkk = "disabled";	 
-			}else{
-				$chkk = "";
-			} */
-		?>
-		<td><input type='text' name='MONEY' size='5'    value='<? printf("%.2f",$dis_co_txt_1); ?>' disabled></td>
-		<td>%</td>
-		<td><input type='text' name='SUMMONEY' size='5'   value='<? printf("%.2f",$dis_co_txt_2); ?> ' disabled></td>
-		<td><input type="text" name="PRICE_MONNEY" disabled value="<? printf("%.2f",$dis_co_txt_3); ?>"></td>
-	  </tr>
-	  <tr>
-		<td>ภาษีมูลค่าเพิ่ม</td>
-		<td><input type="text" name="vat" size="5" value="<?=$vat_1?>"></td>
-		<td>&nbsp;</td>
-		<td>&nbsp;</td>
-		<td><input type="text" name="PRICE_VAT" disabled value="<? printf("%.2f",$vat_2); ?>" ></td>
-	  </tr>
-	  <tr>
-		<td>มูลค่าสุทธิ</td>
-		<td>&nbsp;</td>
-		<td>&nbsp;</td>
-		<td>&nbsp;</td>
-		<td><input type="text" name="TOTAL_PRICE" value="<?  printf("%.2f",$total);?>" disabled></td>
-	  </tr>
-	</table>
-	<input type="submit" value=""  class="cal" >
-	
-
-
+            " ></iframe>
 			
-                <BR></td>
-        </tr>
+	
     </table>
 	</form>
 	

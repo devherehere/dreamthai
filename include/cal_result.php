@@ -25,7 +25,7 @@ input {
 }
 </style>
 <meta http-equiv="Content-Type" content="text/html; charset=TIS-620" />
-<!-- <meta http-equiv=refresh content='15; url=cal_result.php?id=cal'> -->
+<meta http-equiv=refresh content='15; url=cal_result.php?id=cal'> 
 </head>
 <body>
 <?PHP 
@@ -35,7 +35,7 @@ input {
 <?PHP
 if($_REQUEST['id'] == 'cal'){
 	
- $sql_p  = "SELECT SUM(TEMP.AR_BOD_TOTAL)AS sumprice , (SUM(TEMP.AR_BOD_TOTAL)*7/100)AS sum_vat FROM (SELECT     Book_Order_Detail_Temp.AR_BO_ID, Book_Order_Detail_Temp.AR_BOD_ITEM, Book_Order_Detail_Temp.GOODS_KEY, Book_Order_Detail_Temp.UOM_KEY, 
+$sql_p  = "SELECT SUM(TEMP.AR_BOD_TOTAL)AS sumprice , (SUM(TEMP.AR_BOD_TOTAL)*7/100)AS sum_vat FROM (SELECT     Book_Order_Detail_Temp.AR_BO_ID, Book_Order_Detail_Temp.AR_BOD_ITEM, Book_Order_Detail_Temp.GOODS_KEY, Book_Order_Detail_Temp.UOM_KEY, 
                       Book_Order_Detail_Temp.AR_BOD_GOODS_SELL, Book_Order_Detail_Temp.AR_BOD_GOODS_AMOUNT, Book_Order_Detail_Temp.AR_BOD_GOODS_SUM, 
                       Book_Order_Detail_Temp.AR_BOD_DISCOUNT_PER, Book_Order_Detail_Temp.AR_BOD_DISCOUNT_AMOUNT, Book_Order_Detail_Temp.AR_BOD_TOTAL, 
                       Book_Order_Detail_Temp.AR_BOD_RE_DATE, Book_Order_Detail_Temp.AR_BOD_SO_STATUS, Book_Order_Detail_Temp.AR_BOD_REMARK, 
@@ -47,10 +47,10 @@ FROM         Book_Order_Detail_Temp INNER JOIN
                       Units_of_Measurement ON Book_Order_Detail_Temp.UOM_KEY = Units_of_Measurement.UOM_KEY)AS TEMP
 					  WHERE TEMP.AR_BO_ID = ".$_SESSION['id_bo']." ";
 					  
-$sql_pro = "SELECT     PROM_KEY, PROM_NAME, PROM_DISCOUNT, PROM_START_DATE, PROM_END_DATE FROM Promotion
+ echo $sql_pro = "SELECT     PROM_KEY, PROM_NAME, PROM_DISCOUNT, PROM_START_DATE, PROM_END_DATE FROM Promotion
                    WHERE     ('".date("Y-m-d")."' >= PROM_START_DATE) AND ('".date("Y-m-d")."' <= PROM_END_DATE) AND PROM_STATUS = 1";
 
-$pay_dis = "SELECT DISC_NAME, DISC_STATUS FROM Discount_Cash WHERE (DISC_STATUS = '1')";
+  $pay_dis = "SELECT DISC_NAME, DISC_STATUS FROM Discount_Cash WHERE (DISC_STATUS = '1')";
 
 				      $dis_c = sqlsrv_fetch_array(sqlsrv_query($con,$pay_dis));
 					  $promo = sqlsrv_fetch_array(sqlsrv_query($con,$sql_pro));
@@ -96,7 +96,7 @@ $pay_dis = "SELECT DISC_NAME, DISC_STATUS FROM Discount_Cash WHERE (DISC_STATUS 
   </tr>
   <tr>
     <td><font color="#000000">ส่วนลดตามโปรโมชั่น</font></td>
-    <td><input type='text' name='PROMO' size='5'  disabled value='<?PHP $promo_txt_1 ;?>' ></td>
+    <td><input type='text' name='PROMO' size='5'  disabled value='<?php echo $promo_txt_1 ;?>' ></td>
     <td>%</td> 
     <td><input type='text' name='SUMPROMO' size='5'  disabled  value='<? printf("%.2f",$promo_txt_2); ?>'  ></td>
     <td><input type="text" name="PRICE_PROMO" disabled value="<? printf("%.2f",$promo_txt_3); ?>"></td>
