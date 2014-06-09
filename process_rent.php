@@ -189,7 +189,7 @@ WHERE       (Goods_Price_List.GPL_STATUS = '1')  AND ( ".$set." Goods.GOODS_KEY=
 	   }else{
 		  $item_t = $reccord['AR_BOD_GOODS_AMOUNT'];
 		  $ex_dicco = $reccord['AR_BOD_DISCOUNT_PER'];
-		  $date_re = date("d/m/Y H:i:s",strtotime($reccord['AR_BOD_RE_DATE']));
+		  $date_re = @date("d/m/Y H:i:s",strtotime($reccord['AR_BOD_RE_DATE']));
 		  $remark = $reccord['AR_BOD_REMARK'];
 	   }
 	   ?>

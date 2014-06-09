@@ -35,7 +35,7 @@ input {
 <?PHP
 if($_REQUEST['id'] == 'cal'){
 	
-$sql_p  = "SELECT SUM(TEMP.AR_BOD_TOTAL)AS sumprice , (SUM(TEMP.AR_BOD_TOTAL)*7/100)AS sum_vat FROM (SELECT     Book_Order_Detail_Temp.AR_BO_ID, Book_Order_Detail_Temp.AR_BOD_ITEM, Book_Order_Detail_Temp.GOODS_KEY, Book_Order_Detail_Temp.UOM_KEY, 
+ $sql_p  = "SELECT SUM(TEMP.AR_BOD_TOTAL)AS sumprice , (SUM(TEMP.AR_BOD_TOTAL)*7/100)AS sum_vat FROM (SELECT     Book_Order_Detail_Temp.AR_BO_ID, Book_Order_Detail_Temp.AR_BOD_ITEM, Book_Order_Detail_Temp.GOODS_KEY, Book_Order_Detail_Temp.UOM_KEY, 
                       Book_Order_Detail_Temp.AR_BOD_GOODS_SELL, Book_Order_Detail_Temp.AR_BOD_GOODS_AMOUNT, Book_Order_Detail_Temp.AR_BOD_GOODS_SUM, 
                       Book_Order_Detail_Temp.AR_BOD_DISCOUNT_PER, Book_Order_Detail_Temp.AR_BOD_DISCOUNT_AMOUNT, Book_Order_Detail_Temp.AR_BOD_TOTAL, 
                       Book_Order_Detail_Temp.AR_BOD_RE_DATE, Book_Order_Detail_Temp.AR_BOD_SO_STATUS, Book_Order_Detail_Temp.AR_BOD_REMARK, 

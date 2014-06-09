@@ -374,7 +374,7 @@ WHERE     (Employee_File.EMP_STATUS = '1') ");
                 style="
                  display:block;
                  border:#FFF thin solid;
-            "></iframe>
+            " ></iframe>
         <a href="clear_temp.php?id=1" class="clear_list" target="_blank"
            onclick="return confirm('คุณแน่ใจหรือไม่')"></a>
         <a href="product_search.php" target="_blank" class="add_list"></a>
@@ -414,14 +414,24 @@ WHERE     (Employee_File.EMP_STATUS = '1') ");
                         </tr>
                         <tr>
                             <td>Promotion</td>
-                            <td><select name="promotion" class="frominput">
+                            <td>
+							
+							 <!-- <select name="promotion" class="frominput"> -->
                                     <?php
-                                    $sql_promo = sqlsrv_query($con,"SELECT * FROM [Dream_Thai].[dbo].[Promotion]");
-                                    while ($promo = sqlsrv_fetch_array($sql_promo)) {
+									                
+									$sql_promo = sqlsrv_query($con,"SELECT * FROM [Dream_Thai].[dbo].[Promotion]");
+                                    /* while ($promo = sqlsrv_fetch_array($sql_promo)) {
                                         echo "<option value='" . $promo[0] . "'  >" . $promo[3] . "</option>";
-                                    }
+                                    } 
+									*/
+									$row = sqlsrv_fetch_array($sql_promo);
+									
                                     ?>
-                                </select></td>
+                                <!--  </select> -->
+								
+								<input name="promotion" size="60"  style="background-color:yellow;" value="<?php echo $row[3];?>" disabled>
+								
+								</td>
                         </tr>
                     </table>
                 </fieldset>
@@ -440,7 +450,7 @@ WHERE     (Employee_File.EMP_STATUS = '1') ");
         <legend></legend>
         <input type="reset" value="  " class="Clear">
         <input type="submit" value=" " class="Ok"
-               onclick="return confirm('ต้องการบันทึกข้อมูลเลขที่ <?= $_SESSION['key_bo'] ?> ใช่หรือไม่')">
+               onclick="return confirm('ต้องการบันทึกข้อมูลเลขที่ <?= $_SESSION['key_bo'] ?> ใช่หรือไม่');">
     </fieldset>
     </form>
 
