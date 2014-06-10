@@ -47,7 +47,7 @@ FROM         Book_Order_Detail_Temp INNER JOIN
                       Units_of_Measurement ON Book_Order_Detail_Temp.UOM_KEY = Units_of_Measurement.UOM_KEY)AS TEMP
 					  WHERE TEMP.AR_BO_ID = ".$_SESSION['id_bo']." ";
 					  
- echo $sql_pro = "SELECT     PROM_KEY, PROM_NAME, PROM_DISCOUNT, PROM_START_DATE, PROM_END_DATE FROM Promotion
+  $sql_pro = "SELECT     PROM_KEY, PROM_NAME, PROM_DISCOUNT, PROM_START_DATE, PROM_END_DATE FROM Promotion
                    WHERE     ('".date("Y-m-d")."' >= PROM_START_DATE) AND ('".date("Y-m-d")."' <= PROM_END_DATE) AND PROM_STATUS = 1";
 
   $pay_dis = "SELECT DISC_NAME, DISC_STATUS FROM Discount_Cash WHERE (DISC_STATUS = '1')";
@@ -60,6 +60,8 @@ FROM         Book_Order_Detail_Temp INNER JOIN
 					  $chk = "";
 					 } */
                       $reccord = sqlsrv_fetch_array(sqlsrv_query($con,$sql_p));
+					  
+					  
 					  $_SESSION['sumprice'] = $reccord['sumprice'];
                       $promo_txt_1 = $promo['PROM_DISCOUNT'];
 					  $_SESSION['promo_txt_1'] = $promo_txt_1;

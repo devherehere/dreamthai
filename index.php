@@ -16,7 +16,7 @@ ob_start();
     <!-- DatePicker Jquery-->
     <script type="text/javascript" src="js/jquery-ui-1.8.10.offset.datepicker.min.js"></script>
     <link rel="stylesheet" href="jquery/themes/base/jquery-ui.css" type="text/css"/>
-	
+
 	<style>
 	<style>
 .frominput {
@@ -342,7 +342,7 @@ WHERE     (Employee_File.EMP_STATUS = '1') ");
                         <option value="">------ เลือก-------</option>
                     </select>
                     &nbsp; &nbsp; Vat
-                    <select name="vat_key" class="frominput">
+                    <select name="vat_key" class="frominput" id="vat_key">
                         <?PHP
                         $sql_v = sqlsrv_query($con,"SELECT    Tax_Type.TAXT_NAME, Tax_Type.TAXT_KEY
 																   	 FROM         AR_File INNER JOIN
@@ -426,7 +426,7 @@ WHERE     (Employee_File.EMP_STATUS = '1') ");
                                     <option value="1">อื่นๆ</option>
                                 </select></td>
                         </tr>
-                        
+
                         <tr>
                             <td>สถานที่ส่ง</td>
                             <td><input type="text" name="send_pl" size="60" class="validate[required,length[0,50]]">
@@ -443,24 +443,25 @@ WHERE     (Employee_File.EMP_STATUS = '1') ");
                         <tr>
                             <td>Promotion</td>
                             <td>
-							
+
 							 <!-- <select name="promotion" class="frominput"> -->
                                     <?php
-									                
-									$sql_promo = sqlsrv_query($con,"SELECT * FROM [Dream_Thai].[dbo].[Promotion]");
+
+									$sql_promo = sqlsrv_query($con,"SELECT * FROM [Dream_Thai].[dbo].[Promotion]  order by PROM_YEAR DESC , PROM_MONTH DESC");
                                     /* while ($promo = sqlsrv_fetch_array($sql_promo)) {
                                         echo "<option value='" . $promo[0] . "'  >" . $promo[3] . "</option>";
-                                    } 
+                                    }
 									*/
 									$row = sqlsrv_fetch_array($sql_promo);
-									
+
                                     ?>
+
                                 <!--  </select> -->
-								
-								<input name="promotion" size="60"  style="background-color:yellow;text-align:center" value="<?php echo $row[3];?>" disabled>
-							
-								
-								
+
+								<input name="promotion" size="60"  style="background-color:yellow;text-align:center" value="<?php echo $row['PROM_NAME'];?>" disabled>
+
+
+
 								</td>
                         </tr>
                     </table>
@@ -468,19 +469,174 @@ WHERE     (Employee_File.EMP_STATUS = '1') ");
             </td>
             <td valign="top" width="1%">&nbsp;</td>
             <td valign="top" width="45%">
-			
+
+
+			<!--
                 <iframe src="include/cal_result.php" width="97%" scrolling="no" height="182"
                         style="
                  display:block;
                  border:#FFF thin solid;
             " ></iframe>
-			
-	
+			-->
+
+
+<?php
+$sql_sum_product  = "SELECT SUM(TEMP.AR_BOD_TOTAL)AS sumprice , (SUM(TEMP.AR_BOD_TOTAL)*7/100)AS sum_vat FROM (SELECT     Book_Order_Detail_Temp.AR_BO_ID, Book_Order_Detail_Temp.AR_BOD_ITEM, Book_Order_Detail_Temp.GOODS_KEY, Book_Order_Detail_Temp.UOM_KEY,
+                      Book_Order_Detail_Temp.AR_BOD_GOODS_SELL, Book_Order_Detail_Temp.AR_BOD_GOODS_AMOUNT, Book_Order_Detail_Temp.AR_BOD_GOODS_SUM,
+                      Book_Order_Detail_Temp.AR_BOD_DISCOUNT_PER, Book_Order_Detail_Temp.AR_BOD_DISCOUNT_AMOUNT, Book_Order_Detail_Temp.AR_BOD_TOTAL,
+                      Book_Order_Detail_Temp.AR_BOD_RE_DATE, Book_Order_Detail_Temp.AR_BOD_SO_STATUS, Book_Order_Detail_Temp.AR_BOD_REMARK,
+                      Book_Order_Detail_Temp.AR_BOD_LASTUPD, Units_of_Measurement.UOM_NAME, Goods_Price_List.GPL_PRICE, Goods.GOODS_NAME_MAIN,
+                      Goods.GOODS_CODE
+FROM         Book_Order_Detail_Temp INNER JOIN
+                      Goods ON Book_Order_Detail_Temp.GOODS_KEY = Goods.GOODS_KEY LEFT OUTER JOIN
+                      Goods_Price_List ON Book_Order_Detail_Temp.GOODS_KEY = Goods_Price_List.GOODS_KEY LEFT OUTER JOIN
+                      Units_of_Measurement ON Book_Order_Detail_Temp.UOM_KEY = Units_of_Measurement.UOM_KEY)AS TEMP
+					  WHERE TEMP.AR_BO_ID = ".$_SESSION['id_bo']." ";
+
+$sum_product = sqlsrv_fetch_array(sqlsrv_query($con,$sql_sum_product));
+?>
+
+
+
+
+		<form method="post" action="cal_result.php?id=cal">
+				<table width="100%" border="0" cellspacing="1" cellpadding="0"  style="color:#36C; font-size:13px; font-family:Tahoma, Geneva, sans-serif; ">
+				  <tr>
+					<td>มูลค่าสินค้ารวม</td>
+					<td></td>
+					<td>&nbsp;</td>
+					<td>&nbsp;</td>
+					<td><input type="text" name="PRICE" value="<?php echo number_format($sum_product['sumprice'],2); ?>" disabled  id='amount1'></td>
+				  </tr>
+				  <tr>
+					<td><font color="#000000">ส่วนลดตามโปรโมชั่น</font></td>
+					<td><input type='text' name='PROMO' size='5'  disabled value='<?php echo number_format( $row['PROM_DISCOUNT'],2);?>' ></td>
+					<td>%</td>
+					<?php
+					$cal_discount = ($sum_product['sumprice']*$row['PROM_DISCOUNT'])/100;
+					?>
+					<td><input type='text' name='SUMPROMO' size='5'  disabled  value='<?php echo number_format($cal_discount,2);  ?>'  ></td>
+					<?php
+					$price_promo_total = $sum_product['sumprice'] - $cal_discount;
+
+					?>
+					<td><input type="text" name="PRICE_PROMO" disabled value="<?php echo number_format($price_promo_total,2); ?>"></td>
+				  </tr>
+				  <?php
+				   $sql_dis_cash = "SELECT DISC_NAME, DISC_STATUS FROM Discount_Cash WHERE (DISC_STATUS = '1')";
+				   $dis_cash = sqlsrv_fetch_array(sqlsrv_query($con,$sql_dis_cash));
+
+				  ?>
+
+				  <tr>
+					<td><font color="#000000">ส่วนลดเงินสด</font></td>
+
+					<td><input type='text' name='MONEY' size='5'    value='<?php echo number_format($dis_cash['DISC_NAME'],2); ?>' disabled></td>
+					<td>%</td>
+					<?php
+					$cal_dis_cash = ($price_promo_total * $dis_cash['DISC_NAME'])/100;
+					?>
+
+					<td><input type='text' name='SUMMONEY' size='5'   value='<?php echo number_format($cal_dis_cash,2); ?> ' disabled></td>
+
+					<?php
+					$total_dis_cash = $price_promo_total - $cal_dis_cash;
+					?>
+
+
+					<td><input type="text" name="PRICE_MONNEY" disabled value="<?php echo number_format($total_dis_cash,2);?>"></td>
+				  </tr>
+
+                  <?php
+                  $cal_vat = ($total_dis_cash * 7)/100;
+                  $vat_total = number_format($cal_vat,2);
+
+                  $cal_total = $total_dis_cash + $cal_vat;
+                  $total = number_format($cal_total,2);
+                  ?>
+
+
+				  <script>
+
+				  $(function(){
+
+					var vat;
+                    var vat_total ;
+                    var total;
+                    var select = $('#vat_key option:selected').val();
+
+
+				    if(select == 'TAXT-01'){
+                        vat = 7;
+                        $('input[name="vat"]').val(vat);
+                        vat_total = '<?php echo $vat_total;?>';
+                        total = '<?php echo $total;?>';
+                        $('input[name="PRICE_VAT"]').val(vat_total);
+                        $('input[name="TOTAL_PRICE"]').val(total );
+                    }else{
+                        vat = 0;
+                        vat_total = '<?php echo number_format(0,2);?>';
+                        total = $('input[name="PRICE_MONNEY"]').val();
+                        $('input[name="vat"]').val(vat);
+                        $('input[name="PRICE_VAT"]').val(vat_total);
+                        $('input[name="TOTAL_PRICE"]').val(total);
+                    }
+
+
+
+
+                     $('#vat_key').change(function(){
+
+                         select = $('#vat_key option:selected').val();
+
+
+                         if(select == 'TAXT-01'){
+                             vat = 7;
+                             $('input[name="vat"]').val(vat);
+                             vat_total = '<?php echo $vat_total;?>';
+                             total = '<?php echo $total;?>';
+                             $('input[name="PRICE_VAT"]').val(vat_total);
+                             $('input[name="TOTAL_PRICE"]').val(total);
+                         }else{
+                             vat = 0;
+                             vat_total = '<?php echo number_format(0,2);?>';
+                             total = $('input[name="PRICE_MONNEY"]').val();
+                             $('input[name="vat"]').val(vat);
+                             $('input[name="PRICE_VAT"]').val(vat_total);
+                             $('input[name="TOTAL_PRICE"]').val(total);
+                         }
+                     });
+				  });
+
+				  </script>
+
+
+				  <tr>
+					<td>ภาษีมูลค่าเพิ่ม</td>
+					<td><input type="text" name="vat" size="5" value="" disabled></td>
+					<td>&nbsp;</td>
+					<td>&nbsp;</td>
+					<td><input type="text" name="PRICE_VAT" disabled value="" ></td>
+				  </tr>
+
+
+				  <tr>
+					<td>มูลค่าสุทธิ</td>
+					<td>&nbsp;</td>
+					<td>&nbsp;</td>
+					<td>&nbsp;</td>
+					<td><input type="text" name="TOTAL_PRICE" value="" disabled></td>
+				  </tr>
+				</table>
+		<input type="submit" value=""  class="cal" >
+		</form>
+
+
     </table>
 	</form>
-	
-	
-	
+
+
+
     <fieldset style="width:96%; margin-left:11px; margin-bottom:10px;">
         <legend></legend>
         <input type="reset" value="  " class="Clear">
