@@ -189,7 +189,7 @@ WHERE       (Goods_Price_List.GPL_STATUS = '1')  AND ( ".$set." Goods.GOODS_KEY=
 	   }else{
 		  $item_t = $reccord['AR_BOD_GOODS_AMOUNT'];
 		  $ex_dicco = $reccord['AR_BOD_DISCOUNT_PER'];
-		  $date_re = @date("d/m/Y H:i:s",strtotime($reccord['AR_BOD_RE_DATE']));
+		  $date_re = $reccord['AR_BOD_RE_DATE']->format('Y-m-d');
 		  $remark = $reccord['AR_BOD_REMARK'];
 	   }
 	   ?>
@@ -220,7 +220,7 @@ WHERE       (Goods_Price_List.GPL_STATUS = '1')  AND ( ".$set." Goods.GOODS_KEY=
                     <td align="left" bgcolor="#888888">&nbsp;
                       <input type="text" name="dt<?=$j ;?>" value="<?=$date_re?>" size="8" class="datepicker" /></td>
                     <td align="left" bgcolor="#888888">&nbsp;
-                      <input type="text" name="rm<?=$j ;?>" value="<?=$remark?>"  class="validate[custom[noSpecialCaracters],length[0,20]]" size="20"  /></td>
+                      <input type="text" name="rm<?=$j ;?>" value="<?=$remark?>"  class="" size="20"  /></td>
                     <input type="hidden" value="<?=$reccord['GOODS_KEY']?>" name="gk<?=$j ;?>" >
                     <input type="hidden" value="<?=$reccord['UOM_KEY']?>" name="uk<?=$j ;?>" >
                   </tr>
@@ -243,7 +243,7 @@ WHERE       (Goods_Price_List.GPL_STATUS = '1')  AND ( ".$set." Goods.GOODS_KEY=
       <?PHP
 	$itm = $_POST['mx'];
 	if($_REQUEST['id_addtemp'] == md5('id_addtemp') && ($_REQUEST['gkey'] != "" && $_REQUEST['item_edt'] != "")){  
-	   $sql_up = "UPDATE [Dream_Thai].[dbo].[Book_Order_Detail_Temp]
+	   echo $sql_up = "UPDATE [Dream_Thai].[dbo].[Book_Order_Detail_Temp]
        SET  [AR_BOD_GOODS_AMOUNT] = ".$_POST['1']."
       ,[AR_BOD_DISCOUNT_PER] = ".$_POST['ex1']."
       ,[AR_BOD_RE_DATE] = '".$_POST['dt1']."' 

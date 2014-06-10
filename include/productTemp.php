@@ -77,13 +77,13 @@ FROM          Book_Order_Detail_Temp INNER JOIN
       <?=$reccord['AR_BOD_DISCOUNT_PER']?></td>
     <td align="right" bgcolor="#888888">&nbsp;
       <?=$reccord['AR_BOD_TOTAL']?></td>
-    <td align="left" bgcolor="#888888">&nbsp;
+    <td align="center" bgcolor="#888888">&nbsp;
 	
       <?php
 
-	 echo @date("d/m/Y",strtotime($reccord['AR_BOD_RE_DATE']))
-	  
-	  ?>
+	 //echo @date("d/m/Y",strtotime($reccord['AR_BOD_RE_DATE']));
+      echo $reccord['AR_BOD_RE_DATE']->format('d/m/Y');
+      ?>
 	  </td>
     <td align="left" bgcolor="#888888">&nbsp;
       <?=$reccord['AR_BOD_REMARK']?></td>

@@ -130,6 +130,15 @@ input {
             document.formA.trans_etc.disabled = !(document.formA.trans_key.value % 2);
         }
         window.onload = modTextbox;
+
+        $(function(){
+
+            $('.refresh').live('click',function(){
+                window.load('index.php');
+            })
+
+        });
+
     </script>
 </head>
 <body>
@@ -396,12 +405,15 @@ WHERE     (Employee_File.EMP_STATUS = '1') ");
     </fieldset>
 
     <fieldset style="width:96%; margin-left:11px; margin-bottom:10px;">
-        <legend>รายละเอียดในใบจองสินค้า</legend>
-        <iframe src="include/productTemp.php" width="100%" scrolling="no" height="400"
+        <legend>รายละเอียดในใบจองสินค้า</legend
+            >
+        <iframe id="product" src="include/productTemp.php" width="100%" scrolling="no" height="400"
                 style="
                  display:block;
                  border:#FFF thin solid;
-            " ></iframe>
+            "> </iframe>
+
+
         <a href="clear_temp.php?id=1" class="clear_list" target="_blank"
            onclick="return confirm('คุณแน่ใจหรือไม่')"></a>
         <a href="product_search.php" target="_blank" class="add_list"></a>
@@ -447,7 +459,7 @@ WHERE     (Employee_File.EMP_STATUS = '1') ");
 							 <!-- <select name="promotion" class="frominput"> -->
                                     <?php
 
-									$sql_promo = sqlsrv_query($con,"SELECT * FROM [Dream_Thai].[dbo].[Promotion]  order by PROM_YEAR DESC , PROM_MONTH DESC");
+									 $sql_promo = sqlsrv_query($con,"SELECT * FROM [Dream_Thai].[dbo].[Promotion]  order by PROM_YEAR DESC , PROM_MONTH DESC");
                                     /* while ($promo = sqlsrv_fetch_array($sql_promo)) {
                                         echo "<option value='" . $promo[0] . "'  >" . $promo[3] . "</option>";
                                     }
@@ -547,85 +559,59 @@ $sum_product = sqlsrv_fetch_array(sqlsrv_query($con,$sql_sum_product));
 					<td><input type="text" name="PRICE_MONNEY" disabled value="<?php echo number_format($total_dis_cash,2);?>"></td>
 				  </tr>
 
-                  <?php
-                  $cal_vat = ($total_dis_cash * 7)/100;
-                  $vat_total = number_format($cal_vat,2);
+                    <script>
+                        $(function(){
 
-                  $cal_total = $total_dis_cash + $cal_vat;
-                  $total = number_format($cal_total,2);
-                  ?>
+                            var vat;
+                            var total_dis_cash = <?php echo $total_dis_cash;?>;
 
+                            vat = $('input[name="vat"]').val();
+                            $.post('ajax/cal_vat.php',{vat:vat,total_dis_cash:total_dis_cash},function(data){
+                                $('input[name="PRICE_VAT"]').val(data);
+                            });
 
-				  <script>
-
-				  $(function(){
-
-					var vat;
-                    var vat_total ;
-                    var total;
-                    var select = $('#vat_key option:selected').val();
+                            $.post('ajax/cal_total.php',{vat:vat,total_dis_cash:total_dis_cash},function(data){
+                                $('input[name="TOTAL_PRICE"]').val(data);
+                            });
 
 
-				    if(select == 'TAXT-01'){
-                        vat = 7;
-                        $('input[name="vat"]').val(vat);
-                        vat_total = '<?php echo $vat_total;?>';
-                        total = '<?php echo $total;?>';
-                        $('input[name="PRICE_VAT"]').val(vat_total);
-                        $('input[name="TOTAL_PRICE"]').val(total );
-                    }else{
-                        vat = 0;
-                        vat_total = '<?php echo number_format(0,2);?>';
-                        total = $('input[name="PRICE_MONNEY"]').val();
-                        $('input[name="vat"]').val(vat);
-                        $('input[name="PRICE_VAT"]').val(vat_total);
-                        $('input[name="TOTAL_PRICE"]').val(total);
-                    }
+                            $('input[name="vat"]').keyup(function(){
+                                vat = $(this).val();
+                                $.post('ajax/cal_vat.php',{vat:vat,total_dis_cash:total_dis_cash},function(data){
+                                    $('input[name="PRICE_VAT"]').val(data);
+                                });
+
+                                $.post('ajax/cal_total.php',{vat:vat,total_dis_cash:total_dis_cash},function(data){
+                                    $('input[name="TOTAL_PRICE"]').val(data);
+                                });
+
+                            });
 
 
 
 
-                     $('#vat_key').change(function(){
 
-                         select = $('#vat_key option:selected').val();
+                        });
+
+                    </script>
 
 
-                         if(select == 'TAXT-01'){
-                             vat = 7;
-                             $('input[name="vat"]').val(vat);
-                             vat_total = '<?php echo $vat_total;?>';
-                             total = '<?php echo $total;?>';
-                             $('input[name="PRICE_VAT"]').val(vat_total);
-                             $('input[name="TOTAL_PRICE"]').val(total);
-                         }else{
-                             vat = 0;
-                             vat_total = '<?php echo number_format(0,2);?>';
-                             total = $('input[name="PRICE_MONNEY"]').val();
-                             $('input[name="vat"]').val(vat);
-                             $('input[name="PRICE_VAT"]').val(vat_total);
-                             $('input[name="TOTAL_PRICE"]').val(total);
-                         }
-                     });
-				  });
-
-				  </script>
 
 
 				  <tr>
 					<td>ภาษีมูลค่าเพิ่ม</td>
-					<td><input type="text" name="vat" size="5" value="" disabled></td>
+					<td><input type="text" name="vat" size="5" value="0" ></td>
 					<td>&nbsp;</td>
 					<td>&nbsp;</td>
 					<td><input type="text" name="PRICE_VAT" disabled value="" ></td>
 				  </tr>
-
 
 				  <tr>
 					<td>มูลค่าสุทธิ</td>
 					<td>&nbsp;</td>
 					<td>&nbsp;</td>
 					<td>&nbsp;</td>
-					<td><input type="text" name="TOTAL_PRICE" value="" disabled></td>
+					<td><input type="text" name="TOTAL_PRICE" value="" disabled style="background-color: yellow"></td>
 				  </tr>
 				</table>
 		<input type="submit" value=""  class="cal" >
@@ -726,18 +712,27 @@ $sum_product = sqlsrv_fetch_array(sqlsrv_query($con,$sql_sum_product));
            ,''
            ,NULL
            ,'" . date("Y/m/d H:i:s") . "')";
-        $sql_temp_to_mas = "INSERT INTO [Dream_Thai].[dbo].[Book_Order_Detail]  SELECT * FROM [Dream_Thai].[dbo].[Book_Order_Detail_Temp]
+
+        $ap_file2 = sqlsrv_query($con,$sql);
+
+
+         $sql_temp_to_mas = "INSERT INTO [Dream_Thai].[dbo].[Book_Order_Detail]  SELECT * FROM [Dream_Thai].[dbo].[Book_Order_Detail_Temp]
 			WHERE [AR_BO_ID] = " . $_SESSION['id_bo'] . " ";
+
+
         $chkadd = "SELECT * FROM [Dream_Thai].[dbo].[Book_Order_Detail_Temp] WHERE AR_BO_ID = " . ($_SESSION['id_bo']) . " ;";
+
         if (sqlsrv_num_rows(sqlsrv_query($con,$chkadd)) > 0) {
+
             $ap_file1 = sqlsrv_query($con,$sql_temp_to_mas);
-            $ap_file2 = sqlsrv_query($con,$sql);
             $ap_file3 = sqlsrv_query($con,"DELETE FROM   Book_Order_Detail_Temp WHERE AR_BO_ID = " . $_SESSION['id_bo'] . "");
         } else {
             echo "ไม่สามารถบันทึกข้อมูลซ้ำอีกได้ได้!!";
-            mssql_close();
+            sqlsrv_close($con);
             echo("<meta http-equiv='refresh' content='3;url= index.php' />");
         }
+
+
         if ($ap_file1 == true && $ap_file2 == true && $ap_file3 == true) {
             echo "
 			  <table width=\"100%\">
@@ -748,7 +743,7 @@ $sum_product = sqlsrv_fetch_array(sqlsrv_query($con,$sql_sum_product));
 			  ";
             echo("<meta http-equiv='refresh' content='3;url= report/report.php' />");
         } else {
-            echo "<script>alert(\" ผิดผลาด\")
+           echo "<script>alert(\" ผิดผลาด\")
 			   window.close();
 		   </script>";
         }
