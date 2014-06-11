@@ -1,29 +1,8 @@
-<HTML>
-<head>
-<style>
-.refesh {
-	background:url(../img/ref.png);
-	float:right;
-	margin-top:5px;
-	margin-right:0px;
-	margin-bottom:5px;
-	border:none;
-	display:block;
-	width:94px;
-	height:26px;
-	cursor:pointer;
-}
-</style>
-<meta http-equiv="Content-Type" content="text/html; charset=tis-620" />
-<meta http-equiv=refresh content='30; url=productTemp.php'>
-</head>
-<body>
-<a href="productTemp.php"  class="refesh"  ></a> <a href="clear_temp.php?id=1" class="clear_list"   onclick="return confirm('๏ฟฝุณ๏ฟฝ๏ฟฝ๏ฟฝ๏ฟฝ๏ฟฝ๏ฟฝ๏ฟฝ๏ฟฝ๏ฟฝ๏ฟฝ')"  ></a> <BR>
-<?PHP 
+<?PHP
 	ob_start();
 	@session_start();
-	include"connect.inc.php";?>
-<?PHP
+	include"connect.inc.php";
+
  $sql  = "SELECT     Book_Order_Detail_Temp.AR_BO_ID, Book_Order_Detail_Temp.AR_BOD_ITEM, Book_Order_Detail_Temp.GOODS_KEY, Book_Order_Detail_Temp.UOM_KEY,
                       Book_Order_Detail_Temp.AR_BOD_GOODS_SELL, Book_Order_Detail_Temp.AR_BOD_GOODS_AMOUNT, Book_Order_Detail_Temp.AR_BOD_GOODS_SUM, 
                       Book_Order_Detail_Temp.AR_BOD_DISCOUNT_PER, Book_Order_Detail_Temp.AR_BOD_DISCOUNT_AMOUNT, Book_Order_Detail_Temp.AR_BOD_TOTAL, 
@@ -40,16 +19,16 @@ FROM          Book_Order_Detail_Temp INNER JOIN
   <tr bgcolor="#333333" height="20">
     <td align="center">ลำดับ</td>
     <td align="center">รหัสสินค้า</td>
-    <td align="center">ชื่อวินค้า</td>
+    <td align="center">ชื่อสินค้า</td>
     <td align="center">หน่วย</td>
     <td align="center">จำนวนที่จอง</td>
     <td align="center">ราคา/หน่วย</td>
     <td align="center">จำนวนเงิน</td>
     <td align="center">ส่วนลด%</td>
     <td align="center">จำนวนเงิน<br>
-      หลังหัส่วนลด</td>
+      หลังหักส่วนลด</td>
     <td align="center">วันที่<br>
-      ต้องการสิ้นค้า</td>
+      ต้องการสินค้า</td>
     <td align="center">หมายเหตุ</td>
     <td align="center"></td>
     <td align="center"></td>
@@ -87,8 +66,8 @@ FROM          Book_Order_Detail_Temp INNER JOIN
 	  </td>
     <td align="left" bgcolor="#888888">&nbsp;
       <?=$reccord['AR_BOD_REMARK']?></td>
-    <td align="center"><a href="../process_rent.php?ide=<?=md5('fu215')?>&gkey=<?=$reccord['GOODS_KEY']?>&item=<?=$reccord['AR_BOD_ITEM']?>"  target="_blank" > <img src="../img/edt_list.png"></a></td>
-    <td align="center"><a href="../clear_temp.php?id=<?=md5('del558')?>&gitem=<?=$reccord['AR_BOD_ITEM']?>"  target="_blank" onClick="return confirm('๏ฟฝุณ๏ฟฝ๏ฟฝ๏ฟฝ๏ฟฝ๏ฟฝ๏ฟฝ๏ฟฝ๏ฟฝ๏ฟฝ๏ฟฝ')"> <img src="../img/del_list.png"></a></td>
+    <td align="center"><a href="<?php echo BASE_URL;?>process_rent.php?ide=<?=md5('fu215')?>&gkey=<?=$reccord['GOODS_KEY']?>&item=<?=$reccord['AR_BOD_ITEM']?>"  target="_blank" > <img src="<?php echo BASE_URL;?>img/edt_list.png"></a></td>
+    <td align="center"><a href="<?php echo BASE_URL;?>clear_temp.php?id=<?=md5('del558')?>&gitem=<?=$reccord['AR_BOD_ITEM']?>"  target="_blank" onClick="return confirm('ต้องการลบ')"> <img src="<?php echo BASE_URL;?>img/del_list.png"></a></td>
   </tr>
   <?PHP
   $j++;
@@ -96,5 +75,3 @@ FROM          Book_Order_Detail_Temp INNER JOIN
   ?>
   <!---WHILE LOOP-->
 </table>
-</body>
-</HTML>

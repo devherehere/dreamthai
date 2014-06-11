@@ -15,6 +15,6 @@ $password="1234";
 	
 $con = sqlsrv_connect($dsn,$connectInfo);
 
-
+define('BASE_URL','http://localhost/dreamthai/');
 
 ?>
