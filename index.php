@@ -125,15 +125,21 @@ ob_start();
 
 
         /*form*/
-        $('.Ok').live('click', function () {
-            $('#formA').submit();
+
+        $('input[type="button"').live('click', function () {
+            var action = confirm('ต้องการบันทึกข้อมูลเลขที่ <?= $_SESSION['key_bo'] ?> ใช่หรือไม่');
+            if (action) {
+                $('#formA').submit();
+            }
+
+
         })
 
         $('#formA').submit(function (event) {
             event.preventDefault();
 
             var arf_key = $('input[name="arf_key"]').val();
-            var empkey = $('input[name="empkey"]').val();
+            var empkey = $('select[name="empkey"]').val();
             var promotion = $('input[name="promotion"]').data('prom_key');
             var tof_name = $('select[name="tof_name"]').val();
             var remark = $('input[name="remark"]').val();
@@ -164,8 +170,11 @@ ob_start();
                     vat: vat
                 },
                 success: function (data) {
-                    console.log(data);
-
+                    //console.log(data);
+                    //$(document).load('report/report.php');
+                    //window.open('report/report.php','_blank');
+                    print();
+                    $(document.body).load('index.php');
                 }
 
 
@@ -552,7 +561,7 @@ WHERE     (Employee_File.EMP_STATUS = '1') ");
 
                     <tr>
                         <td>สถานที่ส่ง</td>
-                        <td><input type="text" name="send_pl" size="60" class="validate[required,length[0,50]]">
+                        <td><input type="text" name="send_pl" size="60" class="validate[required,length[1,50]]">
                         </td>
                     </tr>
                     <tr>
@@ -600,8 +609,7 @@ WHERE     (Employee_File.EMP_STATUS = '1') ");
 <fieldset style="width:96%; margin-left:11px; margin-bottom:10px;">
     <legend></legend>
     <input type="reset" value="  " class="Clear">
-    <input type="button" value=" " class="Ok"
-           onclick="return confirm('ต้องการบันทึกข้อมูลเลขที่ <?= $_SESSION['key_bo'] ?> ใช่หรือไม่');">
+    <input type="button" value=" " class="Ok">
 </fieldset>
 
 </form>

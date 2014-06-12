@@ -12,7 +12,7 @@ ob_start();
 <?php
 require('MPDF57/mpdf.php');
 include"../include/connect.inc.php";
-$rec1 = mssql_fetch_array(mssql_query("SELECT DISTINCT 
+$rec1 = sqlsrv_fetch_array(sqlsrv_query("SELECT DISTINCT
                       Document_File.DOC_COMPANY_NAME_THAI, Document_File.DOC_COMPANY_NAME_ENG, Document_File.DOC_ADD, Document_File.DOC_TEL,Document_File.DOC_FAX, Document_File.DOC_TAX, Document_File.DOC_DAR, Document_File.DOC_WEBSITE, Book_Order.ARF_KEY, Book_Order.AR_BO_ID,AR_File.ARF_COMPANY_NAME_THAI, AR_File.ARF_COMPANY_NAME_ENG, Tambon.TAMBON_NAME_THAI, Amphoe.AMPHOE_NAME_THAI,Province.PROVINCE_NAME_THAI, Tambon.TAMBON_POSTCODE, Address.ADD_PHONE, Address.ADD_FAX, Title_Name_1.TITLE_NAME_THAI, Contact.CONT_NAME,Contact.CONT_SURNAME, Shipping.SHIPPING_NAME, Shipping.SHIPPING_REMARK, Book_Order.SHIPPING_ADD, Book_Order.AR_BO_KEY,Book_Order.AR_BO_DATE, CONVERT(varchar(10), Book_Order.AR_BO_DATE, 103) AS AR_BO_DATE2, Book_Order.AR_PUR_STATUS,CASE Book_Order.AR_PUR_STATUS WHEN 0 THEN 'เงินสด' WHEN 1 THEN 'เครดิต' END AS AR_PUR_STATUS2, Book_Order.TOF_NAME, Tax_Type.TAXT_NAME,Title_Name.TITLE_NAME_THAI AS Expr1, Employee_File.EMP_NAME_THAI, Employee_File.EMP_SURNAME_THAI, Address.ADD_NO,Book_Order.AR_BO_S_REMARK
 FROM         Tax_Type INNER JOIN
                       Book_Order INNER JOIN
@@ -32,7 +32,7 @@ FROM         Tax_Type INNER JOIN
 WHERE     (Book_Order.AR_BO_ID = ".$_SESSION['id_bo'].")"));
 //$_SESSION['id_bo']
 
-$strSQL ="SELECT     Book_Order_Detail.GOODS_KEY, Goods.GOODS_CODE, Goods.GOODS_NAME_MAIN, Book_Order_Detail.AR_BOD_GOODS_AMOUNT, 
+echo $strSQL ="SELECT     Book_Order_Detail.GOODS_KEY, Goods.GOODS_CODE, Goods.GOODS_NAME_MAIN, Book_Order_Detail.AR_BOD_GOODS_AMOUNT,
                       Units_of_Measurement.UOM_NAME, Book_Order_Detail.AR_BOD_GOODS_SELL, Book_Order_Detail.AR_BOD_GOODS_SUM, 
                       Book_Order_Detail.AR_BOD_DISCOUNT_PER, Book_Order_Detail.AR_BOD_TOTAL, Book_Order_Detail.AR_BOD_REMARK, Book_Order.PROM_KEY, 
                       Promotion.PROM_NAME, Book_Order.AR_BO_MO_TOTAL, Book_Order.PROM_DISCOUNT_PER, Book_Order.AR_BO_PROM_TOTAL, 
@@ -46,7 +46,7 @@ FROM         Promotion INNER JOIN
                       Goods ON Book_Order_Detail.GOODS_KEY = Goods.GOODS_KEY
 WHERE     (Book_Order_Detail.AR_BO_ID = ".$_SESSION['id_bo'].") "; 
 
-$rec2 = mssql_fetch_array(mssql_query($strSQL));
+$rec2 = sqlsrv_fetch_array(sqlsrv_query($con,$strSQL));
 $promo_per ="ส่วนลดตามโปรโมชั่น (".$rec2['PROM_DISCOUNT_PER']." %)";
 $monney_ex = "ส่วนลดเงินสด (".$rec2['CASH_DISCOUNT_PER']." %)";
 $vat_ex = "ภาษีมูลค่าเพิ่ม (".$rec2['AR_BO_TAX']." %)";
@@ -122,10 +122,10 @@ $emp = "".iconv('TIS-620','UTF-8',$rec1['Expr1'])." ".iconv('TIS-620','UTF-8',$r
 
 $contact = "".iconv('TIS-620','UTF-8',$rec1['TITLE_NAME_THAI'])." ".iconv('TIS-620','UTF-8',$rec1['CONT_NAME'])." ".iconv('TIS-620','UTF-8',$rec1['CONT_SURNAME'])."";
 
-$objQuery = mssql_query($strSQL);
+$objQuery = sqlsrv_query($con,$strSQL);
 $resultData = array();
-for ($i=0;$i<mssql_num_rows($objQuery);$i++) {
-	$result = mssql_fetch_array($objQuery);
+for ($i=0;$i<sqlsrv_num_rows($objQuery);$i++) {
+	$result = sqlsrv_fetch_array($objQuery);
 	array_push($resultData,$result);
 }
 //************************//
@@ -333,7 +333,7 @@ $pdf->Cell(171,6,$iso,0,0,'L');
 $pdf->Output("report_bo.pdf","F");
 ?>
 Now Loading......<BR>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
-<meta http-equiv="refresh" content="2;url=report_bo.pdf">
+<!--<meta http-equiv="refresh" content="2;url=report_bo.pdf">-->
 
 </body>
 </html>
