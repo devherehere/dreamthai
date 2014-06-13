@@ -2,9 +2,8 @@
 <project version="4">
   <component name="ChangeListManager">
     <list default="true" id="1729dc39-a16d-48f9-9f6f-30d04333f4a1" name="Default" comment="">
-      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/report/gen_book_order.php" />
       <change type="MODIFICATION" beforePath="$PROJECT_DIR$/report/report_bo.pdf" afterPath="$PROJECT_DIR$/report/report_bo.pdf" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/ajax/add_bo.php" afterPath="$PROJECT_DIR$/ajax/add_bo.php" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/report/gen_book_order.php" afterPath="$PROJECT_DIR$/report/gen_book_order.php" />
       <change type="MODIFICATION" beforePath="$PROJECT_DIR$/index.php" afterPath="$PROJECT_DIR$/index.php" />
       <change type="MODIFICATION" beforePath="$PROJECT_DIR$/report/report.php" afterPath="$PROJECT_DIR$/report/report.php" />
       <change type="MODIFICATION" beforePath="$PROJECT_DIR$/.idea/workspace.xml" afterPath="$PROJECT_DIR$/.idea/workspace.xml" />
@@ -33,7 +32,7 @@
       <file leaf-file-name="index.php" pinned="false" current="false" current-in-tab="false">
         <entry file="file://$PROJECT_DIR$/index.php">
           <provider selected="true" editor-type-id="text-editor">
-            <state line="25" column="11" selection-start="751" selection-end="751" vertical-scroll-proportion="-8.333333" vertical-offset="0" max-vertical-offset="10795">
+            <state line="174" column="58" selection-start="4928" selection-end="4928" vertical-scroll-proportion="32.019608" vertical-offset="4591" max-vertical-offset="10778">
               <folding />
             </state>
           </provider>
@@ -42,10 +41,9 @@
       <file leaf-file-name="add_bo.php" pinned="false" current="false" current-in-tab="false">
         <entry file="file://$PROJECT_DIR$/ajax/add_bo.php">
           <provider selected="true" editor-type-id="text-editor">
-            <state line="15" column="6" selection-start="339" selection-end="339" vertical-scroll-proportion="-7.8461537" vertical-offset="51" max-vertical-offset="2244">
+            <state line="15" column="0" selection-start="333" selection-end="339" vertical-scroll-proportion="-5.8846154" vertical-offset="102" max-vertical-offset="2244">
               <folding>
                 <marker date="1402541965597" expanded="true" signature="3606:3778" placeholder="..." />
-                <marker date="1402541965597" expanded="true" signature="3606:3627" placeholder="..." />
                 <marker date="1402541965597" expanded="true" signature="3606:3627" placeholder="..." />
                 <marker date="1402541965597" expanded="true" signature="3637:3764" placeholder="..." />
                 <marker date="1402541965597" expanded="true" signature="3894:3954" placeholder="..." />
@@ -54,28 +52,10 @@
           </provider>
         </entry>
       </file>
-      <file leaf-file-name="report.php" pinned="false" current="false" current-in-tab="false">
-        <entry file="file://$PROJECT_DIR$/report/report.php">
-          <provider selected="true" editor-type-id="text-editor">
-            <state line="45" column="58" selection-start="3930" selection-end="3930" vertical-scroll-proportion="-15.692307" vertical-offset="357" max-vertical-offset="5848">
-              <folding />
-            </state>
-          </provider>
-        </entry>
-      </file>
-      <file leaf-file-name="headqly.html" pinned="false" current="false" current-in-tab="false">
-        <entry file="file://$PROJECT_DIR$/report/headqly.html">
-          <provider selected="true" editor-type-id="text-editor">
-            <state line="10" column="14" selection-start="292" selection-end="2581" vertical-scroll-proportion="-3.2692308" vertical-offset="85" max-vertical-offset="884">
-              <folding />
-            </state>
-          </provider>
-        </entry>
-      </file>
       <file leaf-file-name="gen_book_order.php" pinned="false" current="true" current-in-tab="true">
         <entry file="file://$PROJECT_DIR$/report/gen_book_order.php">
           <provider selected="true" editor-type-id="text-editor">
-            <state line="15" column="99" selection-start="1034" selection-end="1034" vertical-scroll-proportion="0.11805555" vertical-offset="187" max-vertical-offset="935">
+            <state line="144" column="12" selection-start="6376" selection-end="6376" vertical-scroll-proportion="0.6458333" vertical-offset="2076" max-vertical-offset="3145">
               <folding />
             </state>
           </provider>
@@ -149,7 +129,6 @@
       <sortByType />
     </navigator>
     <panes>
-      <pane id="Scope" />
       <pane id="ProjectPane">
         <subPane>
           <PATH>
@@ -182,26 +161,9 @@
               <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.PsiDirectoryNode" />
             </PATH_ELEMENT>
           </PATH>
-          <PATH>
-            <PATH_ELEMENT>
-              <option name="myItemId" value="dreamthai" />
-              <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.ProjectViewProjectNode" />
-            </PATH_ELEMENT>
-            <PATH_ELEMENT>
-              <option name="myItemId" value="dreamthai" />
-              <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.PsiDirectoryNode" />
-            </PATH_ELEMENT>
-            <PATH_ELEMENT>
-              <option name="myItemId" value="report" />
-              <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.PsiDirectoryNode" />
-            </PATH_ELEMENT>
-            <PATH_ELEMENT>
-              <option name="myItemId" value="logo" />
-              <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.PsiDirectoryNode" />
-            </PATH_ELEMENT>
-          </PATH>
         </subPane>
       </pane>
+      <pane id="Scope" />
     </panes>
   </component>
   <component name="PropertiesComponent">
@@ -209,8 +171,8 @@
     <property name="WebServerToolWindowFactoryState" value="false" />
     <property name="options.lastSelected" value="File.Encoding" />
     <property name="FullScreen" value="false" />
-    <property name="options.splitter.details.proportions" value="0.2" />
     <property name="options.searchVisible" value="true" />
+    <property name="options.splitter.details.proportions" value="0.2" />
   </component>
   <component name="RunManager">
     <configuration default="true" type="PHPUnitRunConfigurationType" factoryName="PHPUnit">
@@ -293,9 +255,9 @@
       <window_info id="Structure" active="false" anchor="left" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.24015151" sideWeight="0.5" order="1" side_tool="false" content_ui="tabs" />
       <window_info id="Commander" active="false" anchor="right" auto_hide="false" internal_type="SLIDING" type="SLIDING" visible="false" weight="0.4" sideWeight="0.5" order="0" side_tool="false" content_ui="tabs" />
       <window_info id="Project" active="false" anchor="left" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="true" weight="0.25757575" sideWeight="0.5" order="0" side_tool="false" content_ui="combo" />
-      <window_info id="Run" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.33" sideWeight="0.5" order="2" side_tool="false" content_ui="tabs" />
-      <window_info id="Hierarchy" active="false" anchor="right" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.25" sideWeight="0.5" order="2" side_tool="false" content_ui="combo" />
       <window_info id="Inspection" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.4" sideWeight="0.5" order="5" side_tool="false" content_ui="tabs" />
+      <window_info id="Hierarchy" active="false" anchor="right" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.25" sideWeight="0.5" order="2" side_tool="false" content_ui="combo" />
+      <window_info id="Run" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.33" sideWeight="0.5" order="2" side_tool="false" content_ui="tabs" />
     </layout-to-restore>
   </component>
   <component name="VcsContentAnnotationSettings">
@@ -342,9 +304,7 @@
     </entry>
     <entry file="file://$PROJECT_DIR$/ajax/calculate.php">
       <provider selected="true" editor-type-id="text-editor">
-        <state line="103" column="47" selection-start="4209" selection-end="4209" vertical-scroll-proportion="0.38020834" vertical-offset="1532" max-vertical-offset="2567">
-          <folding />
-        </state>
+        <state line="103" column="47" selection-start="4209" selection-end="4209" vertical-scroll-proportion="0.38020834" vertical-offset="1532" max-vertical-offset="2567" />
       </provider>
     </entry>
     <entry file="file://$PROJECT_DIR$/report/logo/logo.png">
@@ -359,9 +319,7 @@
     </entry>
     <entry file="file://$PROJECT_DIR$/process_rent.php">
       <provider selected="true" editor-type-id="text-editor">
-        <state line="222" column="89" selection-start="10187" selection-end="10187" vertical-scroll-proportion="-2.1284723" vertical-offset="5000" max-vertical-offset="5576">
-          <folding />
-        </state>
+        <state line="222" column="89" selection-start="10187" selection-end="10187" vertical-scroll-proportion="-2.1284723" vertical-offset="5000" max-vertical-offset="5576" />
       </provider>
     </entry>
     <entry file="file://$PROJECT_DIR$/report/logo/cn.png">
@@ -369,26 +327,25 @@
         <state />
       </provider>
     </entry>
-    <entry file="file://$PROJECT_DIR$/index.php">
+    <entry file="file://$PROJECT_DIR$/report/headqly.html">
       <provider selected="true" editor-type-id="text-editor">
-        <state line="25" column="11" selection-start="751" selection-end="751" vertical-scroll-proportion="-8.333333" vertical-offset="0" max-vertical-offset="10795">
+        <state line="10" column="14" selection-start="292" selection-end="2581" vertical-scroll-proportion="0.14756945" vertical-offset="85" max-vertical-offset="884">
           <folding />
         </state>
       </provider>
     </entry>
-    <entry file="file://$PROJECT_DIR$/report/headqly.html">
+    <entry file="file://$PROJECT_DIR$/report/report.php">
       <provider selected="true" editor-type-id="text-editor">
-        <state line="10" column="14" selection-start="292" selection-end="2581" vertical-scroll-proportion="-3.2692308" vertical-offset="85" max-vertical-offset="884">
+        <state line="49" column="44" selection-start="4059" selection-end="4063" vertical-scroll-proportion="-1.3871528" vertical-offset="1632" max-vertical-offset="5865">
           <folding />
         </state>
       </provider>
     </entry>
     <entry file="file://$PROJECT_DIR$/ajax/add_bo.php">
       <provider selected="true" editor-type-id="text-editor">
-        <state line="15" column="6" selection-start="339" selection-end="339" vertical-scroll-proportion="-7.8461537" vertical-offset="51" max-vertical-offset="2244">
+        <state line="15" column="0" selection-start="333" selection-end="339" vertical-scroll-proportion="-5.8846154" vertical-offset="102" max-vertical-offset="2244">
           <folding>
             <marker date="1402541965597" expanded="true" signature="3606:3778" placeholder="..." />
-            <marker date="1402541965597" expanded="true" signature="3606:3627" placeholder="..." />
             <marker date="1402541965597" expanded="true" signature="3606:3627" placeholder="..." />
             <marker date="1402541965597" expanded="true" signature="3637:3764" placeholder="..." />
             <marker date="1402541965597" expanded="true" signature="3894:3954" placeholder="..." />
@@ -396,16 +353,16 @@
         </state>
       </provider>
     </entry>
-    <entry file="file://$PROJECT_DIR$/report/report.php">
+    <entry file="file://$PROJECT_DIR$/index.php">
       <provider selected="true" editor-type-id="text-editor">
-        <state line="45" column="58" selection-start="3930" selection-end="3930" vertical-scroll-proportion="-15.692307" vertical-offset="357" max-vertical-offset="5848">
+        <state line="174" column="58" selection-start="4928" selection-end="4928" vertical-scroll-proportion="32.019608" vertical-offset="4591" max-vertical-offset="10778">
           <folding />
         </state>
       </provider>
     </entry>
     <entry file="file://$PROJECT_DIR$/report/gen_book_order.php">
       <provider selected="true" editor-type-id="text-editor">
-        <state line="15" column="99" selection-start="1034" selection-end="1034" vertical-scroll-proportion="0.11805555" vertical-offset="187" max-vertical-offset="935">
+        <state line="144" column="12" selection-start="6376" selection-end="6376" vertical-scroll-proportion="0.6458333" vertical-offset="2076" max-vertical-offset="3145">
           <folding />
         </state>
       </provider>

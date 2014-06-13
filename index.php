@@ -172,9 +172,8 @@ ob_start();
                 success: function (data) {
                     //console.log(data);
                     //$(document).load('report/report.php');
-                    //window.open('report/report.php','_blank');
-                    print();
-                    $(document.body).load('index.php');
+                    window.open('report/gen_book_order.php','_blank');
+                    //$(document.body).load('index.php');
                 }
 
 

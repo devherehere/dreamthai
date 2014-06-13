@@ -1,6 +1,7 @@
 <?PHP
 ob_start();
 @session_start();
+include"../include/connect.inc.php";
 ?>
 <html>
 <head>
@@ -11,7 +12,7 @@ ob_start();
 
 <?php
 require('MPDF57/mpdf.php');
-include"../include/connect.inc.php";
+
 $rec1 = sqlsrv_fetch_array(sqlsrv_query("SELECT DISTINCT
                       Document_File.DOC_COMPANY_NAME_THAI, Document_File.DOC_COMPANY_NAME_ENG, Document_File.DOC_ADD, Document_File.DOC_TEL,Document_File.DOC_FAX, Document_File.DOC_TAX, Document_File.DOC_DAR, Document_File.DOC_WEBSITE, Book_Order.ARF_KEY, Book_Order.AR_BO_ID,AR_File.ARF_COMPANY_NAME_THAI, AR_File.ARF_COMPANY_NAME_ENG, Tambon.TAMBON_NAME_THAI, Amphoe.AMPHOE_NAME_THAI,Province.PROVINCE_NAME_THAI, Tambon.TAMBON_POSTCODE, Address.ADD_PHONE, Address.ADD_FAX, Title_Name_1.TITLE_NAME_THAI, Contact.CONT_NAME,Contact.CONT_SURNAME, Shipping.SHIPPING_NAME, Shipping.SHIPPING_REMARK, Book_Order.SHIPPING_ADD, Book_Order.AR_BO_KEY,Book_Order.AR_BO_DATE, CONVERT(varchar(10), Book_Order.AR_BO_DATE, 103) AS AR_BO_DATE2, Book_Order.AR_PUR_STATUS,CASE Book_Order.AR_PUR_STATUS WHEN 0 THEN 'เงินสด' WHEN 1 THEN 'เครดิต' END AS AR_PUR_STATUS2, Book_Order.TOF_NAME, Tax_Type.TAXT_NAME,Title_Name.TITLE_NAME_THAI AS Expr1, Employee_File.EMP_NAME_THAI, Employee_File.EMP_SURNAME_THAI, Address.ADD_NO,Book_Order.AR_BO_S_REMARK
 FROM         Tax_Type INNER JOIN

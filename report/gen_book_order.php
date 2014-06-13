@@ -3,17 +3,17 @@ ob_start();
 @session_start();
 
 include "../include/connect.inc.php";
-define('FPDF_FONTPATH','font/');
+define('FPDF_FONTPATH', 'font/');
 include "../include/fpdf/fpdf.php";
 
 
-echo $sql_head = "SELECT     Document_File.DOC_COMPANY_NAME_THAI, Document_File.DOC_COMPANY_NAME_ENG, Document_File.DOC_ADD, Document_File.DOC_TEL,
+$sql_head = "SELECT     Document_File.DOC_COMPANY_NAME_THAI, Document_File.DOC_COMPANY_NAME_ENG, Document_File.DOC_ADD, Document_File.DOC_TEL,
                       Document_File.DOC_FAX, Document_File.DOC_TAX, Document_File.DOC_WEBSITE, Book_Order.ARF_KEY, Book_Order.AR_BO_ID,
                       AR_File.ARF_COMPANY_NAME_THAI, AR_File.ARF_COMPANY_NAME_ENG, Tambon.TAMBON_NAME_THAI, Amphoe.AMPHOE_NAME_THAI,
                       Province.PROVINCE_NAME_THAI, Tambon.TAMBON_POSTCODE, Address.ADD_PHONE, Address.ADD_FAX, Title_Name_1.TITLE_NAME_THAI, Contact.CONT_NAME,
                       Contact.CONT_SURNAME, Shipping.SHIPPING_NAME, Shipping.SHIPPING_REMARK, Book_Order.SHIPPING_ADD, Book_Order.AR_BO_KEY,
                       Book_Order.AR_BO_DATE, Book_Order.AR_PUR_STATUS,
-                      CASE Book_Order.AR_PUR_STATUS WHEN 0 THEN '".เงินสด."' WHEN 1 THEN '".เครดิต."' END AS AR_PUR_STATUS, Book_Order.TOF_NAME, Tax_Type.TAXT_NAME,
+                      CASE Book_Order.AR_PUR_STATUS WHEN 0 THEN '" . 'เงินสด' . "' WHEN 1 THEN '" . 'เครดิต' . "' END AS AR_PUR_STATUS, Book_Order.TOF_NAME, Tax_Type.TAXT_NAME,
                       Title_Name.TITLE_NAME_THAI AS Expr1, Employee_File.EMP_NAME_THAI, Employee_File.EMP_SURNAME_THAI
 FROM         Tax_Type INNER JOIN
                       Book_Order INNER JOIN
@@ -31,16 +31,146 @@ FROM         Tax_Type INNER JOIN
 Book_Order.ARF_KEY = Address.APF_ARF_KEY
 WHERE     (Book_Order.AR_BO_ID = '2')";
 
-$stmt = sqlsrv_query($con,$sql_head);
+$stmt = sqlsrv_query($con, $sql_head);
 $row = sqlsrv_fetch_object($stmt);
 
-$pdf = new FPDF('P','cm','A4');
-$pdf->AddFont('angsana','','angsa.php');
-$pdf->SetFont('angsana','',12);
+
+class PDF extends FPDF
+{
+
+    /*function footer()
+    {
+
+        $this->SetY(-6);
+        $this->SetFont('angsana','',8);
+        // Page number
+        $this->Cell(0,10,'1234');
+    }*/
+
+    function create_table($head, $data)
+    {
+
+        $w = array(1, 2, 3, 1, 1, 2, 2, 1, 2,4);
+        // Header
+        for ($i = 0; $i < count($head); $i++) {
+            $this->Cell($w[$i], 1, $head[$i], 1, 0, 'C');
+        }
+        $this->Ln();
+        // Data
+        /*      foreach($data as $row)
+              {
+                  $this->Cell($w[0],6,$row[0],'LR');
+                  $this->Cell($w[1],6,$row[1],'LR');
+                  $this->Cell($w[2],6,number_format($row[2]),'LR',0,'R');
+                  $this->Cell($w[3],6,number_format($row[3]),'LR',0,'R');
+                  $this->Ln();
+              }*/
+        // Closing line
+        $this->Cell(array_sum($w), 0, '', 'T');
+
+    }
+
+}
+
+
+$pdf = new PDF('P', 'cm', 'A4');
+
+
+$pdf->AddFont('angsana', '', 'angsa.php');
+$pdf->SetFont('angsana', '', 12);
 $pdf->AddPage();
-$pdf->Image('logo/logo.png',1,1,0,0);
-$pdf->Cell(300,100,$row->DOC_COMPANY_NAME_THAI);
-$pdf->Image('logo/cn.png',17,1,0,0);
+$pdf->Image('logo/logo.png', 1, 1, 3, 2);
+$pdf->Image('logo/rent.png', 17, 1, 0, 0);
+
+$pdf->Cell(5);
+$pdf->Cell(0, 0, $row->DOC_COMPANY_NAME_THAI, 0, 1);
+$pdf->Cell(5);
+$pdf->Cell(0, 1, $row->DOC_COMPANY_NAME_ENG, 0, 1);
+
+$addr = explode(" ", $row->DOC_ADD);
+
+$line1 = $addr[0] . ' ' . $addr[1] . ' ' . $addr[2] . ' ' . $addr[3] . ' ' . $addr[4] . ' ' . $addr[5];
+$line2 = $addr[6] . ' ' . $addr[7] . ' ' . $addr[8] . ' ' . $addr[9] . ' ' . $addr[10] . ' ' . $addr[11] . ' ' . $addr[12];
+$pdf->Cell(5);
+$pdf->Cell(0, 0, $line1, 0, 1);
+$pdf->Cell(5);
+$pdf->Cell(0, 1, $line2, 0, 1);
+$pdf->Cell(5);
+$pdf->Cell(5, 0, 'โทรศัพท์ : ' . $row->DOC_TEL);
+$pdf->Cell(0, 0, 'แฟลกซ์ : ' . $row->DOC_FAX, 0, 1);
+$pdf->Cell(5);
+$pdf->Cell(0, 1, 'เลขประจำตัวผู้เสียภาษี : ' . $row->DOC_TAX, 0, 1);
+$pdf->Cell(5);
+$pdf->Cell(0, 0, $row->DOC_WEBSITE, 0, 1);
+$pdf->Ln(1);
+
+
+$bo_last_insert = 'SELECT        TOP (1) Employee_File.EMP_NAME_THAI AS Expr9, Employee_File.EMP_SURNAME_THAI AS Expr10, Employee_File.EMP_CREATE_DATE AS Expr53,
+                         Contact.CONT_NAME, Contact.CONT_TITLE, Contact.CONT_SURNAME, Book_Order.AR_BO_KEY, Book_Order.AR_BO_CREATE_DATE, Contact.APF_ARF_KEY,
+                         Tambon.TAMBON_NAME_THAI,Tambon.TAMBON_POSTCODE, Amphoe.AMPHOE_NAME_THAI, Province.PROVINCE_NAME_THAI, Address.ADD_NO, Shipping.SHIPPING_NAME
+FROM            Tambon RIGHT OUTER JOIN
+                         Address RIGHT OUTER JOIN
+                         Book_Order LEFT OUTER JOIN
+                         Contact ON Book_Order.ARF_KEY = Contact.APF_ARF_KEY LEFT OUTER JOIN
+                         Employee_File ON Book_Order.AR_BO_CREATE_BY = Employee_File.EMP_KEY LEFT OUTER JOIN
+                         Shipping ON Book_Order.SHIPPING_KEY = Shipping.SHIPPING_KEY ON Address.ADD_ITEM = Contact.APF_ARF_KEY LEFT OUTER JOIN
+                         Amphoe ON Address.ADD_AMPHOE = Amphoe.AMPHOE_KEY LEFT OUTER JOIN
+                         Province ON Address.ADD_PROVINCE = Province.PROVINCE_KEY ON Tambon.TAMBON_KEY = Address.ADD_TAMBON
+
+						 ORDER BY Book_Order.AR_BO_CREATE_DATE DESC';
+
+$stmt = sqlsrv_query($con,$bo_last_insert);
+$row = sqlsrv_fetch_object($stmt);
+
+$pdf->Cell(5, 0, 'รหัสลูกค้า');
+$pdf->Cell(7, 0, $row->APF_ARF_KEY);
+$pdf->Cell(4, 0, 'เลขที่เอกสาร'  );
+$pdf->Cell(0, 0, $row->AR_BO_KEY,0,1);
+$pdf->Ln(0.3);
+$pdf->Cell(12, 0, 'Customer Code ');
+$pdf->Cell(0, 0, 'Document No. ', 0, 1);
+
+$pdf->Ln(1);
+$pdf->Cell(5, 0, 'ชื่อลูกค้า ');
+$pdf->Cell(7, 0, $row->CONT_NAME.' '.$row->CONT_SURNAME);
+$pdf->Cell(4, 0, 'วันที่เอกสาร ');
+$pdf->Cell(0, 0, $row->AR_BO_CREATE_DATE->format('d/m/Y'),0,1);
+$pdf->Ln(0.3);
+$pdf->Cell(12, 0, 'Customer Name ');
+$pdf->Cell(0, 0, 'Document Date. ', 0, 1);
+
+$pdf->Ln(1);
+$pdf->Cell(5, 0, 'ที่อยู่ ');
+$pdf->Cell(7, 0, $row->ADD_NO.' '.$row->AMPHOE_NAME_THAI);
+$pdf->Cell(4, 0, 'เงือนไขการชำระ ');
+$pdf->Cell(0, 0, $row->AR_BO_CREATE_DATE->format('d/m/Y'),0,1);
+$pdf->Ln(0.3);
+$pdf->Cell(12, 0, 'Address ');
+$pdf->Cell(0, 0, 'Term of Payment ', 0, 1);
+
+$pdf->Ln(1);
+$pdf->Cell(5, 0, 'โทรศัพท์ : ');
+$pdf->Cell(7, 0, 'โทรสาร : ');
+$pdf->Cell(0, 0, 'พนักงานขาย : ', 0, 1);
+$pdf->Ln(0.3);
+$pdf->Cell(5, 0, 'Tel.  ');
+$pdf->Cell(7, 0, 'Fax.  ');
+$pdf->Cell(0, 0, 'Sale Name  ', 0, 1);
+
+$pdf->Ln(1);
+$pdf->Cell(5, 0, 'ชื่อผู้ติดต่อ : ');
+$pdf->Ln(0.3);
+$pdf->Cell(5, 0, 'Contact Name ');
+$pdf->Ln(1);
+
+$pdf->Cell(10, 0, 'ขนส่งโดย : ');
+$pdf->Cell(5, 0, 'ที่อยู่ในการจัดส่ง  : ');
+$pdf->Ln(1);
+
+$head = array('ลำดับ', 'รหัสสินค้า', 'ชื่อสินค้า',  'จำนวน', 'หน่วย', 'ราคาหน่วย', 'จำนวนเงิน', 'ส่วนลด', 'จำนวนเงินรวม', 'หมายเหตุ');
+
+
+$pdf->create_table($head, '');
 $pdf->Output();
 
 ?>
