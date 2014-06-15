@@ -50,7 +50,7 @@ class PDF extends FPDF
     function create_table($head, $data)
     {
 
-        $w = array(1, 2, 3, 1, 1, 2, 2, 1, 2,4);
+        $w = array(1, 2, 3, 1, 1, 2, 2, 1, 2, 4);
         // Header
         for ($i = 0; $i < count($head); $i++) {
             $this->Cell($w[$i], 1, $head[$i], 1, 0, 'C');
@@ -105,53 +105,61 @@ $pdf->Cell(0, 0, $row->DOC_WEBSITE, 0, 1);
 $pdf->Ln(1);
 
 
-$bo_last_insert = 'SELECT        TOP (1) Employee_File.EMP_NAME_THAI AS Expr9, Employee_File.EMP_SURNAME_THAI AS Expr10, Employee_File.EMP_CREATE_DATE AS Expr53,
-                         Contact.CONT_NAME, Contact.CONT_TITLE, Contact.CONT_SURNAME, Book_Order.AR_BO_KEY, Book_Order.AR_BO_CREATE_DATE, Contact.APF_ARF_KEY,
-                         Tambon.TAMBON_NAME_THAI,Tambon.TAMBON_POSTCODE, Amphoe.AMPHOE_NAME_THAI, Province.PROVINCE_NAME_THAI, Address.ADD_NO, Shipping.SHIPPING_NAME
-FROM            Tambon RIGHT OUTER JOIN
-                         Address RIGHT OUTER JOIN
-                         Book_Order LEFT OUTER JOIN
-                         Contact ON Book_Order.ARF_KEY = Contact.APF_ARF_KEY LEFT OUTER JOIN
-                         Employee_File ON Book_Order.AR_BO_CREATE_BY = Employee_File.EMP_KEY LEFT OUTER JOIN
-                         Shipping ON Book_Order.SHIPPING_KEY = Shipping.SHIPPING_KEY ON Address.ADD_ITEM = Contact.APF_ARF_KEY LEFT OUTER JOIN
-                         Amphoe ON Address.ADD_AMPHOE = Amphoe.AMPHOE_KEY LEFT OUTER JOIN
-                         Province ON Address.ADD_PROVINCE = Province.PROVINCE_KEY ON Tambon.TAMBON_KEY = Address.ADD_TAMBON
+$bo_last_insert = 'SELECT     TOP (1) Address.ADD_NO, Amphoe.AMPHOE_NAME_THAI, Province.PROVINCE_NAME_THAI, Tambon.TAMBON_NAME_THAI, Employee_File.EMP_NAME_THAI,
+                      Employee_File.EMP_SURNAME_THAI, Book_Order.DOC_KEY, Book_Order.ADD_ITEM, Book_Order.CON_ITEM, Book_Order.PROM_KEY, Book_Order.TOF_NAME,
+                      Book_Order.AR_BO_DATE, Book_Order.AR_BO_EX_DATE, Book_Order.AR_BO_REMARK, Book_Order.AR_BO_MO_TOTAL, Book_Order.PROM_DISCOUNT_PER,
+                      Book_Order.PROM_DISCOUNT_AMOUNT, Book_Order.AR_BO_PROM_TOTAL, Book_Order.CASH_DISCOUNT_PER, Book_Order.CASH_DISCOUNT_AMOUNT,
+                      Book_Order.AR_BO_CASH_TOTAL, Book_Order.AR_BO_TAX, Book_Order.AR_BO_TAX_TOTAL, Book_Order.AR_BO_NET, Book_Order.AR_BO_STATUS,
+                      Book_Order.TAXT_KEY, Book_Order.AR_PUR_STATUS, Book_Order.SHIPPING_KEY, Book_Order.SHIPPING_REMARK, Book_Order.SHIPPING_ADD,
+                      Book_Order.AR_BO_S_REMARK, Book_Order.AR_BO_CREATE_BY, Book_Order.AR_BO_CREATE_DATE, Book_Order.AR_BO_REVISE_BY,
+                      Book_Order.AR_BO_APPROVE_BY, Book_Order.AR_BO_APPROVE_DATE, Book_Order.AR_BO_LASTUPD, Contact.APF_ARF_KEY, Book_Order.AR_BO_KEY,
+                      Contact.CONT_NAME, Contact.CONT_SURNAME, Tambon.TAMBON_POSTCODE, Contact.CONT_PHONE, Contact.CONT_EMAIL, Contact.CONT_DEPT,
+                      Contact.CONT_TITLE, Address.ADD_PHONE, Address.ADD_FAX, Address.ADD_MOBILE
+FROM         Employee_File RIGHT OUTER JOIN
+                      Book_Order ON Employee_File.EMP_KEY = Book_Order.EMP_KEY LEFT OUTER JOIN
+                      Contact RIGHT OUTER JOIN
+                      Province INNER JOIN
+                      Amphoe INNER JOIN
+                      Address ON Amphoe.AMPHOE_KEY = Address.ADD_AMPHOE ON Province.PROVINCE_KEY = Address.ADD_PROVINCE RIGHT OUTER JOIN
+                      Tambon ON Province.PROVINCE_KEY = Tambon.TAMBON_PROVINCE AND Amphoe.AMPHOE_KEY = Tambon.TAMBON_AMPHOE ON
+                      Contact.APF_ARF_KEY = Address.APF_ARF_KEY ON Book_Order.ARF_KEY = Contact.APF_ARF_KEY';
 
-						 ORDER BY Book_Order.AR_BO_CREATE_DATE DESC';
-
-$stmt = sqlsrv_query($con,$bo_last_insert);
+$stmt = sqlsrv_query($con, $bo_last_insert);
 $row = sqlsrv_fetch_object($stmt);
 
 $pdf->Cell(5, 0, 'รหัสลูกค้า');
 $pdf->Cell(7, 0, $row->APF_ARF_KEY);
-$pdf->Cell(4, 0, 'เลขที่เอกสาร'  );
-$pdf->Cell(0, 0, $row->AR_BO_KEY,0,1);
+$pdf->Cell(4, 0, 'เลขที่เอกสาร');
+$pdf->Cell(0, 0, $row->AR_BO_KEY, 0, 1);
 $pdf->Ln(0.3);
 $pdf->Cell(12, 0, 'Customer Code ');
 $pdf->Cell(0, 0, 'Document No. ', 0, 1);
 
 $pdf->Ln(1);
 $pdf->Cell(5, 0, 'ชื่อลูกค้า ');
-$pdf->Cell(7, 0, $row->CONT_NAME.' '.$row->CONT_SURNAME);
+$pdf->Cell(7, 0, $row->CONT_NAME . ' ' . $row->CONT_SURNAME);
 $pdf->Cell(4, 0, 'วันที่เอกสาร ');
-$pdf->Cell(0, 0, $row->AR_BO_CREATE_DATE->format('d/m/Y'),0,1);
+$pdf->Cell(0, 0, $row->AR_BO_CREATE_DATE->format('d/m/Y'), 0, 1);
 $pdf->Ln(0.3);
 $pdf->Cell(12, 0, 'Customer Name ');
 $pdf->Cell(0, 0, 'Document Date. ', 0, 1);
 
 $pdf->Ln(1);
-$pdf->Cell(5, 0, 'ที่อยู่ ');
-$pdf->Cell(7, 0, $row->ADD_NO.' '.$row->AMPHOE_NAME_THAI);
-$pdf->Cell(4, 0, 'เงือนไขการชำระ ');
-$pdf->Cell(0, 0, $row->AR_BO_CREATE_DATE->format('d/m/Y'),0,1);
+$pdf->Cell(3, 0, 'ที่อยู่ ');
+$pdf->Cell(9, 0, $row->ADD_NO . ' ' . $row->TAMBON_NAME_THAI . ' ' . $row->AMPHOE_NAME_THAI . ' ' . $row->PROVINCE_NAME_THAI . ' ' . $row->TAMBON_POSTCODE);
+$pdf->Cell(0, 0, 'เงือนไขการชำระ ');
+$pdf->Cell(0, 0, '', 0, 1);
 $pdf->Ln(0.3);
 $pdf->Cell(12, 0, 'Address ');
 $pdf->Cell(0, 0, 'Term of Payment ', 0, 1);
 
 $pdf->Ln(1);
-$pdf->Cell(5, 0, 'โทรศัพท์ : ');
-$pdf->Cell(7, 0, 'โทรสาร : ');
-$pdf->Cell(0, 0, 'พนักงานขาย : ', 0, 1);
+$pdf->Cell(2, 0, 'โทรศัพท์ :' );
+$pdf->Cell(3, 0,$row->ADD_PHONE);
+$pdf->Cell(2, 0, 'โทรสาร : ');
+$pdf->Cell(5, 0,$row->ADD_FAX);
+$pdf->Cell(4, 0, 'พนักงานขาย : ');
+$pdf->Cell(0, 0,$row->EMP_NAME_THAI.' '.$row->EMP_SURNAME_THAI, 0, 1);
 $pdf->Ln(0.3);
 $pdf->Cell(5, 0, 'Tel.  ');
 $pdf->Cell(7, 0, 'Fax.  ');
@@ -164,10 +172,12 @@ $pdf->Cell(5, 0, 'Contact Name ');
 $pdf->Ln(1);
 
 $pdf->Cell(10, 0, 'ขนส่งโดย : ');
-$pdf->Cell(5, 0, 'ที่อยู่ในการจัดส่ง  : ');
+
+$pdf->Cell(3, 0, 'ที่อยู่ในการจัดส่ง  : ');
+$pdf->Cell(0, 0,$row->SHIPPING_ADD );
 $pdf->Ln(1);
 
-$head = array('ลำดับ', 'รหัสสินค้า', 'ชื่อสินค้า',  'จำนวน', 'หน่วย', 'ราคาหน่วย', 'จำนวนเงิน', 'ส่วนลด', 'จำนวนเงินรวม', 'หมายเหตุ');
+$head = array('ลำดับ', 'รหัสสินค้า', 'ชื่อสินค้า', 'จำนวน', 'หน่วย', 'ราคาหน่วย', 'จำนวนเงิน', 'ส่วนลด', 'จำนวนเงินรวม', 'หมายเหตุ');
 
 
 $pdf->create_table($head, '');

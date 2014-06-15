@@ -8,10 +8,10 @@ ob_start();
 <meta http-equiv=Content-Type content="text/html; charset=tis-620">
 <link rel="stylesheet" type="text/css" href="css/style.css"/>
 <!-- Validate Form -->
-<script src="js/jquery-1.4.4.min.js"></script>
-<script src="js/jquery.validationEngine.js"></script>
-<script src="js/jquery.session.js"></script>
-<link rel="stylesheet" href="css/validationEngine.jquery.css" type="text/css"/>
+<script src="js/jquery-1.9.1.js"></script>
+<script src="js/jquery.validate.min.js"></script>
+<!--<script src="js/jquery.validationEngine.js"></script>-->
+<!--<link rel="stylesheet" href="css/validationEngine.jquery.css" type="text/css"/>-->
 <!-- Validate Form -->
 <!-- DatePicker Jquery-->
 <script type="text/javascript" src="js/jquery-ui-1.8.10.offset.datepicker.min.js"></script>
@@ -92,7 +92,14 @@ ob_start();
 
     /*Jquery*/
     $(function () {
-        var validate;
+
+        $('select[name="trans_key"]').change(function () {
+            $('input[name="trans_etc"]').attr('disabled', true);
+            if ($(this).val() == '1') {
+                $('input[name="trans_etc"]').attr('disabled', false);
+            }
+        });
+
 
         $("#datepicker").datepicker({
             changeMonth: true,
@@ -127,63 +134,78 @@ ob_start();
 
         /*form*/
 
-        $('input[type="button"').live('click', function () {
+        var formA = $('#formA').validate({
+            rules: {
+                send_pl: {
+                    required: true,
+                    minlength: 5
+                }
+            },
+            messages: {
+                send_pl: {
+                    'required': '*ต้องการสถานที่ในการจัดส่ง',
+                    'minlength': '*กรอกอย่างน้อย 5 ตัวอักษร'
+                }
+            }
+
+
+        });
+
+        $(document.body).on('click', 'input[type="button"]', function () {
             var action = confirm('ต้องการบันทึกข้อมูลเลขที่ <?php echo $_SESSION['key_bo'] ?> ใช่หรือไม่');
 
             if (action) {
                 $('#formA').submit();
-                validate = $('#formA').validationEngine('validate');
             }
 
 
-        })
+        });
+
 
         $('#formA').submit(function (event) {
             event.preventDefault();
+            if (formA.valid()) {
+
+                 var arf_key = $('input[name="arf_key"]').val();
+                 var empkey = $('select[name="empkey"]').val();
+                 var promotion = $('input[name="promotion"]').data('prom_key');
+                 var tof_name = $('select[name="tof_name"]').val();
+                 var remark = $('input[name="remark"]').val();
+                 var vat_key = $('select[name="vat_key"]').val();
+                 var pur_sta = $('select[name="pur_sta"]').val();
+                 var trans_key = $('select[name="trans_key"]').val();
+                 var trans_etc = $('input[name="trans_etc"]').val();
+                 var send_pl = $('input[name="send_pl"]').val();
+                 var vat = $('input[name="vat"]').val();
+
+                 $.ajax({
+                 type: 'post',
+                 url: 'ajax/add_bo.php',
+                 beforeSend: function (xhr) {
+                 xhr.overrideMimeType('content="text/html; charset=tis-620"')
+                 },
+                 data: {
+                 arf_key: arf_key,
+                 empkey: empkey,
+                 promotion: promotion,
+                 tof_name: tof_name,
+                 remark: remark,
+                 vat_key: vat_key,
+                 pur_sta: pur_sta,
+                 trans_key: trans_key,
+                 trans_etc: trans_etc,
+                 send_pl: send_pl,
+                 vat: vat
+                 },
+                 success: function (data) {
+                 //console.log(data);
+                 //$(document).load('report/report.php');
+                 window.open('report/gen_book_order.php', '_blank');
+                 $(document.body).load('index.php');
+                 }
 
 
-            if (validate) {
-                alert('SEND DATA.....');
-               /* var arf_key = $('input[name="arf_key"]').val();
-                var empkey = $('select[name="empkey"]').val();
-                var promotion = $('input[name="promotion"]').data('prom_key');
-                var tof_name = $('select[name="tof_name"]').val();
-                var remark = $('input[name="remark"]').val();
-                var vat_key = $('select[name="vat_key"]').val();
-                var pur_sta = $('select[name="pur_sta"]').val();
-                var trans_key = $('select[name="trans_key"]').val();
-                var trans_etc = $('input[name="trans_etc"]').val();
-                var send_pl = $('input[name="send_pl"]').val();
-                var vat = $('input[name="vat"]').val();
-
-                $.ajax({
-                    type: 'post',
-                    url: 'ajax/add_bo.php',
-                    beforeSend: function (xhr) {
-                        xhr.overrideMimeType('content="text/html; charset=tis-620"')
-                    },
-                    data: {
-                        arf_key: arf_key,
-                        empkey: empkey,
-                        promotion: promotion,
-                        tof_name: tof_name,
-                        remark: remark,
-                        vat_key: vat_key,
-                        pur_sta: pur_sta,
-                        trans_key: trans_key,
-                        trans_etc: trans_etc,
-                        send_pl: send_pl,
-                        vat: vat
-                    },
-                    success: function (data) {
-                        //console.log(data);
-                        //$(document).load('report/report.php');
-                        window.open('report/gen_book_order.php', '_blank');
-                        //$(document.body).load('index.php');
-                    }
-
-
-                });*/
+                 });
 
             }
 
@@ -247,10 +269,10 @@ ob_start();
     /*End Jquery*/
 
     /*Custome Script*/
-    function modTextbox() {
-        document.formA.trans_etc.disabled = !(document.formA.trans_key.value % 2);
-    }
-
+    /*function modTextbox() {
+     document.formA.trans_etc.disabled = !(document.formA.trans_key.value % 2);
+     }
+     */
 
 </script>
 
@@ -554,7 +576,7 @@ WHERE     (Employee_File.EMP_STATUS = '1') ");
                 <table width="100%" border="0" cellspacing="0" cellpadding="0">
                     <tr>
                         <td>ขนส่งโดย</td>
-                        <td><select name="trans_key" class="frominput" onchange="modTextbox();">
+                        <td><select name="trans_key" class="frominput">
                                 <?php
                                 $sql_ship = sqlsrv_query($con, "SELECT     SHIPPING_NAME, SHIPPING_KEY
 								FROM         Shipping    WHERE     (SHIPPING_STATUS = '1')
@@ -569,13 +591,12 @@ WHERE     (Employee_File.EMP_STATUS = '1') ");
 
                     <tr>
                         <td>สถานที่ส่ง</td>
-                        <td><input type="text" name="send_pl" size="60" class="validate[required,length[1,50]]"
-                                   id="send_pl">
+                        <td><input type="text" name="send_pl" size="60" class="" id="send_pl">
                         </td>
                     </tr>
                     <tr>
                         <td><font color="#000000">ขนส่งอื่นๆ</font></td>
-                        <td><input type="text" name="trans_etc" size="60" id="input"></td>
+                        <td><input type="text" name="trans_etc" size="60" id="input" disabled></td>
                     </tr>
                     <tr>
                         <td><font color="#000000">หมายเหตุ</font></td>
