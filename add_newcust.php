@@ -68,7 +68,7 @@ include"include/connect.inc.php";
 	$edt = md5('edt');
 	?>
       <?PHP
-    if($_REQUEST['id_key'] == md5('add')){
+    if(@$_GET['id_key'] == md5('add')){
 		$sql_arf = "INSERT INTO [Dream_Thai].[dbo].[AR_File]
            ([ARF_KEY]
            ,[BT_KEY]
@@ -202,10 +202,10 @@ include"include/connect.inc.php";
 		 echo "".$sql_contact."<HR>";
 		 echo "".$sql_payment."<HR>";
 		 */
-		$ap_file1 = mssql_query($sql_arf);
-		$ap_file2 = mssql_query($sql_address);
-		$ap_file3 = mssql_query($sql_contact);
-		$ap_file4 = mssql_query($sql_payment);
+		$ap_file1 = sqlsrv_query($con,$sql_arf);
+		$ap_file2 = sqlsrv_query($con,$sql_address);
+		$ap_file3 = sqlsrv_query($con,$sql_contact);
+		$ap_file4 = sqlsrv_query($con,$sql_payment);
 	    if($ap_file1 == true && $ap_file2 == true && $ap_file3 == true && $ap_file4 == true){
 			  echo"
 			  <table width=\"100%\">
@@ -251,8 +251,8 @@ include"include/connect.inc.php";
                 ประเภทภาษีของกิจการ
                 <select name="bt_id" class="frominput" >
                   <?php
-								$sql_bt =  mssql_query(" SELECT BT_NAME,BT_KEY  FROM Business_Type WHERE BT_STATUS = '1' " );
-						    	while($bt = mssql_fetch_array($sql_bt)){
+								$sql_bt =  sqlsrv_query($con," SELECT BT_NAME,BT_KEY  FROM Business_Type WHERE BT_STATUS = '1' " );
+						    	while($bt = sqlsrv_fetch_array($sql_bt)){
 								echo "<option value='".$bt[1]."'>".$bt[0]."</option>";	
 							    }	
 					?>
@@ -268,8 +268,8 @@ include"include/connect.inc.php";
               <td valign="top" align="right"> สกุลเงิน
                 <select name="curcen_id" class="frominput" >
                   <?php
-								$sql_mon =  mssql_query(" SELECT CURNCY_NAME_THAI , CURNCY_KEY FROM Currency WHERE (CURNCY_STATUS = '1') " );
-						    	while($mon = mssql_fetch_array($sql_mon)){
+								$sql_mon =  sqlsrv_query($con," SELECT CURNCY_NAME_THAI , CURNCY_KEY FROM Currency WHERE (CURNCY_STATUS = '1') " );
+						    	while($mon = sqlsrv_fetch_array($sql_mon)){
 								echo "<option value='".$mon[1]."'>".$mon[0]."</option>";	
 							    }	
 					?>
@@ -279,8 +279,8 @@ include"include/connect.inc.php";
                 ประเภทภาษี
                 <select name="tax_id" class="frominput" >
                   <?PHP 
-								$sql_v = mssql_query("SELECT TAXT_NAME, TAXT_KEY FROM Tax_Type WHERE (TAXT_STATUS = '1')");
-									while($vatt = mssql_fetch_array($sql_v)){
+								$sql_v = sqlsrv_query($con,"SELECT TAXT_NAME, TAXT_KEY FROM Tax_Type WHERE (TAXT_STATUS = '1')");
+									while($vatt = sqlsrv_fetch_array($sql_v)){
 								echo "<option value=' ".$vatt[1]." '> ".$vatt[0]." </option>";	
 							    }		
 				   ?>
@@ -290,8 +290,8 @@ include"include/connect.inc.php";
                 เงื่อนไขการชำระเงิน(วัน)
                 <select name="tof_pay_id" class="frominput" >
                   <?PHP 
-				                $sql_pay = mssql_query("SELECT TOF_NAME, TOF_STATUS FROM Term_of_Payment WHERE  (TOF_STATUS = 1)" );
-								while($pay = mssql_fetch_array($sql_pay)){
+				                $sql_pay = sqlsrv_query($con,"SELECT TOF_NAME, TOF_STATUS FROM Term_of_Payment WHERE  (TOF_STATUS = 1)" );
+								while($pay = sqlsrv_fetch_array($sql_pay)){
 								echo "<option value='".$pay[0]."'>".$pay[0]."</option>";	
 							    }		
 				     ?>
@@ -314,8 +314,8 @@ include"include/connect.inc.php";
                 <select name="province_cust" class="frominput"  id="list1" >
                   <option value="">--------------เลือก--------------</option>
                   <?PHP 
-				                $sql_prov= mssql_query("SELECT PROVINCE_NAME_THAI, PROVINCE_KEY FROM Province WHERE (PROVINCE_STATUS = '1') " );
-								while($prov = mssql_fetch_array($sql_prov)){
+				                $sql_prov= sqlsrv_query($con,"SELECT PROVINCE_NAME_THAI, PROVINCE_KEY FROM Province WHERE (PROVINCE_STATUS = '1') " );
+								while($prov = sqlsrv_fetch_array($sql_prov)){
 								echo "<option value='".$prov[1]."'>".$prov[0]."</option>";	
 							    }		
 				     ?>
@@ -356,8 +356,8 @@ include"include/connect.inc.php";
               <td align="left">คำนำหน้าชื่อ
                 <select name="title_contact_cust" class="frominput"  >
                   <?PHP 
-				                $sql_ti = mssql_query("SELECT TITLE_NAME_THAI, TITLE_KEY FROM Title_Name WHERE (TITLE_STATUS = '1') " );
-								while($ti = mssql_fetch_array($sql_ti)){
+				                $sql_ti = sqlsrv_query($con,"SELECT TITLE_NAME_THAI, TITLE_KEY FROM Title_Name WHERE (TITLE_STATUS = '1') " );
+								while($ti = sqlsrv_fetch_array($sql_ti)){
 								echo "<option value='".$ti[1]."'>".$ti[0]."</option>";	
 							    }		
 				     ?>

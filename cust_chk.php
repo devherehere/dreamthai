@@ -1,4 +1,4 @@
-<?PHP 	
+<?PHP
 ob_start();
 @session_start();
 ?>
@@ -25,7 +25,7 @@ ob_start();
     </div>
     <div class="content">
       <?PHP  if ($_SESSION["user_ses"]  != ''  &&  $_SESSION["user_id"]  != ''){ 
-	               if($_GET['id_search'] != ""){
+	               if(@$_GET['id_search'] != ""){
 					  $sql_ss = "SELECT  *, CASE ARF_STATUS WHEN 0 THEN 'ติดต่อไม่ได้' WHEN 1 THEN 'ติดต่อได้' END AS STATUS ,
 								                                  CASE ARF_CREDIT_STATUS WHEN 1 THEN 'ไม่อนุมัติ' WHEN 2 THEN 'อนุมัติ' END AS CREDIT_STATUS,
 																  CASE ARF_TYPE WHEN 1 THEN 'ลูกหนี้การค้าในประเทศ' WHEN 2 THEN 'ลูกหนี้การค้าต่างประเทศ'
@@ -38,7 +38,7 @@ ob_start();
 	$add = md5('add');
     ?>
       <?PHP
-	$temp_ac = $_GET['id_action'];
+	@$temp_ac = $_GET['id_action'];
      if($temp_ac  == md5('1')){
     ?>
       <form method="post" name="01"  action="index.php?id=<?=$add?>">
@@ -60,17 +60,17 @@ ob_start();
               <table width="100%" border="0" cellspacing="0" cellpadding="0">
                 <tr>
                   <td> ชื่อลูกค้า
-                    <input type="text" name="cust_arf" value="<?=$arr_ss['ARF_KEY'];?>" size="20">
-                    <input type="text" name="cust_name" value="<?=$arr_ss['ARF_COMPANY_NAME_THAI'];?>" size="50">
-                    <a href="cust_search.php?tmp=<?=$temp_ac?>"><img src="img/se_c.png" border="0" /></a> ประเภทลูกค้า
-                    <input type="text" name="cust_type" value="<?=$arr_ss['TYPE'];?>" size="20">
+                    <input type="text" name="cust_arf" value="<?= @$arr_ss['ARF_KEY'];?>" size="20">
+                    <input type="text" name="cust_name" value="<?= @$arr_ss['ARF_COMPANY_NAME_THAI'];?>" size="50">
+                    <a href="cust_search.php?tmp=<?= @$temp_ac?>"><img src="img/se_c.png" border="0" /></a> ประเภทลูกค้า
+                    <input type="text" name="cust_type" value="<?= @$arr_ss['TYPE'];?>" size="20">
                     <BR>
                     สถานะการอนุมัติวงเงิน
-                    <input type="text" name="cust_credit_conf" value="<?=$arr_ss['CREDIT_STATUS'];?>" size="20">
+                    <input type="text" name="cust_credit_conf" value="<?= @$arr_ss['CREDIT_STATUS'];?>" size="20">
                     วงเงินเครดิต
-                    <input type="text" name="cust_credit" style="text-align:right;"  value="<?=$arr_ss['ARF_CREDIT_LIMIT'].".00"?>" size="20">
+                    <input type="text" name="cust_credit" style="text-align:right;"  value="<?= @$arr_ss['ARF_CREDIT_LIMIT'].".00"?>" size="20">
                     สถานะ
-                    <input type="text" name="cust_sta" value="<?=$arr_ss['STATUS'];?>" size="20"></td>
+                    <input type="text" name="cust_sta" value="<?= @$arr_ss['STATUS'];?>" size="20"></td>
                 </tr>
                 <tr>
                   <td>&nbsp;</td>
@@ -93,7 +93,7 @@ ob_start();
                         <td align="center" width="55px">ตัวเลือก</td>
                       </tr>
                       <?PHP
-                 if($_GET['id_search'] != ""){
+                 if(@$_GET['id_search'] != ""){
 					  $sql_dbgadd = "SELECT     Address.APF_ARF_KEY, AR_File.ARF_KEY, Address.ADD_ITEM, Address.ADD_NO, Amphoe.AMPHOE_NAME_THAI, Province.PROVINCE_NAME_THAI, 
                       Tambon.TAMBON_NAME_THAI, Address.ADD_PROVINCE, Address.ADD_AMPHOE, Address.ADD_TAMBON, Tambon.TAMBON_POSTCODE, Address.ADD_PHONE, 
                       Address.ADD_MOBILE, Address.ADD_FAX, Address.ADD_EMAIL, Address.ADD_DEFAULT
@@ -144,7 +144,7 @@ FROM         Tambon LEFT OUTER JOIN
                         <td align="center" width="55px">ตัวเลือก</td>
                       </tr>
                       <?PHP
-                 if($_GET['id_search'] != ""){
+                 if(@$_GET['id_search'] != ""){
 					  $sql_dbgcont = sqlsrv_query($con,"SELECT     Contact.CONT_TITLE, Title_Name.TITLE_NAME_THAI, Contact.CONT_NAME, Contact.CONT_SURNAME, Contact.CONT_DEPT, Contact.CONT_PHONE,   Contact.CONT_EMAIL, AR_File.ARF_KEY, Contact.CONT_ITEM, Contact.CONT_DEFAULT
 FROM         Title_Name LEFT OUTER JOIN Contact ON Title_Name.TITLE_KEY = Contact.CONT_TITLE LEFT OUTER JOIN AR_File ON Contact.APF_ARF_KEY = AR_File.ARF_KEY  WHERE (Contact.CONT_STATUS = '1') AND (Contact.APF_ARF_KEY = '".$_GET['id_search']."')");
 					  $j = 1;
@@ -186,7 +186,7 @@ FROM         Title_Name LEFT OUTER JOIN Contact ON Title_Name.TITLE_KEY = Contac
                         <td align="center" width="55px">ตัวเลือก</td>
                       </tr>
                       <?PHP
-                 if($_GET['id_search'] != ""){
+                 if(@$_GET['id_search'] != ""){
 					  $sql_dbgpay = sqlsrv_query($con,"SELECT   DISTINCT   AR_File.ARF_KEY, CASE Condition_Payment.COND_PUR_STATUS WHEN 0 THEN 'ขายสด' 
 			WHEN 1 THEN 'ขายเชื่อ' END AS STATUS, Condition_Payment.TOF_NAME, Tax_Type.TAXT_NAME, Tax_Type.TAXT_KEY,    	
 			Condition_Payment.COND_ITEM, Condition_Payment.COND_DEFAULT  FROM         Tax_Type INNER JOIN

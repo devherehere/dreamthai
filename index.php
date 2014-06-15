@@ -92,6 +92,7 @@ ob_start();
 
     /*Jquery*/
     $(function () {
+        var validate;
 
         $("#datepicker").datepicker({
             changeMonth: true,
@@ -127,9 +128,11 @@ ob_start();
         /*form*/
 
         $('input[type="button"').live('click', function () {
-            var action = confirm('ต้องการบันทึกข้อมูลเลขที่ <?= $_SESSION['key_bo'] ?> ใช่หรือไม่');
+            var action = confirm('ต้องการบันทึกข้อมูลเลขที่ <?php echo $_SESSION['key_bo'] ?> ใช่หรือไม่');
+
             if (action) {
                 $('#formA').submit();
+                validate = $('#formA').validationEngine('validate');
             }
 
 
@@ -138,46 +141,52 @@ ob_start();
         $('#formA').submit(function (event) {
             event.preventDefault();
 
-            var arf_key = $('input[name="arf_key"]').val();
-            var empkey = $('select[name="empkey"]').val();
-            var promotion = $('input[name="promotion"]').data('prom_key');
-            var tof_name = $('select[name="tof_name"]').val();
-            var remark = $('input[name="remark"]').val();
-            var vat_key = $('select[name="vat_key"]').val();
-            var pur_sta = $('select[name="pur_sta"]').val();
-            var trans_key = $('select[name="trans_key"]').val();
-            var trans_etc = $('input[name="trans_etc"]').val();
-            var send_pl = $('input[name="send_pl"]').val();
-            var vat = $('input[name="vat"]').val();
 
-            $.ajax({
-                type: 'post',
-                url: 'ajax/add_bo.php',
-                beforeSend: function (xhr) {
-                    xhr.overrideMimeType('content="text/html; charset=tis-620"')
-                },
-                data: {
-                    arf_key: arf_key,
-                    empkey: empkey,
-                    promotion: promotion,
-                    tof_name: tof_name,
-                    remark: remark,
-                    vat_key: vat_key,
-                    pur_sta: pur_sta,
-                    trans_key: trans_key,
-                    trans_etc: trans_etc,
-                    send_pl: send_pl,
-                    vat: vat
-                },
-                success: function (data) {
-                    //console.log(data);
-                    //$(document).load('report/report.php');
-                    window.open('report/gen_book_order.php','_blank');
-                    //$(document.body).load('index.php');
-                }
+            if (validate) {
+                alert('SEND DATA.....');
+               /* var arf_key = $('input[name="arf_key"]').val();
+                var empkey = $('select[name="empkey"]').val();
+                var promotion = $('input[name="promotion"]').data('prom_key');
+                var tof_name = $('select[name="tof_name"]').val();
+                var remark = $('input[name="remark"]').val();
+                var vat_key = $('select[name="vat_key"]').val();
+                var pur_sta = $('select[name="pur_sta"]').val();
+                var trans_key = $('select[name="trans_key"]').val();
+                var trans_etc = $('input[name="trans_etc"]').val();
+                var send_pl = $('input[name="send_pl"]').val();
+                var vat = $('input[name="vat"]').val();
+
+                $.ajax({
+                    type: 'post',
+                    url: 'ajax/add_bo.php',
+                    beforeSend: function (xhr) {
+                        xhr.overrideMimeType('content="text/html; charset=tis-620"')
+                    },
+                    data: {
+                        arf_key: arf_key,
+                        empkey: empkey,
+                        promotion: promotion,
+                        tof_name: tof_name,
+                        remark: remark,
+                        vat_key: vat_key,
+                        pur_sta: pur_sta,
+                        trans_key: trans_key,
+                        trans_etc: trans_etc,
+                        send_pl: send_pl,
+                        vat: vat
+                    },
+                    success: function (data) {
+                        //console.log(data);
+                        //$(document).load('report/report.php');
+                        window.open('report/gen_book_order.php', '_blank');
+                        //$(document.body).load('index.php');
+                    }
 
 
-            });
+                });*/
+
+            }
+
         });
 
         /*event when start document*/
@@ -261,7 +270,7 @@ include "include/connect.inc.php";
         <?PHP include "include/sessionl_ogin.php"; ?>
     </div>
     <?PHP
-    if ($_SESSION["user_ses"] != '' && $_SESSION["user_id"] != '') {
+    if (@$_SESSION["user_ses"] != '' && @$_SESSION["user_id"] != '') {
         ?>
         <div class="menu">
             <?PHP include "include/menu.php"; ?>
@@ -269,8 +278,8 @@ include "include/connect.inc.php";
     <?PHP } ?>
 </div>
 <div class="content">
-<?PHP if ($_SESSION["user_ses"] != '' && $_SESSION["user_id"] != '') {
-if ($_REQUEST['id'] == md5('add')) {
+<?PHP if (@$_SESSION["user_ses"] != '' && @$_SESSION["user_id"] != '') {
+if (@$_GET['id'] == md5('add')) {
     if (isset($_POST['item_address']) == 1 && isset($_POST['item_contact']) == 1 && isset($_POST['item_pay']) == 1) {
         $sql_dbgadd = sqlsrv_query($con, "SELECT     Address.APF_ARF_KEY, AR_File.ARF_KEY, Address.ADD_ITEM, Address.ADD_NO, Amphoe.AMPHOE_NAME_THAI, Province.PROVINCE_NAME_THAI, Tambon.TAMBON_NAME_THAI, Address.ADD_PROVINCE, Address.ADD_AMPHOE, Address.ADD_TAMBON, Tambon.TAMBON_POSTCODE, Address.ADD_PHONE,  Address.ADD_MOBILE, Address.ADD_FAX, Address.ADD_EMAIL, Address.ADD_DEFAULT FROM Tambon LEFT OUTER JOIN
                       Address ON Tambon.TAMBON_KEY = Address.ADD_TAMBON RIGHT OUTER JOIN
@@ -392,17 +401,17 @@ $emk = sqlsrv_fetch_array(sqlsrv_query($con, " SELECT     Employee_File.EMP_NAME
             <td valign="middle" align="left"> เลขที่ใบจองสินค้า
                 <!--  <input type="checkbox" name="ra" id="ra"  onclick="enableTextbox()"   />--->
                 <input type="text" name="ar_bo_key" size="50" class="validate[required,length[0,50]]"
-                       value="<?= $BO_KEY ?>" id="txt" disabled="disabled"/>
+                       value="<?php echo @$BO_KEY ?>" id="txt" disabled="disabled"/>
                 <BR>
                 ลูกค้า
                 <input type="text" name="arf_key" size="15" class="validate[required,length[0,50]]"
-                       value="<?= $_SESSION["cust_arf"]; ?>" readonly="readonly"/>
+                       value="<?php echo @$_SESSION["cust_arf"]; ?>" readonly="readonly"/>
                 &nbsp;&nbsp;
                 <input type="text" name="NAME_CUST" size="32" class="validate[required,length[0,50]]"
-                       value="<?= $_SESSION["cust_name"] ?>" readonly="readonly"/>
-                <a href="cust_chk.php?id_action=<?= md5('1') ?>" style="margin:0px;"><img src="img/se_c.png"
-                                                                                          border="0"
-                                                                                          height="23"/></a><BR>
+                       value="<?php echo @$_SESSION["cust_name"] ?>" readonly="readonly"/>
+                <a href="cust_chk.php?id_action=<?php echo md5('1') ?>" style="margin:0px;"><img src="img/se_c.png"
+                                                                                                 border="0"
+                                                                                                 height="23"/></a><BR>
                 <font color="#000000">ผู้ติดต่อ</font>
                 <select name="ID_CONTACT" class="frominput">
                     <?php
@@ -432,27 +441,27 @@ AP_File ON Contact.APF_ARF_KEY = AP_File.APF_KEY WHERE  (Contact.CONT_DEFAULT = 
                 <BR></td>
             <td valign="middle" align="left"> วันที่สร้างใบจอง
                 <input type="text" name="DATE_CRE" id="datepicker" disabled="disabled"
-                       value="<?= date("d/m/Y") ?>">
+                       value="<?php echo date("d/m/Y") ?>">
                 สถานะการอนุมัติ
                 <input type="text" name="rent_conn" class="validate[required,length[0,50]]"
-                       value="<?= $_SESSION["cust_credit_conf"] ?>" readonly="readonly">
+                       value="<?php echo @$_SESSION["cust_credit_conf"] ?>" readonly="readonly">
                 <BR>
                 <font color="#000000"> ที่อยู่</font>
                 <input type="text" name="ADDRESS" size="75" class="validate[required,length[0,50]]"
-                       value="<?= $_SESSION["add_name"] ?>" readonly="readonly">
+                       value="<?php echo @$_SESSION["add_name"] ?>" readonly="readonly">
                 <BR>
                 <font color="#000000">Tel.</font> &nbsp;
                 <input type="text" name="TEL" size="20" class="validate[required,length[0,50]]"
-                       value="<?= $_SESSION["phone_con"] ?>" readonly="readonly">
+                       value="<?php echo @$_SESSION["phone_con"] ?>" readonly="readonly">
                 <font color="#000000"> FAX. </font>&nbsp;
                 <input type="text" name="FAX" size="20" class="validate[required,length[0,50]]"
-                       value="<?= $_SESSION["add_fax"] ?>" readonly="readonly"></td>
+                       value="<?php echo @$_SESSION["add_fax"] ?>" readonly="readonly"></td>
         </tr>
         <tr>
             <td colspan="2"> พนักงานขาย
                 <select name="empkey" class="frominput">
-                    <option value="<?= $_SESSION["user_id"]; ?>" selected="selected">
-                        <?= $emk['TITLE_NAME_THAI'] . " " . $emk['EMP_NAME_THAI'] . "  " . $emk['EMP_SURNAME_THAI']; ?>
+                    <option value="<?php echo @$_SESSION["user_id"]; ?>" selected="selected">
+                        <?php echo $emk['TITLE_NAME_THAI'] . " " . $emk['EMP_NAME_THAI'] . "  " . $emk['EMP_SURNAME_THAI']; ?>
                     </option>
                     <?PHP
                     $sql_e = sqlsrv_query($con, " SELECT Employee_File.EMP_NAME_THAI, Employee_File.EMP_SURNAME_THAI, Title_Name.TITLE_NAME_THAI, Employee_File.EMP_KEY FROM Employee_File INNER JOIN Title_Name ON Employee_File.TITLE_KEY = Title_Name.TITLE_KEY
@@ -560,7 +569,8 @@ WHERE     (Employee_File.EMP_STATUS = '1') ");
 
                     <tr>
                         <td>สถานที่ส่ง</td>
-                        <td><input type="text" name="send_pl" size="60" class="validate[required,length[1,50]]">
+                        <td><input type="text" name="send_pl" size="60" class="validate[required,length[1,50]]"
+                                   id="send_pl">
                         </td>
                     </tr>
                     <tr>

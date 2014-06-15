@@ -106,14 +106,14 @@ ul.test {
       <?PHP 
 	if ($_SESSION["user_ses"]  != ''  &&  $_SESSION["user_id"]  != ''){ ?>
       <?PHP
-	$item = $_POST['max']; 
-	$item_edt = $_GET['item'];
-	$gkey_edt = $_GET['gkey'];
-    if($_REQUEST['id_s'] == md5('addtemp') ||  ($_GET['ide'] == md5('fu313'))){
+	$item = @$_POST['max'];
+	$item_edt = @$_GET['item'];
+	$gkey_edt = @$_GET['gkey'];
+    if(@$_GET['id_s'] == md5('addtemp') ||  (@$_GET['ide'] == md5('fu313'))){
 		for($i = 1; $i <= $item; $i ++ ){;
-		    if($_POST["".$i.""] != ""){
+		    if(@$_POST["".$i.""] != ""){
 			$tmp =  " Goods.GOODS_KEY = '".$_POST["".$i.""]."' ";
-			$set = $set . $tmp ."OR" ;
+			@$set = $set . $tmp ."OR" ;
 			}
 		}
 		$id_addtemp=md5('id_addtemp');
@@ -145,7 +145,7 @@ ul.test {
     					<td align="center" width="15%">หมายเหตุ</td>
                   </tr>
                   <?PHP
-		if($_GET['ide'] == md5('fu313')){
+		if(@$_GET['ide'] == md5('fu313')){
 		$sql_dbgseh_cn = "SELECT     Goods.GOODS_KEY, Goods.GOODS_CODE, Goods.GOODS_NAME_MAIN, Category.CATE_KEY, Category.CATE_NAME, Brand.BRAND_KEY, Brand.BRAND_NAME, 
                       Size.SIZE_KEY, Size.SIZE_NAME, Units_of_Measurement.UOM_KEY, Units_of_Measurement.UOM_NAME, Goods_Price_List.GPL_PRICE, 
                       Goods_Price_List.GPL_ITEM, Stock_Sale.STOCK_BALANCE, Customer_Return_Detail_Temp.AR_CN_ID, Customer_Return_Detail_Temp.AR_CND_ITEM, 
@@ -172,9 +172,9 @@ FROM            Goods LEFT OUTER JOIN
                       Goods_Price_List ON Goods.GOODS_KEY = Goods_Price_List.GOODS_KEY
 WHERE       (Goods_Price_List.GPL_STATUS = '1')  AND ( ".$set." Goods.GOODS_KEY='#' )";	
 		}
-        $result_cn = mssql_query($sql_dbgseh_cn);
+        $result_cn = sqlsrv_query($con,$sql_dbgseh_cn);
 		$j = 1;
-        while($reccord_cn = mssql_fetch_array($result_cn)){
+        while($reccord_cn = sqlsrv_fetch_array($result_cn)){
         ?>
        <?PHP
        if($item_edt != "" && $gkey_edt  !=""){
@@ -187,21 +187,21 @@ WHERE       (Goods_Price_List.GPL_STATUS = '1')  AND ( ".$set." Goods.GOODS_KEY=
                   <tr bgcolor="#CCCCCC" height="30">
                     <td align="center" width="35px" bgcolor="#888888"><?=$j ;?></td>
                     <td align="left" bgcolor="#888888">&nbsp;
-                    <input type="text" name="gc<?=$j ;?>" value="<?=$reccord_cn['GOODS_CODE']?>" size="8" readonly="readonly" /></td>
+                    <input type="text" name="gc<?=$j ;?>" value="<?=@$reccord_cn['GOODS_CODE']?>" size="8" readonly="readonly" /></td>
                     <td align="left" bgcolor="#888888">&nbsp;
-                    <input type="text" name="gn<?=$j ;?>" value="<?=$reccord_cn['GOODS_NAME_MAIN']?>" size="20" readonly="readonly"  /></td>
+                    <input type="text" name="gn<?=$j ;?>" value="<?=@$reccord_cn['GOODS_NAME_MAIN']?>" size="20" readonly="readonly"  /></td>
                     <td align="left" bgcolor="#888888">&nbsp;
-                    <input type="text" name="un<?=$j ;?>" value="<?=$reccord_cn['UOM_NAME']?>" size="1" readonly="readonly"  /></td>
+                    <input type="text" name="un<?=$j ;?>" value="<?=@$reccord_cn['UOM_NAME']?>" size="1" readonly="readonly"  /></td>
                     <td align="left" bgcolor="#888888">&nbsp;
-                    <input type="text" name="sn<?=$j ;?>" value="<?=$seriel?>" size="20"  /></td>
+                    <input type="text" name="sn<?=$j ;?>" value="<?=@$seriel?>" size="20"  /></td>
                     <td align="right" bgcolor="#888888">&nbsp;
-                    <input type="text" value="<?=$size_mm?>" name="mm<?=$j?>" size="4" class="validate[required,custom[onlyNumber]]" ></td>
+                    <input type="text" value="<?=@$size_mm?>" name="mm<?=$j?>" size="4" class="validate[required,custom[onlyNumber]]" ></td>
                     <td align="left" bgcolor="#888888">&nbsp;
-                    <input type="text" name="pp<?=$j ;?>" value="<?=$pp?>" size="25"   /></td>
+                    <input type="text" name="pp<?=$j ;?>" value="<?=@$pp?>" size="25"   /></td>
                     <td align="left" bgcolor="#888888">&nbsp;
-                    <input type="text" name="rm<?=$j ;?>" value="<?=$remark?>" size="18"  /></td>
-                    <input type="hidden" value="<?=$reccord_cn['GOODS_KEY']?>" name="gk<?=$j ;?>" >
-                    <input type="hidden" value="<?=$reccord_cn['UOM_KEY']?>" name="uk<?=$j ;?>" >
+                    <input type="text" name="rm<?=$j ;?>" value="<?=@$remark?>" size="18"  /></td>
+                    <input type="hidden" value="<?=@$reccord_cn['GOODS_KEY']?>" name="gk<?=$j ;?>" >
+                    <input type="hidden" value="<?=@$reccord_cn['UOM_KEY']?>" name="uk<?=$j ;?>" >
                   </tr>
                   <?PHP
 				$j++;	
@@ -220,8 +220,8 @@ WHERE       (Goods_Price_List.GPL_STATUS = '1')  AND ( ".$set." Goods.GOODS_KEY=
 	}	
 	?>
       <?PHP
-	$itm = $_POST['mx'];
-	if($_REQUEST['id_addtemp'] == md5('id_addtemp') && ($_REQUEST['gkey'] != "" && $_REQUEST['item_edt'] != "")){  
+	$itm = @$_POST['mx'];
+	if(@$_GET['id_addtemp'] == md5('id_addtemp') && (@$_GET['gkey'] != "" && @$_GET['item_edt'] != "")){
 	   $sql_up = "UPDATE [Dream_Thai].[dbo].[Customer_Return_Detail_Temp]
        SET
        [SERIAL_NUMBER] = '".$_POST["sn1"]."'   
@@ -231,8 +231,8 @@ WHERE       (Goods_Price_List.GPL_STATUS = '1')  AND ( ".$set." Goods.GOODS_KEY=
       WHERE AR_CND_ITEM = ".$_REQUEST['item_edt']." AND  GOODS_KEY = '".$_REQUEST['gkey']."'  ";
        mssql_query($sql_up);
 	 echo "<script>window.close();</script>";
-	}else if($_REQUEST['id_addtemp'] == md5('id_addtemp') && ($_REQUEST['gkey'] == "" && $_REQUEST['item_edt'] == "")) {
-	$run_item = mssql_fetch_array(mssql_query("SELECT ISNULL(MAX(AR_CND_ITEM),0)+1 AS iTEM FROM [Dream_Thai].[dbo].[Customer_Return_Detail_Temp];"));
+	}else if(@$_GET['id_addtemp'] == md5('id_addtemp') && (@$_GET['gkey'] == "" && @$_GET['item_edt'] == "")) {
+	$run_item = sqlsrv_fetch_array(sqlsrv_query($con,"SELECT ISNULL(MAX(AR_CND_ITEM),0)+1 AS iTEM FROM [Dream_Thai].[dbo].[Customer_Return_Detail_Temp];"));
 		for($k = 1; $k <= $itm; $k ++ ){
 		  if($run_item[0] == 1){
                 $item_no = $k;
@@ -260,16 +260,16 @@ WHERE       (Goods_Price_List.GPL_STATUS = '1')  AND ( ".$set." Goods.GOODS_KEY=
 		   ,[AR_CND_REMARK]
 		   )
      VALUES
-           (".$_SESSION['id_cn']."
+           (".@$_SESSION['id_cn']."
            ,".$item_no."
-           ,'".$_POST["gk".$k.""]."'   
-           ,'".$_POST["uk".$k.""]."'   
-           ,'".$_POST["sn".$k.""]."'   
+           ,'".@$_POST["gk".$k.""]."'
+           ,'".@$_POST["uk".$k.""]."'
+           ,'".@$_POST["sn".$k.""]."'
            ,NULL
            ,''
-           ,".$_POST["mm".$k.""]."
+           ,".@$_POST["mm".$k.""]."
            ,''
-           ,'".$_POST["pp".$k.""]."'  
+           ,'".@$_POST["pp".$k.""]."'
            ,0.00
            ,0.00
            ,3
@@ -277,8 +277,8 @@ WHERE       (Goods_Price_List.GPL_STATUS = '1')  AND ( ".$set." Goods.GOODS_KEY=
            ,0.00
            ,0.00
            ,'".date("Y/m/d H:i:s")."'
-           ,'".$_POST["rm".$k.""]."' ) ";
-		       $ap_file1  = mssql_query($sql_add_temp);
+           ,'".@$_POST["rm".$k.""]."' ) ";
+		       $ap_file1  = sqlsrv_query($con,$sql_add_temp);
 			    if($ap_file1 == true){
 	           echo "<script>window.close();</script>";
 			    }

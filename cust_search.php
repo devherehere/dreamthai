@@ -38,7 +38,7 @@
   										</tr>
                                         
        <?PHP
-        if($_REQUEST['id'] == 'search'){
+        if(@$_GET['id'] == 'search'){
 			if($_POST['search'] == ""){
 				
 			   $sql = sqlsrv_query($con,"SELECT  *, CASE ARF_STATUS WHEN 0 THEN 'ติดต่อไม่ได้' WHEN 1 THEN 'ติดต่อได้' END AS STATUS ,

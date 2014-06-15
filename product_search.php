@@ -27,7 +27,7 @@
     <?PHP
     $add = md5('Insert');
 	?>
-    <form method="post" name="01" action="product_search.php?id=<?=$add?>&cn=<?=$_GET['cn']?>">
+    <form method="post" name="01" action="product_search.php?id=<?=$add?>&cn=<?=@$_GET['cn']?>">
       <fieldset style="width:96%; margin-left:11px; margin-bottom:10px;">
         <legend>ค้นหา</legend>
         <table width="100%" border="0" cellspacing="0" cellpadding="0">
@@ -75,7 +75,7 @@
       $add_temp = md5('addtemp');
 	  ?>
       <?PHP
-      if($_REQUEST['cn'] != ""){
+      if(@$_GET['cn'] != ""){
 	  ?>
          <form method="post" action="process_cn.php?id_s=<?=$add_temp?>" name="02">
       <?PHP }else{?>
@@ -102,7 +102,7 @@
                   <td align="center" width="55px">ตัวเลือก</td>
                 </tr>
                 <?PHP
-                 if($_REQUEST['id']  == md5('Insert')){
+                 if(@$_GET['id']  == md5('Insert')){
 					 if($_POST['pro_g'] == 'all'){
 					    $pro_g  = "";  
 					 }else{

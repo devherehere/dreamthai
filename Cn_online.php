@@ -27,7 +27,7 @@ ob_start();
     </div>
     <div class="content">
       <?PHP if ($_SESSION["user_ses"]  != ''  &&  $_SESSION["user_id"]  != ''){  
-	    if($_REQUEST['id'] == md5('add')){
+	    if(@$_REQUEST['id'] == md5('add')){
 		if(isset($_POST['item_address'])  == 1 && isset($_POST['item_contact']) == 1 && isset($_POST['item_pay']) == 1  ){
 		 $sql_dbgadd = sqlsrv_query($con,"SELECT     Address.ADD_FAX, Address.ADD_EMAIL, Address.APF_ARF_KEY, AR_File.ARF_KEY, Address.ADD_ITEM, Address.ADD_NO, Amphoe.AMPHOE_NAME_THAI, Province.PROVINCE_NAME_THAI, Tambon.TAMBON_NAME_THAI, Address.ADD_PROVINCE, Address.ADD_AMPHOE, Address.ADD_TAMBON, Address.ADD_PHONE FROM    Tambon LEFT OUTER JOIN
                       Address ON Tambon.TAMBON_KEY = Address.ADD_TAMBON RIGHT OUTER JOIN
