@@ -1,7 +1,7 @@
 <?PHP
 ob_start();
 @session_start();
-$dsn="(local)"; 
+$dsn="AKE-PC\SQLEXPRESS";
 $username="sa"; 
 $password="1234"; 
 //$objConnect = mssql_connect($dsn,$username,$password) or die("Error Connect to Database");
