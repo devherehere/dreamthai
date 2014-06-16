@@ -166,46 +166,46 @@ ob_start();
             event.preventDefault();
             if (formA.valid()) {
 
-                 var arf_key = $('input[name="arf_key"]').val();
-                 var empkey = $('select[name="empkey"]').val();
-                 var promotion = $('input[name="promotion"]').data('prom_key');
-                 var tof_name = $('select[name="tof_name"]').val();
-                 var remark = $('input[name="remark"]').val();
-                 var vat_key = $('select[name="vat_key"]').val();
-                 var pur_sta = $('select[name="pur_sta"]').val();
-                 var trans_key = $('select[name="trans_key"]').val();
-                 var trans_etc = $('input[name="trans_etc"]').val();
-                 var send_pl = $('input[name="send_pl"]').val();
-                 var vat = $('input[name="vat"]').val();
+                var arf_key = $('input[name="arf_key"]').val();
+                var empkey = $('select[name="empkey"]').val();
+                var promotion = $('input[name="promotion"]').data('prom-key');
+                var tof_name = $('select[name="tof_name"]').val();
+                var remark = $('input[name="remark"]').val();
+                var vat_key = $('select[name="vat_key"]').val();
+                var pur_sta = $('select[name="pur_sta"]').val();
+                var trans_key = $('select[name="trans_key"]').val();
+                var trans_etc = $('input[name="trans_etc"]').val();
+                var send_pl = $('input[name="send_pl"]').val();
+                var vat = $('input[name="vat"]').val();
 
-                 $.ajax({
-                 type: 'post',
-                 url: 'ajax/add_bo.php',
-                 beforeSend: function (xhr) {
-                 xhr.overrideMimeType('content="text/html; charset=tis-620"')
-                 },
-                 data: {
-                 arf_key: arf_key,
-                 empkey: empkey,
-                 promotion: promotion,
-                 tof_name: tof_name,
-                 remark: remark,
-                 vat_key: vat_key,
-                 pur_sta: pur_sta,
-                 trans_key: trans_key,
-                 trans_etc: trans_etc,
-                 send_pl: send_pl,
-                 vat: vat
-                 },
-                 success: function (data) {
-                 //console.log(data);
-                 //$(document).load('report/report.php');
-                 window.open('report/gen_book_order.php', '_blank');
-                 $(document.body).load('index.php');
-                 }
+                $.ajax({
+                    type: 'post',
+                    url: 'ajax/add_bo.php',
+                    beforeSend: function (xhr) {
+                        xhr.overrideMimeType('content="text/html; charset=tis-620"')
+                    },
+                    data: {
+                        arf_key: arf_key,
+                        empkey: empkey,
+                        promotion: promotion,
+                        tof_name: tof_name,
+                        remark: remark,
+                        vat_key: vat_key,
+                        pur_sta: pur_sta,
+                        trans_key: trans_key,
+                        trans_etc: trans_etc,
+                        send_pl: send_pl,
+                        vat: vat
+                    },
+                    success: function (data) {
+                        //console.log(data);
+                        //$(document).load('report/report.php');
+                        window.open('report/gen_book_order.php', '_blank');
+                        $(document.body).load('index.php');
+                    }
 
 
-                 });
+                });
 
             }
 
@@ -410,7 +410,7 @@ if (sqlsrv_num_rows(sqlsrv_query($con, $chk)) > 0) {
     $BO_KEY = $docresult['DOC_TITLE_NAME'] . "-" . $yy . "" . $mm . "-" . $run_id . "";
     $_SESSION['key_bo'] = $BO_KEY;
 }
-$emk = sqlsrv_fetch_array(sqlsrv_query($con, " SELECT     Employee_File.EMP_NAME_THAI, Employee_File.EMP_SURNAME_THAI, Title_Name.TITLE_NAME_THAI, Employee_File.EMP_KEY FROM  Employee_File INNER JOIN Title_Name ON Employee_File.TITLE_KEY = Title_Name.TITLE_KEY WHERE  (Employee_File.EMP_STATUS = '1')   AND  Employee_File.EMP_KEY = '" . $_SESSION["user_id"] . " ' "));
+
 ?>
 
 
@@ -440,8 +440,6 @@ $emk = sqlsrv_fetch_array(sqlsrv_query($con, " SELECT     Employee_File.EMP_NAME
                     $sql_c = sqlsrv_query($con, "SELECT DISTINCT  Contact.CONT_TITLE, Contact.CONT_NAME, Contact.CONT_SURNAME, AP_File.APF_KEY, Title_Name.TITLE_NAME_THAI FROM Title_Name INNER JOIN Contact ON Title_Name.TITLE_KEY = Contact.CONT_TITLE LEFT OUTER JOIN
 AP_File ON Contact.APF_ARF_KEY = AP_File.APF_KEY WHERE  (Contact.CONT_DEFAULT = '1') ");
                     while ($ckey = sqlsrv_fetch_array($sql_c)):?>
-
-
 
                         <?php
 
@@ -482,16 +480,34 @@ AP_File ON Contact.APF_ARF_KEY = AP_File.APF_KEY WHERE  (Contact.CONT_DEFAULT = 
         <tr>
             <td colspan="2"> พนักงานขาย
                 <select name="empkey" class="frominput">
-                    <option value="<?php echo @$_SESSION["user_id"]; ?>" selected="selected">
-                        <?php echo $emk['TITLE_NAME_THAI'] . " " . $emk['EMP_NAME_THAI'] . "  " . $emk['EMP_SURNAME_THAI']; ?>
-                    </option>
                     <?PHP
-                    $sql_e = sqlsrv_query($con, " SELECT Employee_File.EMP_NAME_THAI, Employee_File.EMP_SURNAME_THAI, Title_Name.TITLE_NAME_THAI, Employee_File.EMP_KEY FROM Employee_File INNER JOIN Title_Name ON Employee_File.TITLE_KEY = Title_Name.TITLE_KEY
-WHERE     (Employee_File.EMP_STATUS = '1') ");
-                    while ($ekey = sqlsrv_fetch_array($sql_e)) {
-                        if ($ekey['EMP_NAME_THAI'] != $emk['EMP_NAME_THAI']) {
+                    $sql_emp = "SELECT        Employee_File.EMP_KEY, Employee_File.DEPT_KEY, Employee_File.POSI_KEY, Employee_File.EMP_START_DATE, Employee_File.EMP_END_DATE,
+                         Employee_File.EMP_SALARY, Employee_File.EMP_PHONE, Employee_File.EMP_MOBILE, Employee_File.TITLE_KEY, Employee_File.EMP_NAME_THAI,
+                         Employee_File.EMP_SURNAME_THAI, Employee_File.EMP_NAME_ENG, Employee_File.EMP_SURNAME_ENG, Employee_File.EMP_ID_CARD,
+                         Employee_File.EMP_PLACE, Employee_File.EMP_ISSUE_DATE, Employee_File.EMP_EXPIRE_DATE, Employee_File.EMP_BIRTHDATE, Employee_File.EMP_RACE,
+                         Employee_File.EMP_NATIONALILY, Employee_File.EMP_RERIGION, Employee_File.EMP_ADD_CUR, Employee_File.EMP_PROVINCE_CUR,
+                         Employee_File.EMP_AMPHOE_CUR, Employee_File.EMP_TAMBON_CUR, Employee_File.EMP_ADD_HOME, Employee_File.EMP_PROVINCE_HOME,
+                         Employee_File.EMP_AMPHOE_HOME, Employee_File.EMP_TAMBON_HOME, Employee_File.EMP_NAME_DAD, Employee_File.EMP_AGE_DAD,
+                         Employee_File.EMP_CAREER_DAD, Employee_File.EMP_MOBILE_DAD, Employee_File.EMP_STATUS_DAD, Employee_File.EMP_ADD_DAD,
+                         Employee_File.EMP_NAME_MOM, Employee_File.EMP_AGE_MOM, Employee_File.EMP_CAREER_MOM, Employee_File.EMP_MOBILE_MOM,
+                         Employee_File.EMP_STATUS_MOM, Employee_File.EMP_ADD_MOM, Employee_File.EMP_DAD_MOM_STATUS, Employee_File.EMP_TOTAL_SIB,
+                         Employee_File.EMP_TOTAL_NUM, Employee_File.EMP_MY_STATUS, Employee_File.EMP_NAME_MATE, Employee_File.EMP_AGE_MATE,
+                         Employee_File.EMP_CAREER_MATE, Employee_File.EMP_MOBILE_MATE, Employee_File.EMP_TOTAL_CHILD, Employee_File.EMP_REMARK,
+                         Employee_File.EMP_STATUS, Employee_File.EMP_CREATE_BY, Employee_File.EMP_CREATE_DATE, Employee_File.EMP_REVISE_BY,
+                         Employee_File.EMP_LASTUPD, Title_Name.TITLE_NAME_THAI
+FROM            Employee_File LEFT OUTER JOIN
+                         Title_Name ON Employee_File.TITLE_KEY = Title_Name.TITLE_KEY
+ORDER BY Employee_File.EMP_NAME_THAI, Employee_File.EMP_SURNAME_THAI";
+
+                    $stmt_emp = sqlsrv_query($con, $sql_emp);
+                    while ($ekey = sqlsrv_fetch_array($stmt_emp)) {
+                        if($_SESSION['user_id']==$ekey['EMP_KEY']){
+                            echo "<option value='" . $ekey['EMP_KEY'] . "' selected>" . $ekey['TITLE_NAME_THAI'] . " " . $ekey['EMP_NAME_THAI'] . " " . $ekey['EMP_SURNAME_THAI'] . "</option>";
+
+                        }else{
                             echo "<option value='" . $ekey['EMP_KEY'] . "'>" . $ekey['TITLE_NAME_THAI'] . " " . $ekey['EMP_NAME_THAI'] . " " . $ekey['EMP_SURNAME_THAI'] . "</option>";
                         }
+
                     }
                     ?>
                     <option value="">------ เลือก-------</option>
