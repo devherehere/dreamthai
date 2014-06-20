@@ -152,7 +152,8 @@ ob_start();
         });
 
         $(document.body).on('click', 'input[type="button"]', function () {
-            var action = confirm('ต้องการบันทึกข้อมูลเลขที่ <?php echo $_SESSION['key_bo'] ?> ใช่หรือไม่');
+            var ar_bo_key = $('input[name="ar_bo_key"').val();
+            var action = confirm('ต้องการบันทึกข้อมูลเลขที่ '+ar_bo_key +' ใช่หรือไม่');
 
             if (action) {
                 $('#formA').submit();
@@ -201,7 +202,7 @@ ob_start();
                         //console.log(data);
                         //$(document).load('report/report.php');
                         window.open('report/gen_book_order.php', '_blank');
-                        $(document.body).load('index.php');
+                        window.location.href = 'index.php';
                     }
 
 
@@ -303,13 +304,14 @@ include "include/connect.inc.php";
 <?PHP if (@$_SESSION["user_ses"] != '' && @$_SESSION["user_id"] != '') {
 if (@$_GET['id'] == md5('add')) {
     if (isset($_POST['item_address']) == 1 && isset($_POST['item_contact']) == 1 && isset($_POST['item_pay']) == 1) {
-        $sql_dbgadd = sqlsrv_query($con, "SELECT     Address.APF_ARF_KEY, AR_File.ARF_KEY, Address.ADD_ITEM, Address.ADD_NO, Amphoe.AMPHOE_NAME_THAI, Province.PROVINCE_NAME_THAI, Tambon.TAMBON_NAME_THAI, Address.ADD_PROVINCE, Address.ADD_AMPHOE, Address.ADD_TAMBON, Tambon.TAMBON_POSTCODE, Address.ADD_PHONE,  Address.ADD_MOBILE, Address.ADD_FAX, Address.ADD_EMAIL, Address.ADD_DEFAULT FROM Tambon LEFT OUTER JOIN
+         $sql_address = "SELECT     Address.APF_ARF_KEY, AR_File.ARF_KEY, Address.ADD_ITEM, Address.ADD_NO, Amphoe.AMPHOE_NAME_THAI, Province.PROVINCE_NAME_THAI, Tambon.TAMBON_NAME_THAI, Address.ADD_PROVINCE, Address.ADD_AMPHOE, Address.ADD_TAMBON, Tambon.TAMBON_POSTCODE, Address.ADD_PHONE,  Address.ADD_MOBILE, Address.ADD_FAX, Address.ADD_EMAIL, Address.ADD_DEFAULT FROM Tambon LEFT OUTER JOIN
                       Address ON Tambon.TAMBON_KEY = Address.ADD_TAMBON RIGHT OUTER JOIN
                       Amphoe ON Address.ADD_AMPHOE = Amphoe.AMPHOE_KEY RIGHT OUTER JOIN
                       Province ON Address.ADD_PROVINCE = Province.PROVINCE_KEY LEFT OUTER JOIN
                       AR_File ON Address.APF_ARF_KEY = AR_File.ARF_KEY
-					  WHERE  (Address.ADD_STATUS = '1') 
-					  AND (Address.ADD_ITEM = '" . $_POST['item_address'] . "') AND Address.APF_ARF_KEY = '" . $_POST['ar_key_add'] . "' ;");
+					  WHERE  (Address.ADD_STATUS = '1')
+					  AND (Address.ADD_ITEM = '" . $_POST['item_address'] . "') AND Address.APF_ARF_KEY = '" . $_POST['ar_key_add'] . "' ";
+         $sql_dbgadd = sqlsrv_query($con,$sql_address);
         $address_ = sqlsrv_fetch_array($sql_dbgadd);
 
         $sql_dbgcont = sqlsrv_query($con, "SELECT     Contact.CONT_TITLE, Title_Name.TITLE_NAME_THAI, Contact.CONT_NAME, Contact.CONT_SURNAME, Contact.CONT_DEPT, Contact.CONT_PHONE,   Contact.CONT_EMAIL, AR_File.ARF_KEY, Contact.CONT_ITEM, Contact.CONT_DEFAULT
@@ -328,10 +330,10 @@ FROM         Title_Name LEFT OUTER JOIN Contact ON Title_Name.TITLE_KEY = Contac
         $cust_arf = $_POST['cust_arf'];
         $cust_name = $_POST['cust_name'];
         $add_item = $address_['ADD_ITEM'];
-        $add_name = "" . $address_['AMPHOE_NAME_THAI'] . " " . $address_['TAMBON_NAME_THAI'] . "  " . $address_['PROVINCE_NAME_THAI'] . " " . $address_['TAMBON_POSTCODE'] . " ";
+        $add_name = $address_['ADD_NO']." ". $address_['AMPHOE_NAME_THAI'] . " " . $address_['TAMBON_NAME_THAI'] . "  " . $address_['PROVINCE_NAME_THAI'] . " " . $address_['TAMBON_POSTCODE'] . " ";
         $key_con = $contact_[2];
         $add_fax = $address_['ADD_FAX'];
-        $phone_con = $address_['ADD_PHONE']; //----------------------
+        $phone_con = $address_['ADD_MOBILE']; //----------------------
         $vat_pay = $c_pay[3];
         $vat_sale = $c_pay[1];
         $day_pay = $c_pay[2];
@@ -437,6 +439,8 @@ if (sqlsrv_num_rows(sqlsrv_query($con, $chk)) > 0) {
                 <font color="#000000">ผู้ติดต่อ</font>
                 <select name="ID_CONTACT" class="frominput">
                     <?php
+
+
                     $sql_c = sqlsrv_query($con, "SELECT DISTINCT  Contact.CONT_TITLE, Contact.CONT_NAME, Contact.CONT_SURNAME, AP_File.APF_KEY, Title_Name.TITLE_NAME_THAI FROM Title_Name INNER JOIN Contact ON Title_Name.TITLE_KEY = Contact.CONT_TITLE LEFT OUTER JOIN
 AP_File ON Contact.APF_ARF_KEY = AP_File.APF_KEY WHERE  (Contact.CONT_DEFAULT = '1') ");
                     while ($ckey = sqlsrv_fetch_array($sql_c)):?>

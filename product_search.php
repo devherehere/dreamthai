@@ -126,19 +126,22 @@
 					 if($_POST['pro_name'] != ''){
 					    $pro_name = " AND  (Goods.GOODS_NAME_MAIN LIKE '%".$_POST['pro_name']."%') ";				   
 					 }else{
+
+
 					    $pro_name = "";
 				  	 }
-					  $sql_dbgseh = "SELECT     Goods.GOODS_KEY, Goods.GOODS_CODE, Goods.GOODS_NAME_MAIN, Category.CATE_KEY, Category.CATE_NAME, Brand.BRAND_KEY, Brand.BRAND_NAME, 
-                      Size.SIZE_KEY, Size.SIZE_NAME, Units_of_Measurement.UOM_KEY, Units_of_Measurement.UOM_NAME, Goods_Price_List.GPL_PRICE, 
-                      Goods_Price_List.GPL_ITEM, Stock_Sale.STOCK_BALANCE, Stock_Sale.GOODS_KEY AS EXPR1, Stock_Sale.UOM_KEY AS EXPR2
-FROM         Size RIGHT OUTER JOIN
-                      Units_of_Measurement LEFT OUTER JOIN
-                      Stock_Sale ON Units_of_Measurement.UOM_KEY = Stock_Sale.UOM_KEY LEFT OUTER JOIN
-                      Category LEFT OUTER JOIN
-                      Goods ON Category.CATE_KEY = Goods.CATE_KEY RIGHT OUTER JOIN
-                      Brand ON Goods.BRAND_KEY = Brand.BRAND_KEY ON Stock_Sale.GOODS_KEY = Goods.GOODS_KEY ON Size.SIZE_KEY = Goods.SIZE_KEY LEFT OUTER JOIN
-                      Goods_Price_List ON Goods.GOODS_KEY = Goods_Price_List.GOODS_KEY
-WHERE     (Goods_Price_List.GPL_STATUS = '1')";
+
+					  $sql_dbgseh = "SELECT        Goods.GOODS_CODE, Goods.GOODS_NAME_MAIN, Units_of_Measurement.UOM_NAME, Size.SIZE_NAME, Brand.BRAND_NAME, Category.CATE_NAME,
+                             (SELECT        SUM(STOCK_BALANCE) AS Expr1
+                               FROM            Stock_Balance
+                               WHERE        (GOODS_KEY = Goods.GOODS_KEY)) AS STOCK_BALANCE, Goods_Price_List.GPL_PRICE, Goods.GOODS_KEY
+FROM            Goods INNER JOIN
+                         Brand ON Goods.BRAND_KEY = Brand.BRAND_KEY INNER JOIN
+                         Category ON Goods.CATE_KEY = Category.CATE_KEY INNER JOIN
+                         Goods_Price_List ON Goods.GOODS_KEY = Goods_Price_List.GOODS_KEY LEFT OUTER JOIN
+                         Size ON Goods.SIZE_KEY = Size.SIZE_KEY LEFT OUTER JOIN
+                         Units_of_Measurement ON Goods.UOM_KEY = Units_of_Measurement.UOM_KEY
+WHERE        (Goods_Price_List.GPL_STATUS = 1)";
 					 $i = 1;
 					  $seach = sqlsrv_query($con,$sql_dbgseh.$pro_g.$pro_b.$pro_s.$pro_id.$pro_name);
 					  while($dbgseh =  sqlsrv_fetch_array($seach)){

@@ -16,7 +16,7 @@ Goods_Price_List ON Book_Order_Detail_Temp.GOODS_KEY = Goods_Price_List.GOODS_KE
 Units_of_Measurement ON Book_Order_Detail_Temp.UOM_KEY = Units_of_Measurement.UOM_KEY)AS TEMP
 WHERE TEMP.AR_BO_ID = " . $_SESSION['id_bo'] . " ";
 
-$sum_product = sqlsrv_fetch_array(sqlsrv_query($con, $sql_sum_product));
+@$sum_product = sqlsrv_fetch_array(sqlsrv_query($con, $sql_sum_product));
 ?>
 
 <table width="100%" border="0" cellspacing="1" cellpadding="0"

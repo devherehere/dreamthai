@@ -282,7 +282,7 @@ while ($obj = sqlsrv_fetch_object($stmt)) {
     $pdf->add_row($obj);
 }
 $pdf->show_cal($row);
-$pdf->AddPage();
+
 $pdf->Output();
 
 ?>

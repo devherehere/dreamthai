@@ -36,7 +36,7 @@ FROM          Book_Order_Detail_Temp INNER JOIN
   <?PHP
    $j = 1;
           $result = sqlsrv_query($con,$sql);
-          while($reccord = sqlsrv_fetch_array($result)){
+          while(@$reccord = sqlsrv_fetch_array($result)){
    ?>
   <tr bgcolor="#7f7f7f" height="20">
     <td align="center" ><?=$j?></td>

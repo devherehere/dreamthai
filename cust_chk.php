@@ -285,11 +285,13 @@ FROM         Title_Name LEFT OUTER JOIN Contact ON Title_Name.TITLE_KEY = Contac
                         </fieldset>
                         <input type="reset" class="Xcloase" value="">
                         <input type="submit" class="cinfirm" value="">
-        </form>
+
         <a href="add_newcust.php" class="add_con" target="_blank"></a>
         </td>
         </tr>
         </table>
+    </form>
+
         <?PHP
         } else {
             echo "<center><font color = 'red'>กรุณาเข้าสู่ระบบ</font></center>";
