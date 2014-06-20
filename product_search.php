@@ -156,7 +156,7 @@ WHERE        (Goods_Price_List.GPL_STATUS = 1)";
                   <td align="left" bgcolor="#888888">&nbsp;<?=$dbgseh['UOM_NAME']?></td>
                   <td align="right" bgcolor="#888888">&nbsp;<?=$dbgseh['GPL_PRICE']?></td>
                   <td align="right" bgcolor="#888888">&nbsp;<?=$dbgseh['STOCK_BALANCE']?></td>
-                  <td align="center" bgcolor="#888888"><input type="checkbox" name="<?=$i?>" value="<?=$dbgseh[0];?>"  /></td>
+                  <td align="center" bgcolor="#888888"><input type="checkbox" name="goods_code[]" value="<?=$dbgseh[0];?>"  /></td>
                 </tr>
                 <?PHP		    
 				      $i  = $i  +1 ;
