@@ -9,13 +9,13 @@ if ($_POST['trans_etc'] != '') {
     $tranetc = " ";
 }
 
-$send_pl = iconv('UTF-8','TIS-620',$_POST['send_pl']);
-$trans_etc = iconv('UTF-8','TIS-620',$_POST['trans_etc']);
-$remark =iconv('UTF-8','TIS-620',$_POST['remark']);
+$send_pl = iconv('UTF-8', 'TIS-620', $_POST['send_pl']);
+$trans_etc = iconv('UTF-8', 'TIS-620', $_POST['trans_etc']);
+$remark = iconv('UTF-8', 'TIS-620', $_POST['remark']);
 
- echo $sql = "INSERT INTO [Dream_Thai].[dbo].[Book_Order]
-           ([AR_BO_ID]
-		   ,[AR_BO_KEY]
+$sql = "INSERT INTO [Dream_Thai].[dbo].[Book_Order]
+           (
+		   [AR_BO_KEY]
            ,[DOC_KEY]
            ,[ARF_KEY]
            ,[ADD_ITEM]
@@ -50,8 +50,8 @@ $remark =iconv('UTF-8','TIS-620',$_POST['remark']);
            ,[AR_BO_APPROVE_DATE]
            ,[AR_BO_LASTUPD])
      VALUES
-           (" . $_SESSION['id_bo'] . "
-           ,'" . $_SESSION['key_bo'] . "'
+           (
+           '" . $_SESSION['key_bo'] . "'
            ,'" . $_SESSION['doc_keyy'] . "'
            ,'" . $_POST['arf_key'] . "'
            ,'" . $_SESSION["add_item"] . "'
@@ -61,17 +61,17 @@ $remark =iconv('UTF-8','TIS-620',$_POST['remark']);
            ," . $_POST['tof_name'] . "
            ,'" . date("Y/m/d H:i:s") . "'
            ,'" . $date_ex . "'
-           ,'" .$remark . "'
-           ," . round($_SESSION['sumprice'], 2) . "
-           ," . round($_SESSION['promo_txt_1'], 2) . "
-           ," . round($_SESSION['promo_txt_2'], 2) . "
-           ," . round($_SESSION['promo_txt_3'], 2) . "
-           ," . round($_SESSION['dis_co_txt_1'], 2) . "
-           ," . round($_SESSION['dis_co_txt_2'], 2) . "
-           ," . round($_SESSION['dis_co_txt_3'], 2) . "
+           ,'" . $remark . "'
+           ," . $_SESSION['sumprice'] . "
+           ," . $_SESSION['promo_txt_1']. "
+           ," . $_SESSION['promo_txt_2'] . "
+           ," . $_SESSION['promo_txt_3'] . "
+           ," . $_SESSION['dis_co_txt_1'] . "
+           ," . $_SESSION['dis_co_txt_2']. "
+           ," . $_SESSION['dis_co_txt_3'] . "
            ,'" . $_POST['vat'] . "'
-           ," . round($_SESSION['vat_2'], 2) . "
-           ," . round($_SESSION['total'], 2) . "
+           ," . $_SESSION['vat_2'] . "
+           ," . $_SESSION['total'] . "
            ,1
            ,'" . $_POST['vat_key'] . "'
            ," . $_POST['pur_sta'] . "
@@ -84,43 +84,8 @@ $remark =iconv('UTF-8','TIS-620',$_POST['remark']);
            ,''
            ,''
            ,NULL
-           ,'" . date("Y/m/d H:i:s") . "')";
+           ,'" . date("Y/m/d H:i:s") .
+    "')";
 
 $ap_file2 = sqlsrv_query($con, $sql);
-
-$sql_temp_to_mas = "INSERT INTO [Dream_Thai].[dbo].[Book_Order_Detail]  SELECT * FROM [Dream_Thai].[dbo].[Book_Order_Detail_Temp]
-			WHERE [AR_BO_ID] = " . $_SESSION['id_bo'] . " ";
-
-$chkadd = "SELECT * FROM [Dream_Thai].[dbo].[Book_Order_Detail_Temp] WHERE AR_BO_ID = " . ($_SESSION['id_bo']) . " ;";
-
-$stmt = sqlsrv_query($con, $chkadd);
-if (sqlsrv_has_rows($stmt) ) {
-
-    $ap_file1 = sqlsrv_query($con, $sql_temp_to_mas);
-    $ap_file3 = sqlsrv_query($con, "DELETE FROM   Book_Order_Detail_Temp WHERE AR_BO_ID = " . $_SESSION['id_bo'] . "");
-} else {
-    echo "ไม่สามารถบันทึกข้อมูลซ้ำอีกได้!!";
-    sqlsrv_close($con);
-    //echo("<meta http-equiv='refresh' content='3;url= index.php' />");
-}
-
-
-/*if ($ap_file1 == true && $ap_file2 == true && $ap_file3 == true) {
-    echo "
-			  <table width=\"100%\">
-			  	<tr bgcolor = '#d6ffcd'>
-			  		<td><font color = '#036d05' size='4'>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;บันทึกสำเร็จ</font></td>
-				</tr>
-			  </table>
-			  ";
-    //echo("<meta http-equiv='refresh' content='3;url= report/report.php' />");
-} else {
-    echo "<script>
-alert(\" ผิดผลาด\");
-			   //window.close();
-		   </script>";
-}*/
-
-
-
 ?>

@@ -4,8 +4,9 @@
 <head>
     <meta http-equiv=Content-Type content="text/html; charset=tis-620">
     <link rel="stylesheet" type="text/css" href="css/style.css"/>
+    <link rel="stylesheet" type="text/css" href="css/validationEngine.jquery.css">
     <!-- Validate Form -->
-    <script src="js/jquery-1.9.1.js"></script>
+    <script src="js/jquery-1.7.min.js"></script>
     <script src="js/jquery.validate.min.js"></script>
     <script src="js/jquery.mask.min.js"></script>
 
@@ -14,8 +15,6 @@
     <script type="text/javascript" src="js/jquery-ui-1.8.10.offset.datepicker.min.js"></script>
     <link rel="stylesheet" href="jquery/themes/base/jquery-ui.css" type="text/css"/>
     <script type="text/javascript">
-
-
 
 
         $(function () {
@@ -56,34 +55,13 @@
 
             $('.discount').mask('99.99');
 
-
-
-
-
-            var form = $('#form').validate();
-            $('.discount').each(function(){
-
-                $(this).rules('add',{
-                    required:true
-
-                });
-            });
-
-            $('.cinfirm').click(function () {
-                $('#form').submit();
+            $('#form').validate({
+                errorClass: 'error'
             });
 
 
-            $('#form').submit(function (event) {
+        });
 
-                /*event.preventDefault();
-                if (form.valid() != true) {
-                    alert('error');
-                }*/
-
-            });
-        })
-        ;
     </script>
     <style type="text/css">
         .demoHeaders {
@@ -127,6 +105,11 @@
             list-style: none;
             line-height: 30px;
         }
+
+        .error {
+            color: red
+
+        }
     </style>
     <!-- DatePicker Jquery-->
     <?PHP
@@ -155,7 +138,7 @@ if ($_SESSION["user_ses"] != '' && $_SESSION["user_id"] != '') {
     ?>
 
 
-    <form id="form">
+    <form id="form" method="post" action="process_rent.php?action=save">
 
 
         <fieldset style="width:96%; margin-left:11px; margin-bottom:10px;">
@@ -168,9 +151,6 @@ if ($_SESSION["user_ses"] != '' && $_SESSION["user_id"] != '') {
                                 <td align="center" width="35px">ลำดับ</td>
                                 <td align="center">รหัส</td>
                                 <td align="center">ชื่อสินค้า</td>
-                                <!--        <td align="center">หมวดสินค้า</td>
-                              <td align="center">ยี่ห้อสิ้นค้า</td>
-                              <td align="center">ขนาดขอบยาง</td>   --->
                                 <td align="right">ราคา/หน่วย</td>
                                 <td align="center">หน่วย</td>
                                 <td align="center">ส่วนลด</td>
@@ -180,7 +160,7 @@ if ($_SESSION["user_ses"] != '' && $_SESSION["user_id"] != '') {
                             </tr>
                             <?PHP
                             $goods_code = implode("','", $_POST['goods_code']);
-                            $sql_dbgseh = "SELECT        Goods.GOODS_CODE,Goods.GOODS_KEY, Goods.GOODS_NAME_MAIN, Units_of_Measurement.UOM_NAME, Size.SIZE_NAME, Brand.BRAND_NAME, Category.CATE_NAME,
+                            $sql_dbgseh = "SELECT        Goods.GOODS_CODE,Goods.GOODS_KEY, Goods.GOODS_NAME_MAIN, Units_of_Measurement.UOM_NAME ,Units_of_Measurement.UOM_KEY, Size.SIZE_NAME, Brand.BRAND_NAME, Category.CATE_NAME,
                              (SELECT        SUM(STOCK_BALANCE) AS Expr1
                                FROM            Stock_Balance
                                WHERE        (GOODS_KEY = Goods.GOODS_KEY)) AS STOCK_BALANCE, Goods_Price_List.GPL_PRICE, Goods.GOODS_KEY
@@ -194,6 +174,7 @@ WHERE        (Goods_Price_List.GPL_STATUS = '1')  AND  Goods.GOODS_CODE   IN  ('
 
                             $result = sqlsrv_query($con, $sql_dbgseh);
                             $j = 1;
+                            $i = 0;
                             while ($reccord = sqlsrv_fetch_array($result)) {
 
                                 if ($item_edt == "" && $gkey_edt == "") {
@@ -205,49 +186,68 @@ WHERE        (Goods_Price_List.GPL_STATUS = '1')  AND  Goods.GOODS_CODE   IN  ('
                                     $date_re = $reccord['AR_BOD_RE_DATE']->format('Y-m-d');
                                     $remark = $reccord['AR_BOD_REMARK'];
                                 }
+
                                 ?>
                                 <tr bgcolor="#CCCCCC" height="30">
-                                    <input type="hidden" name="goods_key[]" value="<?= $reccord['GOODS_KEY'] ?>"/>
-                                    <td align="center" width="35px" bgcolor="#888888"><?= $j; ?></td>
+
+                                    <input type="hidden" name="goods_key[<?php echo $i; ?>]"
+                                           value="<?= $reccord['GOODS_KEY'] ?>"/>
+
+                                    <td align="center" width="35px" bgcolor="#888888">
+                                        <?= $j; ?>
+                                    </td>
                                     <td align="left" bgcolor="#888888">&nbsp;
-                                        <input type="text" name="goods_code[]" value="<?= $reccord['GOODS_CODE'] ?>"
-                                               size="10" readonly="readonly"/></td>
+                                        <input type="text" name="goods_code[<?php echo $i; ?>]"
+                                               value="<?= $reccord['GOODS_CODE'] ?>"
+                                               size="10" readonly="readonly"/>
+                                    </td>
                                     <td align="left" bgcolor="#888888">&nbsp;
-                                        <input type="text" name="goods_name[]"
+                                        <input type="text" name="goods_name[<?php echo $i; ?>]"
                                                value="<?= $reccord['GOODS_NAME_MAIN'] ?>" size="28"
-                                               readonly="readonly"/></td>
+                                               readonly="readonly"/>
+                                    </td>
 
                                     <td align="right" bgcolor="#888888">&nbsp;
-                                        <input type="text" name="gpl_price[]" value="<?= $reccord['GPL_PRICE'] ?>"
-                                               style="text-align:right;" size="6" readonly="readonly"/></td>
+                                        <input type="text" name="gpl_price[<?php echo $i; ?>]"
+                                               value="<?= $reccord['GPL_PRICE'] ?>"
+                                               style="text-align:right;" size="6" readonly="readonly"/>
+                                    </td>
                                     <td align="left" bgcolor="#888888">&nbsp;
                                         <input type="text" name="un<?= $j; ?>" value="<?= $reccord['UOM_NAME'] ?>"
-                                               size="2" readonly="readonly" style="text-align: right;"/></td>
+                                               size="2" readonly="readonly" style="text-align: right;"/>
+                                    </td>
                                     <td align="right" bgcolor="#888888">&nbsp;
-                                        <input type="text" name="dis[]" value="<?= @$ex_dicco ?>" size="1"
+                                        <input type="text" name="dis[<?php echo $i; ?>]" value="<?= @$ex_dicco ?>"
+                                               size="1"
                                                style="text-align:right;"
-                                               class="discount"/>
+                                               class="discount  " data-rule-required="true"
+                                               data-msg-required="*ต้องกรอกข้อมูล"/>
                                         %
                                     </td>
                                     <td align="right" bgcolor="#888888">&nbsp;คงเหลือ<font color='#FFFFFF' size="3">(
                                             <?= $reccord['STOCK_BALANCE'] ?>
                                             )</font>
-                                        <input type="text" value="<?= @$item_t ?>" name="in_store[]"
+                                        <input type="text" value="<?= @$item_t ?>" name="num_rent[<?php echo $i; ?>]"
                                                style="text-align:right;" size="5"
-                                               class="rent">
-                                        <?= $reccord['UOM_NAME'] ?></td>
+                                               class="rent" data-rule-required="true"
+                                               data-msg-required="*ต้องกรอกข้อมูล">
+                                        <?= $reccord['UOM_NAME'] ?>
+                                    </td>
                                     <td align="left" bgcolor="#888888">&nbsp;
-                                        <input type="text" name="date_re[]" value="<?= @$date_re ?>" size="8"
-                                               class="datepicker"/></td>
+                                        <input type="text" name="date_re[<?php echo $i; ?>]" value="" size="8"
+                                               class="datepicker" data-rule-required="true"
+                                               data-msg-required="*ต้องกรอกข้อมูล"/>
+                                    </td>
                                     <td align="left" bgcolor="#888888">&nbsp;
-                                        <input type="text" name="rm<?= $j; ?>" value="<?= @$remark ?>" class=""
-                                               size="20"/></td>
-                                    <input type="hidden" value="<?= $reccord['GOODS_KEY'] ?>" name="gk<?= $j; ?>">
-                                    <input type="hidden" value="<?= $reccord['UOM_KEY'] ?>" name="uk<?= $j; ?>">
+                                        <input type="text" name="remark[<?php echo $i; ?>]" value="<?= @$remark ?>"
+                                               class=""
+                                               size="20"/>
+                                    </td>
+                                    <input type="hidden" value="<?= $reccord['UOM_KEY'] ?>"
+                                           name="uom_key[<?php echo $i; ?>]">
                                 </tr>
                                 <?PHP
-                                $j++;
-                                $m = $j;
+                                $i++;
                             }
 
                             ?>
@@ -257,100 +257,169 @@ WHERE        (Goods_Price_List.GPL_STATUS = '1')  AND  Goods.GOODS_CODE   IN  ('
             </table>
             <input type="hidden" value="<?= $m ?>" name="mx">
             <input type="reset" class="Xcloase" value="">
-            <input type="button" class="cinfirm" value="">
+            <input type="submit" class="cinfirm" value="">
         </fieldset>
     </form>
     <?PHP
-    $itm = @$_POST['mx'];
-    if (@$_GET['id_addtemp'] == md5('id_addtemp') && (@$_GET['gkey'] != "" && @$_GET['item_edt'] != "")) {
+
+    if ($_GET['action'] == 'save') {
+        $goods_key = $_POST['goods_key'];
+        $gpl_price = $_POST['gpl_price'];
+        $num_rent = $_POST['num_rent'];
+        $dis = $_POST['dis'];
+        $uom_key = $_POST['uom_key'];
+        $date_re = $_POST['date_re'];
+        $item_no = 1;
+        for ($i = 0; $i < count($goods_key); $i++) {
+
+            $goods_sum = $gpl_price[$i] * $num_rent[$i];
+            $dis_amount = $goods_sum * ($dis[$i] / 100);
+            $dis_total = $goods_sum - $dis_amount;
+
+//            echo $goods_key[$i] . ' ' . $uom_key[$i] . ' ' . $gpl_price[$i] . ' ' . $num_rent[$i] . ' ' . $goods_sum . ' ' . $dis[$i] . ' ' . $dis_amount . ' ' . $dis_total.'<br/>';
 
 
-        $sql_up = "UPDATE [Dream_Thai].[dbo].[Book_Order_Detail_Temp]
-       SET  [AR_BOD_GOODS_AMOUNT] = " . $_POST['1'] . "
-      ,[AR_BOD_DISCOUNT_PER] = " . $_POST['ex1'] . "
-      ,[AR_BOD_RE_DATE] = '" . $_POST['dt1'] . "'
-	  ,[AR_BOD_GOODS_SUM]  = '" . ($_POST['1'] * $_POST['gp1']) . "'
-	  ,[AR_BOD_DISCOUNT_AMOUNT] = '" . ((($_POST['1'] * $_POST['gp1']) * $_POST['ex1'] / 100)) . "'
-	  ,[AR_BOD_TOTAL] = '" . (($_POST['1'] * $_POST['gp1']) - ((($_POST['1'] * $_POST['gp1']) * $_POST['ex1'] / 100))) . "'
-      ,[AR_BOD_REMARK] = '" . $_POST['rm1'] . "'
-      WHERE AR_BOD_ITEM = " . $_REQUEST['item_edt'] . " AND  GOODS_KEY = '" . $_REQUEST['gkey'] . "'  ";
-        sqlsrv_query($con, $sql_up);
-        echo "<script>window.close();</script>";
+            $sql_add_temp = "INSERT INTO [Dream_Thai].[dbo].[Book_Order_Detail]
+                                    (
+                                   [AR_BO_ID]
+                                  ,[AR_BOD_ITEM]
+                                  ,[GOODS_KEY]
+                                  ,[UOM_KEY]
+                                  ,[AR_BOD_GOODS_SELL]
+                                  ,[AR_BOD_GOODS_AMOUNT]
+                                  ,[AR_BOD_GOODS_SUM]
+                                  ,[AR_BOD_DISCOUNT_PER]
+                                  ,[AR_BOD_DISCOUNT_AMOUNT]
+                                  ,[AR_BOD_TOTAL]
+                                  ,[AR_BOD_RE_DATE]
+                                  ,[AR_BOD_SO_STATUS]
+                                  ,[AR_BOD_REMARK]
+                                  ,[AR_BOD_LASTUPD])
+                            VALUES
+                                  (" . $_SESSION['id_bo'] . "
+                                  ," . $item_no . "
+                                  ,'" . $goods_key[$i] . "'
+                                  ,'" . $uom_key[$i] . "'
+                                  ,'" . $gpl_price[$i] . "'
+                                  ,'" . $num_rent[$i] . "'
+                                  ," . $goods_sum . "
+                                  ," . $dis[$i] . "
+                                  ," . $dis_amount . "
+                                  ," . $dis_total . "
+                                  ,' " . $date_re[$i] . " " . date("H:i:s") . " '
+                                  ,1
+                                  , '" . $_POST["rm" . $k . ""] . "'
+                                  ,'" . date("Y/m/d H:i:s") . "')";
+
+            $insert_bo_detail = sqlsrv_query($con, $sql_add_temp);
+            $item_no++;
 
 
-    } else if (@$_GET['id_addtemp'] == md5('id_addtemp') && (@$_GET['gkey'] == "" && @$_GET['item_edt'] == "")) {
+        }
+        $params = array();
+        $options =  array( "Scrollable" => SQLSRV_CURSOR_KEYSET );
+        $sql = "select * from [Dream_Thai].[dbo].[Book_Order_Detail] where [AR_BO_ID] = '" . $_SESSION['id_bo'] . "' ";
+        $stmt = sqlsrv_query($con, $sql, $params, $options );
 
-
-        $goods_code = $_POST['goods_code'];
-
-
-        /*
-            $run_item = sqlsrv_fetch_array(sqlsrv_query($con, "SELECT ISNULL(MAX(AR_BOD_ITEM),0)+1 AS iTEM FROM [Dream_Thai].[dbo].[Book_Order_Detail_Temp];"));
-
-            for ($k = 1; $k <= $itm; $k++) {
-
-                if ($run_item[0] == 1) {
-                    $item_no = $k;
-                } else {
-                    $item_no = ($run_item[0] + ($k - 1));
-                }
-
-                if ($_POST["" . $k . ""] != "") {
-                    $sum = ($_POST["" . $k . ""] * $_POST["gp" . $k . ""]);
-                    $temp = " Value = '" . $_POST["" . $k . ""] . "' ";
-                    $ex = $_POST["ex" . $k . ""];
-                    $sum_ex = (($sum * $ex) / 100);
-                    $sum_total = ($sum - $sum_ex);
-
-
-                    $sql_add_temp = "INSERT INTO [Dream_Thai].[dbo].[Book_Order_Detail_Temp]
-                     (
-                    [AR_BO_ID]
-                   ,[AR_BOD_ITEM]
-                   ,[GOODS_KEY]
-                   ,[UOM_KEY]
-                   ,[AR_BOD_GOODS_SELL]
-                   ,[AR_BOD_GOODS_AMOUNT]
-                   ,[AR_BOD_GOODS_SUM]
-                   ,[AR_BOD_DISCOUNT_PER]
-                   ,[AR_BOD_DISCOUNT_AMOUNT]
-                   ,[AR_BOD_TOTAL]
-                   ,[AR_BOD_RE_DATE]
-                   ,[AR_BOD_SO_STATUS]
-                   ,[AR_BOD_REMARK]
-                   ,[AR_BOD_LASTUPD])
-             VALUES
-                   (" . $_SESSION['id_bo'] . "
-                   ," . $item_no . "
-                   ,'" . $_POST["gk" . $k . ""] . "'
-                   ,'" . $_POST["uk" . $k . ""] . "'
-                   ,'" . $_POST["gp" . $k . ""] . "'
-                   ,'" . $_POST["" . $k . ""] . "'
-                   ," . $sum . "
-                   ," . $ex . "
-                   ," . $sum_ex . "
-                   ," . $sum_total . "
-                   ,' " . $_POST["dt" . $k . ""] . " " . date("H:i:s") . " '
-                   ,1
-                   , '" . $_POST["rm" . $k . ""] . "'
-                   ,'" . date("Y/m/d H:i:s") . "')";
-
-                    $ap_file1 = sqlsrv_query($con, $sql_add_temp);
-
-
-                    if ($ap_file1 == true) {
-                        //	  echo("<meta http-equiv='refresh' content='1;url=product_search.php' />");
-                        echo "<script>window.close();</script>";
-                    }
-                }
-            }
-
-
-            */
-
+        if (sqlsrv_num_rows($stmt) > 0) {
+            //	  echo("<meta http-equiv='refresh' content='1;url=product_search.php' />");
+            echo "<script>window.close();</script>";
+        }
 
     }
 
+
+    /*
+   $itm = @$_POST['mx'];
+   if (@$_GET['id_addtemp'] == md5('id_addtemp') && (@$_GET['gkey'] != "" && @$_GET['item_edt'] != "")) {
+
+
+       $sql_up = "UPDATE [Dream_Thai].[dbo].[Book_Order_Detail_Temp]
+      SET  [AR_BOD_GOODS_AMOUNT] = " . $_POST['1'] . "
+     ,[AR_BOD_DISCOUNT_PER] = " . $_POST['ex1'] . "
+     ,[AR_BOD_RE_DATE] = '" . $_POST['dt1'] . "'
+     ,[AR_BOD_GOODS_SUM]  = '" . ($_POST['1'] * $_POST['gp1']) . "'
+     ,[AR_BOD_DISCOUNT_AMOUNT] = '" . ((($_POST['1'] * $_POST['gp1']) * $_POST['ex1'] / 100)) . "'
+     ,[AR_BOD_TOTAL] = '" . (($_POST['1'] * $_POST['gp1']) - ((($_POST['1'] * $_POST['gp1']) * $_POST['ex1'] / 100))) . "'
+     ,[AR_BOD_REMARK] = '" . $_POST['rm1'] . "'
+     WHERE AR_BOD_ITEM = " . $_REQUEST['item_edt'] . " AND  GOODS_KEY = '" . $_REQUEST['gkey'] . "'  ";
+       sqlsrv_query($con, $sql_up);
+       echo "<script>window.close();</script>";
+
+
+   } else if (@$_GET['id_addtemp'] == md5('id_addtemp') && (@$_GET['gkey'] == "" && @$_GET['item_edt'] == "")) {
+
+
+       $goods_code = $_POST['goods_code'];
+
+
+
+           $run_item = sqlsrv_fetch_array(sqlsrv_query($con, "SELECT ISNULL(MAX(AR_BOD_ITEM),0)+1 AS iTEM FROM [Dream_Thai].[dbo].[Book_Order_Detail_Temp];"));
+
+           for ($k = 1; $k <= $itm; $k++) {
+
+               if ($run_item[0] == 1) {
+                   $item_no = $k;
+               } else {
+                   $item_no = ($run_item[0] + ($k - 1));
+               }
+
+               if ($_POST["" . $k . ""] != "") {
+                   $sum = ($_POST["" . $k . ""] * $_POST["gp" . $k . ""]);
+                   $temp = " Value = '" . $_POST["" . $k . ""] . "' ";
+                   $ex = $_POST["ex" . $k . ""];
+                   $sum_ex = (($sum * $ex) / 100);
+                   $sum_total = ($sum - $sum_ex);
+
+
+                   $sql_add_temp = "INSERT INTO [Dream_Thai].[dbo].[Book_Order_Detail_Temp]
+                    (
+                   [AR_BO_ID]
+                  ,[AR_BOD_ITEM]
+                  ,[GOODS_KEY]
+                  ,[UOM_KEY]
+                  ,[AR_BOD_GOODS_SELL]
+                  ,[AR_BOD_GOODS_AMOUNT]
+                  ,[AR_BOD_GOODS_SUM]
+                  ,[AR_BOD_DISCOUNT_PER]
+                  ,[AR_BOD_DISCOUNT_AMOUNT]
+                  ,[AR_BOD_TOTAL]
+                  ,[AR_BOD_RE_DATE]
+                  ,[AR_BOD_SO_STATUS]
+                  ,[AR_BOD_REMARK]
+                  ,[AR_BOD_LASTUPD])
+            VALUES
+                  (" . $_SESSION['id_bo'] . "
+                  ," . $item_no . "
+                  ,'" . $_POST["gk" . $k . ""] . "'
+                  ,'" . $_POST["uk" . $k . ""] . "'
+                  ,'" . $_POST["gp" . $k . ""] . "'
+                  ,'" . $_POST["" . $k . ""] . "'
+                  ," . $sum . "
+                  ," . $ex . "
+                  ," . $sum_ex . "
+                  ," . $sum_total . "
+                  ,' " . $_POST["dt" . $k . ""] . " " . date("H:i:s") . " '
+                  ,1
+                  , '" . $_POST["rm" . $k . ""] . "'
+                  ,'" . date("Y/m/d H:i:s") . "')";
+
+                   $ap_file1 = sqlsrv_query($con, $sql_add_temp);
+
+
+                   if ($ap_file1 == true) {
+                       //	  echo("<meta http-equiv='refresh' content='1;url=product_search.php' />");
+                       echo "<script>window.close();</script>";
+                   }
+               }
+           }
+
+
+
+
+
+   }
+*/
 } else {
     echo "<center><font color = 'red'>กรุณาเข้าสู่ระบบ</font></center>";
 }

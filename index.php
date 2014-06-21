@@ -199,8 +199,7 @@ ob_start();
                         vat: vat
                     },
                     success: function (data) {
-                        //console.log(data);
-                        //$(document).load('report/report.php');
+
                         window.open('report/gen_book_order.php', '_blank');
                         window.location.href = 'index.php';
                     }
@@ -301,6 +300,7 @@ include "include/connect.inc.php";
     <?PHP } ?>
 </div>
 <div class="content">
+<div id="debug"></div>
 <?PHP if (@$_SESSION["user_ses"] != '' && @$_SESSION["user_id"] != '') {
 if (@$_GET['id'] == md5('add')) {
     if (isset($_POST['item_address']) == 1 && isset($_POST['item_contact']) == 1 && isset($_POST['item_pay']) == 1) {
@@ -416,7 +416,7 @@ if (sqlsrv_num_rows(sqlsrv_query($con, $chk)) > 0) {
 ?>
 
 
-<!--<form method="post" name="formA" action="index.php?id=--><?//= md5('addtable') ?><!--" target="_blank">-->
+
 <form method="post" name="formA" id="formA">
 <fieldset style="width:96%; margin-left:11px; margin-bottom:10px;">
     <legend>ใบจองสินค้า</legend>
@@ -454,7 +454,7 @@ AP_File ON Contact.APF_ARF_KEY = AP_File.APF_KEY WHERE  (Contact.CONT_DEFAULT = 
                             $select = "";
                         }
                         if ($_SESSION["key_con"] != '') {
-                            echo "<option value='" . $ckey['AP_File.APF_KEY'] . "' " . $select . ">" . $ckey['TITLE_NAME_THAI'] . " " . $ckey['CONT_NAME'] . "  " . $ckey['CONT_SURNAME'] . "</option>";
+                            echo "<option value='" . $ckey['APF_KEY'] . "' " . $select . ">" . $ckey['TITLE_NAME_THAI'] . " " . $ckey['CONT_NAME'] . "  " . $ckey['CONT_SURNAME'] . "</option>";
                         }
 
 
@@ -569,6 +569,10 @@ ORDER BY Employee_File.EMP_NAME_THAI, Employee_File.EMP_SURNAME_THAI";
         </tr>
     </table>
 </fieldset>
+
+
+
+
 
 <fieldset style="width:96%; margin-left:11px; margin-bottom:10px;">
     <legend>รายละเอียดในใบจองสินค้า</legend>
