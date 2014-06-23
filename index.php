@@ -342,9 +342,10 @@ if (@$_GET['id'] == md5('add')) {
         $sql_dbgadd = sqlsrv_query($con, $sql_address);
         $address_ = sqlsrv_fetch_array($sql_dbgadd);
 
-        $sql_dbgcont = sqlsrv_query($con, "SELECT     Contact.CONT_TITLE, Title_Name.TITLE_NAME_THAI, Contact.CONT_NAME, Contact.CONT_SURNAME, Contact.CONT_DEPT, Contact.CONT_PHONE,   Contact.CONT_EMAIL, AR_File.ARF_KEY, Contact.CONT_ITEM, Contact.CONT_DEFAULT
-FROM         Title_Name LEFT OUTER JOIN Contact ON Title_Name.TITLE_KEY = Contact.CONT_TITLE LEFT OUTER JOIN AR_File ON Contact.APF_ARF_KEY = AR_File.ARF_KEY  WHERE     (Contact.CONT_STATUS = '1') 
-		 AND (Contact.CONT_TITLE = '" . $_POST['item_contact'] . "') AND Contact.APF_ARF_KEY = '" . $_POST['cn_key_add'] . "' ;");
+       $sql_contact = "SELECT     Contact.CONT_TITLE, Title_Name.TITLE_NAME_THAI, Contact.CONT_NAME, Contact.CONT_SURNAME, Contact.CONT_DEPT, Contact.CONT_PHONE,   Contact.CONT_EMAIL, AR_File.ARF_KEY, Contact.CONT_ITEM, Contact.CONT_DEFAULT
+FROM         Title_Name LEFT OUTER JOIN Contact ON Title_Name.TITLE_KEY = Contact.CONT_TITLE LEFT OUTER JOIN AR_File ON Contact.APF_ARF_KEY = AR_File.ARF_KEY  WHERE     (Contact.CONT_STATUS = '1')
+		 AND (Contact.CONT_ITEM = '" . $_POST['item_contact'] . "') AND Contact.APF_ARF_KEY = '" . $_POST['cn_key_add'] . "'";
+        $sql_dbgcont = sqlsrv_query($con,$sql_contact );
         $contact_ = sqlsrv_fetch_array($sql_dbgcont);
 
         $sql_dbgpay = sqlsrv_query($con, "SELECT     AR_File.ARF_KEY, CASE Condition_Payment.COND_PUR_STATUS WHEN 0 THEN 'ขายสด'
@@ -451,7 +452,6 @@ if (sqlsrv_num_rows(sqlsrv_query($con, $chk)) > 0) {
     <table width="100%" border="0" cellspacing="0" cellpadding="0">
         <tr>
             <td valign="middle" align="left"> เลขที่ใบจองสินค้า
-                <!--  <input type="checkbox" name="ra" id="ra"  onclick="enableTextbox()"   />--->
                 <input type="text" name="ar_bo_key" size="50" class="validate[required,length[0,50]]"
                        value="<?php echo @$BO_KEY ?>" id="txt" disabled="disabled"/>
                 <BR>
@@ -461,13 +461,11 @@ if (sqlsrv_num_rows(sqlsrv_query($con, $chk)) > 0) {
                 &nbsp;&nbsp;
                 <input type="text" name="NAME_CUST" size="32" class="validate[required,length[0,50]]"
                        value="<?php echo @$_SESSION["cust_name"] ?>" readonly="readonly"/>
-                <a href="cust_chk.php?id_action=<?php echo md5('1') ?>" style="margin:0px;"><img src="img/se_c.png"
-                                                                                                 border="0"
-                                                                                                 height="23"/></a><BR>
+                <a href="cust_search.php" style="margin:0px;">
+                    <img src="img/se_c.png" border="0" height="23"/></a><BR>
                 <font color="#000000">ผู้ติดต่อ</font>
                 <select name="ID_CONTACT" class="frominput">
                     <?php
-
                     $sql_contact = "SELECT   Contact.CONT_ITEM, Contact.CONT_TITLE, Contact.CONT_NAME, Contact.CONT_SURNAME, AP_File.APF_KEY, Title_Name.TITLE_NAME_THAI FROM Title_Name INNER JOIN Contact ON Title_Name.TITLE_KEY = Contact.CONT_TITLE LEFT OUTER JOIN
 AP_File ON Contact.APF_ARF_KEY = AP_File.APF_KEY WHERE  Contact.CONT_STATUS = '1' AND APF_ARF_KEY = '" . $_SESSION['cust_arf'] . "'";
                     $stmt_contact = sqlsrv_query($con, $sql_contact);
@@ -475,9 +473,7 @@ AP_File ON Contact.APF_ARF_KEY = AP_File.APF_KEY WHERE  Contact.CONT_STATUS = '1
                         ?>
 
                         <?php
-
-                        echo $_SESSION["key_con"];
-                        if ($ckey['CONT_ITEM'] == $_SESSION["key_con"]) {
+                        if ($ckey['CONT_ITEM'] == $_POST['item_contact']) {
                             $select = "selected='selected' ";
                         } else {
                             $select = "";

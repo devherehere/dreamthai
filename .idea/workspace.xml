@@ -2,12 +2,9 @@
 <project version="4">
   <component name="ChangeListManager">
     <list default="true" id="1729dc39-a16d-48f9-9f6f-30d04333f4a1" name="Default" comment="">
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/cust_chk.php" afterPath="$PROJECT_DIR$/cust_chk.php" />
       <change type="MODIFICATION" beforePath="$PROJECT_DIR$/report/gen_book_order.php" afterPath="$PROJECT_DIR$/report/gen_book_order.php" />
       <change type="MODIFICATION" beforePath="$PROJECT_DIR$/index.php" afterPath="$PROJECT_DIR$/index.php" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/process_rent.php" afterPath="$PROJECT_DIR$/process_rent.php" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/include/productTemp.php" afterPath="$PROJECT_DIR$/include/productTemp.php" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/product_search.php" afterPath="$PROJECT_DIR$/product_search.php" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/.idea/workspace.xml" afterPath="$PROJECT_DIR$/.idea/workspace.xml" />
     </list>
     <ignored path="dreamthai.iws" />
     <ignored path=".idea/workspace.xml" />
@@ -33,7 +30,7 @@
       <file leaf-file-name="index.php" pinned="false" current="true" current-in-tab="true">
         <entry file="file://$PROJECT_DIR$/index.php">
           <provider selected="true" editor-type-id="text-editor">
-            <state line="332" column="70" selection-start="8646" selection-end="8656" vertical-scroll-proportion="0.3321234" vertical-offset="5461" max-vertical-offset="12070">
+            <state line="464" column="56" selection-start="16342" selection-end="16342" vertical-scroll-proportion="0.3629764" vertical-offset="7688" max-vertical-offset="12002">
               <folding>
                 <element signature="n#style#0;n#fieldset#0;n#form#0;n#div#1;n#div#0;n#div#0;n#body#0;n#html#0;n#!!top" expanded="true" />
                 <element signature="n#style#0;n#a#0;n#td#0;n#tr#0;n#table#0;n#fieldset#0;n#form#0;n#div#1;n#div#0;n#div#0;n#body#0;n#html#0;n#!!top" expanded="true" />
@@ -46,20 +43,27 @@
           </provider>
         </entry>
       </file>
-      <file leaf-file-name="cust_chk.php" pinned="false" current="false" current-in-tab="false">
-        <entry file="file://$PROJECT_DIR$/cust_chk.php">
+      <file leaf-file-name="cust_search.php" pinned="false" current="false" current-in-tab="false">
+        <entry file="file://$PROJECT_DIR$/cust_search.php">
           <provider selected="true" editor-type-id="text-editor">
-            <state line="173" column="116" selection-start="8989" selection-end="8999" vertical-scroll-proportion="42.576923" vertical-offset="4048" max-vertical-offset="5287">
+            <state line="20" column="25" selection-start="719" selection-end="719" vertical-scroll-proportion="-5.230769" vertical-offset="204" max-vertical-offset="1598">
               <folding />
             </state>
           </provider>
         </entry>
       </file>
-      <file leaf-file-name="add_bo.php" pinned="false" current="false" current-in-tab="false">
-        <entry file="file://$PROJECT_DIR$/ajax/add_bo.php">
+      <file leaf-file-name="cust_choose.php" pinned="false" current="false" current-in-tab="false">
+        <entry file="file://$PROJECT_DIR$/cust_choose.php">
           <provider selected="true" editor-type-id="text-editor">
-            <state line="89" column="9" selection-start="2646" selection-end="2674" vertical-scroll-proportion="-58.192307" vertical-offset="0" max-vertical-offset="1649">
-              <folding />
+            <state line="86" column="49" selection-start="2288" selection-end="2329" vertical-scroll-proportion="-9.153846" vertical-offset="1224" max-vertical-offset="5287">
+              <folding>
+                <element signature="n#style#0;n#fieldset#0;n#td#0;n#tr#0;n#table#0;n#form#0;n#form#0;n#form#0;n#div#1;n#div#0;n#div#0;n#body#0;n#html#0;n#!!top" expanded="true" />
+                <element signature="n#style#0;n#input#4;n#td#0;n#tr#0;n#table#0;n#fieldset#0;n#td#0;n#tr#0;n#table#0;n#form#0;n#form#0;n#form#0;n#div#1;n#div#0;n#div#0;n#body#0;n#html#0;n#!!top" expanded="true" />
+                <element signature="n#style#0;n#fieldset#0;n#td#0;n#tr#1;n#table#0;n#form#0;n#form#0;n#form#0;n#div#1;n#div#0;n#div#0;n#body#0;n#html#0;n#!!top" expanded="true" />
+                <element signature="n#style#0;n#table#0;n#td#0;n#tr#0;n#table#0;n#fieldset#0;n#td#0;n#tr#1;n#table#0;n#form#0;n#form#0;n#form#0;n#div#1;n#div#0;n#div#0;n#body#0;n#html#0;n#!!top" expanded="true" />
+                <element signature="n#style#0;n#table#0;n#td#0;n#tr#1;n#table#0;n#fieldset#0;n#td#0;n#tr#1;n#table#0;n#form#0;n#form#0;n#form#0;n#div#1;n#div#0;n#div#0;n#body#0;n#html#0;n#!!top" expanded="true" />
+                <element signature="n#style#0;n#table#0;n#td#0;n#tr#2;n#table#0;n#fieldset#0;n#td#0;n#tr#1;n#table#0;n#form#0;n#form#0;n#form#0;n#div#1;n#div#0;n#div#0;n#body#0;n#html#0;n#!!top" expanded="true" />
+              </folding>
             </state>
           </provider>
         </entry>
@@ -87,7 +91,6 @@
         <option value="$PROJECT_DIR$/Cn_online.php" />
         <option value="$PROJECT_DIR$/include/connect.inc.php" />
         <option value="$PROJECT_DIR$/include/num2text.php" />
-        <option value="$PROJECT_DIR$/cust_chk.php" />
         <option value="$PROJECT_DIR$/ajax/add_bo_detail.php" />
         <option value="$PROJECT_DIR$/ajax/calculate.php" />
         <option value="$PROJECT_DIR$/include/productTemp.php" />
@@ -97,6 +100,7 @@
         <option value="$PROJECT_DIR$/process_rent.php" />
         <option value="$PROJECT_DIR$/product_search.php" />
         <option value="$PROJECT_DIR$/report/gen_book_order.php" />
+        <option value="$PROJECT_DIR$/cust_chk.php" />
         <option value="$PROJECT_DIR$/index.php" />
       </list>
     </option>
@@ -152,6 +156,20 @@
               <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.PsiDirectoryNode" />
             </PATH_ELEMENT>
           </PATH>
+          <PATH>
+            <PATH_ELEMENT>
+              <option name="myItemId" value="dreamthai" />
+              <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.ProjectViewProjectNode" />
+            </PATH_ELEMENT>
+            <PATH_ELEMENT>
+              <option name="myItemId" value="dreamthai" />
+              <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.PsiDirectoryNode" />
+            </PATH_ELEMENT>
+            <PATH_ELEMENT>
+              <option name="myItemId" value="report" />
+              <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.PsiDirectoryNode" />
+            </PATH_ELEMENT>
+          </PATH>
         </subPane>
       </pane>
       <pane id="Scope" />
@@ -164,6 +182,11 @@
     <property name="FullScreen" value="false" />
     <property name="options.splitter.details.proportions" value="0.2" />
     <property name="options.searchVisible" value="true" />
+  </component>
+  <component name="RecentsManager">
+    <key name="CopyFile.RECENT_KEYS">
+      <recent name="C:\AppServ\www\dreamthai" />
+    </key>
   </component>
   <component name="RunManager">
     <configuration default="true" type="PHPUnitRunConfigurationType" factoryName="PHPUnit">
@@ -243,18 +266,6 @@
     <breakpoint-manager />
   </component>
   <component name="editorHistoryManager">
-    <entry file="file://$PROJECT_DIR$/js/jquery.validate.min.js">
-      <provider selected="true" editor-type-id="text-editor">
-        <state line="0" column="0" selection-start="0" selection-end="0" vertical-scroll-proportion="0.0" vertical-offset="0" max-vertical-offset="602" />
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/css/validationEngine.jquery.css">
-      <provider selected="true" editor-type-id="text-editor">
-        <state line="0" column="0" selection-start="0" selection-end="0" vertical-scroll-proportion="0.0" vertical-offset="0" max-vertical-offset="816">
-          <folding />
-        </state>
-      </provider>
-    </entry>
     <entry file="file://$PROJECT_DIR$/clear_temp.php">
       <provider selected="true" editor-type-id="text-editor">
         <state line="0" column="0" selection-start="0" selection-end="0" vertical-scroll-proportion="-1.2395834" vertical-offset="714" max-vertical-offset="2057">
@@ -327,28 +338,57 @@
     </entry>
     <entry file="file://$PROJECT_DIR$/ajax/add_bo.php">
       <provider selected="true" editor-type-id="text-editor">
-        <state line="89" column="9" selection-start="2646" selection-end="2674" vertical-scroll-proportion="-58.192307" vertical-offset="0" max-vertical-offset="1649">
+        <state line="89" column="9" selection-start="2646" selection-end="2674" vertical-scroll-proportion="2.5687606" vertical-offset="0" max-vertical-offset="1649">
           <folding />
         </state>
       </provider>
     </entry>
-    <entry file="file://$PROJECT_DIR$/report/gen_book_order.php">
+    <entry file="file://$PROJECT_DIR$/cust_choose.php">
       <provider selected="true" editor-type-id="text-editor">
-        <state line="152" column="14" selection-start="5779" selection-end="5779" vertical-scroll-proportion="0.2361111" vertical-offset="2448" max-vertical-offset="4743">
+        <state line="86" column="49" selection-start="2288" selection-end="2329" vertical-scroll-proportion="-9.153846" vertical-offset="1224" max-vertical-offset="5287">
+          <folding>
+            <element signature="n#style#0;n#fieldset#0;n#td#0;n#tr#0;n#table#0;n#form#0;n#form#0;n#form#0;n#div#1;n#div#0;n#div#0;n#body#0;n#html#0;n#!!top" expanded="true" />
+            <element signature="n#style#0;n#input#4;n#td#0;n#tr#0;n#table#0;n#fieldset#0;n#td#0;n#tr#0;n#table#0;n#form#0;n#form#0;n#form#0;n#div#1;n#div#0;n#div#0;n#body#0;n#html#0;n#!!top" expanded="true" />
+            <element signature="n#style#0;n#fieldset#0;n#td#0;n#tr#1;n#table#0;n#form#0;n#form#0;n#form#0;n#div#1;n#div#0;n#div#0;n#body#0;n#html#0;n#!!top" expanded="true" />
+            <element signature="n#style#0;n#table#0;n#td#0;n#tr#0;n#table#0;n#fieldset#0;n#td#0;n#tr#1;n#table#0;n#form#0;n#form#0;n#form#0;n#div#1;n#div#0;n#div#0;n#body#0;n#html#0;n#!!top" expanded="true" />
+            <element signature="n#style#0;n#table#0;n#td#0;n#tr#1;n#table#0;n#fieldset#0;n#td#0;n#tr#1;n#table#0;n#form#0;n#form#0;n#form#0;n#div#1;n#div#0;n#div#0;n#body#0;n#html#0;n#!!top" expanded="true" />
+            <element signature="n#style#0;n#table#0;n#td#0;n#tr#2;n#table#0;n#fieldset#0;n#td#0;n#tr#1;n#table#0;n#form#0;n#form#0;n#form#0;n#div#1;n#div#0;n#div#0;n#body#0;n#html#0;n#!!top" expanded="true" />
+          </folding>
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/cust_search.php">
+      <provider selected="true" editor-type-id="text-editor">
+        <state line="20" column="25" selection-start="719" selection-end="719" vertical-scroll-proportion="-5.230769" vertical-offset="204" max-vertical-offset="1598">
           <folding />
         </state>
       </provider>
     </entry>
     <entry file="file://$PROJECT_DIR$/cust_chk.php">
       <provider selected="true" editor-type-id="text-editor">
-        <state line="173" column="116" selection-start="8989" selection-end="8999" vertical-scroll-proportion="42.576923" vertical-offset="4048" max-vertical-offset="5287">
+        <state line="100" column="25" selection-start="3711" selection-end="3711" vertical-scroll-proportion="-0.738657" vertical-offset="2107" max-vertical-offset="5202">
+          <folding>
+            <element signature="n#style#0;n#fieldset#0;n#td#0;n#tr#0;n#table#0;n#div#1;n#div#0;n#div#0;n#body#0;n#html#0;n#!!top" expanded="true" />
+            <element signature="n#style#0;n#input#4;n#td#0;n#tr#0;n#table#0;n#fieldset#0;n#td#0;n#tr#0;n#table#0;n#div#1;n#div#0;n#div#0;n#body#0;n#html#0;n#!!top" expanded="true" />
+            <element signature="n#style#0;n#fieldset#0;n#td#0;n#tr#1;n#table#0;n#div#1;n#div#0;n#div#0;n#body#0;n#html#0;n#!!top" expanded="true" />
+            <element signature="n#style#0;n#table#0;n#td#0;n#tr#0;n#table#0;n#fieldset#0;n#td#0;n#tr#1;n#table#0;n#div#1;n#div#0;n#div#0;n#body#0;n#html#0;n#!!top" expanded="true" />
+            <element signature="n#style#0;n#table#0;n#td#0;n#tr#1;n#table#0;n#fieldset#0;n#td#0;n#tr#1;n#table#0;n#div#1;n#div#0;n#div#0;n#body#0;n#html#0;n#!!top" expanded="true" />
+            <element signature="n#style#0;n#table#0;n#td#0;n#tr#2;n#table#0;n#fieldset#0;n#td#0;n#tr#1;n#table#0;n#div#1;n#div#0;n#div#0;n#body#0;n#html#0;n#!!top" expanded="true" />
+            <element signature="n#style#0;n#div#0;n#fieldset#0;n#td#0;n#tr#1;n#table#0;n#div#1;n#div#0;n#div#0;n#body#0;n#html#0;n#!!top" expanded="true" />
+          </folding>
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/report/gen_book_order.php">
+      <provider selected="true" editor-type-id="text-editor">
+        <state line="201" column="23" selection-start="9473" selection-end="9473" vertical-scroll-proportion="0.27767694" vertical-offset="3264" max-vertical-offset="4692">
           <folding />
         </state>
       </provider>
     </entry>
     <entry file="file://$PROJECT_DIR$/index.php">
       <provider selected="true" editor-type-id="text-editor">
-        <state line="332" column="70" selection-start="8646" selection-end="8656" vertical-scroll-proportion="0.3321234" vertical-offset="5461" max-vertical-offset="12070">
+        <state line="464" column="56" selection-start="16342" selection-end="16342" vertical-scroll-proportion="0.3629764" vertical-offset="7688" max-vertical-offset="12002">
           <folding>
             <element signature="n#style#0;n#fieldset#0;n#form#0;n#div#1;n#div#0;n#div#0;n#body#0;n#html#0;n#!!top" expanded="true" />
             <element signature="n#style#0;n#a#0;n#td#0;n#tr#0;n#table#0;n#fieldset#0;n#form#0;n#div#1;n#div#0;n#div#0;n#body#0;n#html#0;n#!!top" expanded="true" />

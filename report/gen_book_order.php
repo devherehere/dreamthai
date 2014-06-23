@@ -155,22 +155,23 @@ $pdf->Cell(0, 0, $row->DOC_WEBSITE, 0, 1);
 $pdf->Ln(1);
 
 
-  $bo_last_insert = 'SELECT        TOP (1) Address.ADD_NO, Amphoe.AMPHOE_NAME_THAI, Province.PROVINCE_NAME_THAI, Tambon.TAMBON_NAME_THAI, Employee_File.EMP_NAME_THAI,
+$bo_last_insert = "SELECT        TOP (1) Address.ADD_NO, Amphoe.AMPHOE_NAME_THAI, Province.PROVINCE_NAME_THAI, Tambon.TAMBON_NAME_THAI, Employee_File.EMP_NAME_THAI,
                          Employee_File.EMP_SURNAME_THAI, Book_Order.DOC_KEY, Book_Order.ADD_ITEM, Book_Order.CON_ITEM, Book_Order.PROM_KEY, Book_Order.AR_BO_DATE,
                          Book_Order.AR_BO_EX_DATE, Book_Order.AR_BO_REMARK, Book_Order.AR_BO_MO_TOTAL, Book_Order.PROM_DISCOUNT_PER,
                          Book_Order.PROM_DISCOUNT_AMOUNT, Book_Order.AR_BO_PROM_TOTAL, Book_Order.CASH_DISCOUNT_PER, Book_Order.CASH_DISCOUNT_AMOUNT,
                          Book_Order.AR_BO_CASH_TOTAL, Book_Order.AR_BO_TAX, Book_Order.AR_BO_TAX_TOTAL, Book_Order.AR_BO_NET, Book_Order.AR_BO_STATUS,
-                         Book_Order.TAXT_KEY, Book_Order.AR_PUR_STATUS, Book_Order.SHIPPING_KEY, Book_Order.SHIPPING_REMARK, Book_Order.SHIPPING_ADD,
-                         Book_Order.AR_BO_S_REMARK, Book_Order.AR_BO_CREATE_BY, Book_Order.AR_BO_CREATE_DATE, Book_Order.AR_BO_REVISE_BY,
-                         Book_Order.AR_BO_APPROVE_BY, Book_Order.AR_BO_APPROVE_DATE, Book_Order.AR_BO_LASTUPD, Contact.APF_ARF_KEY, Book_Order.AR_BO_KEY,
-                         Contact.CONT_NAME, Contact.CONT_SURNAME, Tambon.TAMBON_POSTCODE, Contact.CONT_PHONE, Contact.CONT_EMAIL, Contact.CONT_DEPT,
-                         Contact.CONT_TITLE, Address.ADD_PHONE, Address.ADD_FAX, Address.ADD_MOBILE, Shipping.SHIPPING_NAME, Book_Order.TOF_NAME,
-                         Condition_Payment.COND_PUR_STATUS, Tax_Type.TAXT_NAME, Title_Name.TITLE_NAME_THAI, Promotion.PROM_NAME, Document_File.DOC_ISO,
-                         Document_File.DOC_DAR
-FROM            Document_File LEFT OUTER JOIN
+                         Book_Order.TAXT_KEY, CASE Book_Order.AR_PUR_STATUS WHEN 0 THEN 'ขายสด' WHEN 1 THEN 'ขายเชื่อ' END AS PUR_STATUS, Book_Order.SHIPPING_KEY,
+                         Book_Order.SHIPPING_REMARK, Book_Order.SHIPPING_ADD, Book_Order.AR_BO_S_REMARK, Book_Order.AR_BO_CREATE_BY,
+                         Book_Order.AR_BO_CREATE_DATE, Book_Order.AR_BO_REVISE_BY, Book_Order.AR_BO_APPROVE_BY, Book_Order.AR_BO_APPROVE_DATE,
+                         Book_Order.AR_BO_LASTUPD, Contact.APF_ARF_KEY, Book_Order.AR_BO_KEY, Contact.CONT_NAME, Contact.CONT_SURNAME, Tambon.TAMBON_POSTCODE,
+                         Contact.CONT_PHONE, Contact.CONT_EMAIL, Contact.CONT_DEPT, Contact.CONT_TITLE, Address.ADD_PHONE, Address.ADD_FAX, Address.ADD_MOBILE,
+                         Shipping.SHIPPING_NAME, Book_Order.TOF_NAME, Tax_Type.TAXT_NAME, Title_Name.TITLE_NAME_THAI, Promotion.PROM_NAME, Document_File.DOC_ISO,
+                         Document_File.DOC_DAR, AR_File.ARF_COMPANY_NAME_THAI
+FROM            AR_File RIGHT OUTER JOIN
                          Shipping INNER JOIN
                          Book_Order ON Shipping.SHIPPING_KEY = Book_Order.SHIPPING_KEY INNER JOIN
-                         Promotion ON Book_Order.PROM_KEY = Promotion.PROM_KEY ON Document_File.DOC_KEY = Book_Order.DOC_KEY LEFT OUTER JOIN
+                         Promotion ON Book_Order.PROM_KEY = Promotion.PROM_KEY ON AR_File.ARF_KEY = Book_Order.ARF_KEY RIGHT OUTER JOIN
+                         Document_File ON Book_Order.DOC_KEY = Document_File.DOC_KEY LEFT OUTER JOIN
                          Employee_File ON Book_Order.EMP_KEY = Employee_File.EMP_KEY LEFT OUTER JOIN
                          Contact INNER JOIN
                          Title_Name ON Contact.CONT_TITLE = Title_Name.TITLE_KEY LEFT OUTER JOIN
@@ -180,8 +181,9 @@ FROM            Document_File LEFT OUTER JOIN
                          Amphoe INNER JOIN
                          Address ON Amphoe.AMPHOE_KEY = Address.ADD_AMPHOE ON Province.PROVINCE_KEY = Address.ADD_PROVINCE RIGHT OUTER JOIN
                          Tambon ON Province.PROVINCE_KEY = Tambon.TAMBON_PROVINCE AND Amphoe.AMPHOE_KEY = Tambon.TAMBON_AMPHOE ON
-                         Contact.APF_ARF_KEY = Address.APF_ARF_KEY ON Book_Order.ARF_KEY = Contact.APF_ARF_KEY
-ORDER BY Book_Order.AR_BO_DATE DESC';
+                         Contact.APF_ARF_KEY = Address.APF_ARF_KEY ON Book_Order.ARF_KEY = Contact.APF_ARF_KEY AND Book_Order.TAXT_KEY = Tax_Type.TAXT_KEY
+WHERE        (Contact.CONT_ITEM = Book_Order.CON_ITEM)
+ORDER BY Book_Order.AR_BO_DATE DESC";
 
 
 $stmt = sqlsrv_query($con, $bo_last_insert);
@@ -197,7 +199,7 @@ $pdf->Cell(0, 0, 'Document No. ', 0, 1);
 
 $pdf->Ln(1);
 $pdf->Cell(5, 0, 'ชื่อลูกค้า ');
-$pdf->Cell(7, 0, $row->CONT_NAME . ' ' . $row->CONT_SURNAME);
+$pdf->Cell(7, 0, $row->ARF_COMPANY_NAME_THAI);
 $pdf->Cell(4, 0, 'วันที่เอกสาร ');
 $pdf->Cell(0, 0, $row->AR_BO_CREATE_DATE->format('d/m/Y'), 0, 1);
 $pdf->Ln(0.3);
@@ -209,13 +211,8 @@ $pdf->Cell(3, 0, 'ที่อยู่ ');
 $pdf->Cell(9, 0, $row->ADD_NO . ' ' . $row->TAMBON_NAME_THAI . ' ' . $row->AMPHOE_NAME_THAI . ' ' . $row->PROVINCE_NAME_THAI . ' ' . $row->TAMBON_POSTCODE);
 $pdf->Cell(3, 0, 'เงือนไขการชำระ ');
 
-if ($row->COND_PUR_STATUS == true) {
-    $con_pay = 'เงินสด';
-} else {
-    $con_pay = 'เงินเชื่อ/เครดิต';
-}
 
-$pdf->Cell(0, 0, $con_pay . ' ' . $row->TOF_NAME . ' วัน ' . $row->TAXT_NAME);
+$pdf->Cell(0, 0, $row->PUR_STATUS . ' ' . $row->TOF_NAME . ' วัน ' . $row->TAXT_NAME);
 $pdf->Cell(0, 0, '', 0, 1);
 $pdf->Ln(0.3);
 $pdf->Cell(12, 0, 'Address ');
