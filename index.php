@@ -90,129 +90,156 @@ ob_start();
 <script type="text/javascript">
 
 
-    /*Jquery*/
-    $(function () {
+/*Jquery*/
+$(function () {
 
-        $('select[name="trans_key"]').change(function () {
-            $('input[name="trans_etc"]').attr('disabled', true);
-            if ($(this).val() == '1') {
-                $('input[name="trans_etc"]').attr('disabled', false);
+    $('select[name="trans_key"]').change(function () {
+        $('input[name="trans_etc"]').attr('disabled', true);
+        if ($(this).val() == '1') {
+            $('input[name="trans_etc"]').attr('disabled', false);
+        }
+    });
+
+
+    $("#datepicker").datepicker({
+        changeMonth: true,
+        changeYear: true,
+        dateFormat: 'dd/mm/yy',
+        // yearRange: '1900:2013',
+        dayNames: ['อาทิตย์', 'จันทร์', 'อังคาร', 'พุธ', 'พฤหัสบดี', 'ศุกร์', 'เสาร์'],
+        dayNamesMin: ['อา.', 'จ.', 'อ.', 'พ.', 'พฤ.', 'ศ.', 'ส.'],
+        monthNames: [
+            'มกราคม',
+            'กุมภาพันธ์',
+            'มีนาคม',
+            'เมษายน',
+            'พฤษภาคม',
+            'มิถุนายน',
+            'กรกฎาคม',
+            'สิงหาคม',
+            'กันยายน',
+            'ตุลาคม',
+            'พฤศจิกายน',
+            'ธันวาคม'
+        ],
+        monthNamesShort: ['ม.ค.', 'ก.พ.', 'มี.ค.', 'เม.ย.', 'พ.ค.', 'มิ.ย.', 'ก.ค.', 'ส.ค.', 'ก.ย.', 'ต.ค.', 'พ.ย.', 'ธ.ค.']});
+    $("#datepicker-en").datepicker({
+        dateFormat: 'dd/mm/yy'
+    });
+    $("#inline").datepicker({
+        dateFormat: 'dd/mm/yy',
+        inline: true
+    });
+
+
+    /*form*/
+
+    var formA = $('#formA').validate({
+        rules: {
+            send_pl: {
+                required: true,
+                minlength: 5
             }
-        });
+        },
+        messages: {
+            send_pl: {
+                'required': '*ต้องการสถานที่ในการจัดส่ง',
+                'minlength': '*กรอกอย่างน้อย 5 ตัวอักษร'
+            }
+        }
 
 
-        $("#datepicker").datepicker({
-            changeMonth: true,
-            changeYear: true,
-            dateFormat: 'dd/mm/yy',
-            // yearRange: '1900:2013',
-            dayNames: ['อาทิตย์', 'จันทร์', 'อังคาร', 'พุธ', 'พฤหัสบดี', 'ศุกร์', 'เสาร์'],
-            dayNamesMin: ['อา.', 'จ.', 'อ.', 'พ.', 'พฤ.', 'ศ.', 'ส.'],
-            monthNames: [
-                'มกราคม',
-                'กุมภาพันธ์',
-                'มีนาคม',
-                'เมษายน',
-                'พฤษภาคม',
-                'มิถุนายน',
-                'กรกฎาคม',
-                'สิงหาคม',
-                'กันยายน',
-                'ตุลาคม',
-                'พฤศจิกายน',
-                'ธันวาคม'
-            ],
-            monthNamesShort: ['ม.ค.', 'ก.พ.', 'มี.ค.', 'เม.ย.', 'พ.ค.', 'มิ.ย.', 'ก.ค.', 'ส.ค.', 'ก.ย.', 'ต.ค.', 'พ.ย.', 'ธ.ค.']});
-        $("#datepicker-en").datepicker({
-            dateFormat: 'dd/mm/yy'
-        });
-        $("#inline").datepicker({
-            dateFormat: 'dd/mm/yy',
-            inline: true
-        });
+    });
+
+    $(document.body).on('click', 'input[type="button"]', function () {
+        var ar_bo_key = $('input[name="ar_bo_key"').val();
+        var action = confirm('ต้องการบันทึกข้อมูลเลขที่ ' + ar_bo_key + ' ใช่หรือไม่');
+
+        if (action) {
+            $('#formA').submit();
+        }
 
 
-        /*form*/
+    });
 
-        var formA = $('#formA').validate({
-            rules: {
-                send_pl: {
-                    required: true,
-                    minlength: 5
+
+    $('#formA').submit(function (event) {
+        event.preventDefault();
+        if (formA.valid()) {
+
+            var arf_key = $('input[name="arf_key"]').val();
+            var empkey = $('select[name="empkey"]').val();
+            var promotion = $('input[name="promotion"]').data('prom-key');
+            var tof_name = $('select[name="tof_name"]').val();
+            var remark = $('input[name="remark"]').val();
+            var vat_key = $('select[name="vat_key"]').val();
+            var pur_sta = $('select[name="pur_sta"]').val();
+            var trans_key = $('select[name="trans_key"]').val();
+            var trans_etc = $('input[name="trans_etc"]').val();
+            var send_pl = $('input[name="send_pl"]').val();
+            var vat = $('input[name="vat"]').val();
+
+            $.ajax({
+                type: 'post',
+                url: 'ajax/add_bo.php',
+                beforeSend: function (xhr) {
+                    xhr.overrideMimeType('content="text/html; charset=tis-620"')
+                },
+                data: {
+                    arf_key: arf_key,
+                    empkey: empkey,
+                    promotion: promotion,
+                    tof_name: tof_name,
+                    remark: remark,
+                    vat_key: vat_key,
+                    pur_sta: pur_sta,
+                    trans_key: trans_key,
+                    trans_etc: trans_etc,
+                    send_pl: send_pl,
+                    vat: vat
+                },
+                success: function (data) {
+
+                    window.open('report/gen_book_order.php', '_blank');
+                    window.location.href = 'index.php';
                 }
-            },
-            messages: {
-                send_pl: {
-                    'required': '*ต้องการสถานที่ในการจัดส่ง',
-                    'minlength': '*กรอกอย่างน้อย 5 ตัวอักษร'
-                }
-            }
 
 
-        });
+            });
 
-        $(document.body).on('click', 'input[type="button"]', function () {
-            var ar_bo_key = $('input[name="ar_bo_key"').val();
-            var action = confirm('ต้องการบันทึกข้อมูลเลขที่ '+ar_bo_key +' ใช่หรือไม่');
+        }
 
-            if (action) {
-                $('#formA').submit();
-            }
+    });
 
+    /*event when start document*/
 
-        });
+    $.ajax({
+        type: 'post',
+        url: 'include/productTemp.php',
+        beforeSend: function (xhr) {
+            xhr.overrideMimeType('content="text/html; charset=tis-620"');
+        },
+        success: function (data) {
+            $('#product_temp').html(data);
+        }
+    });
 
-
-        $('#formA').submit(function (event) {
-            event.preventDefault();
-            if (formA.valid()) {
-
-                var arf_key = $('input[name="arf_key"]').val();
-                var empkey = $('select[name="empkey"]').val();
-                var promotion = $('input[name="promotion"]').data('prom-key');
-                var tof_name = $('select[name="tof_name"]').val();
-                var remark = $('input[name="remark"]').val();
-                var vat_key = $('select[name="vat_key"]').val();
-                var pur_sta = $('select[name="pur_sta"]').val();
-                var trans_key = $('select[name="trans_key"]').val();
-                var trans_etc = $('input[name="trans_etc"]').val();
-                var send_pl = $('input[name="send_pl"]').val();
-                var vat = $('input[name="vat"]').val();
-
-                $.ajax({
-                    type: 'post',
-                    url: 'ajax/add_bo.php',
-                    beforeSend: function (xhr) {
-                        xhr.overrideMimeType('content="text/html; charset=tis-620"')
-                    },
-                    data: {
-                        arf_key: arf_key,
-                        empkey: empkey,
-                        promotion: promotion,
-                        tof_name: tof_name,
-                        remark: remark,
-                        vat_key: vat_key,
-                        pur_sta: pur_sta,
-                        trans_key: trans_key,
-                        trans_etc: trans_etc,
-                        send_pl: send_pl,
-                        vat: vat
-                    },
-                    success: function (data) {
-
-                        window.open('report/gen_book_order.php', '_blank');
-                        window.location.href = 'index.php';
-                    }
+    $.ajax({
+        type: 'post',
+        url: 'ajax/calculate.php',
+        beforeSend: function (xhr) {
+            xhr.overrideMimeType('content="text/html; charset=tis-620"');
+        },
+        success: function (data) {
+            $('#calculate').html(data);
+        }
+    });
 
 
-                });
+    /*event when start window active*/
 
-            }
-
-        });
-
-        /*event when start document*/
-
+    $(window).focus(function () {
+        //send request again when window active
         $.ajax({
             type: 'post',
             url: 'include/productTemp.php',
@@ -221,6 +248,7 @@ ob_start();
             },
             success: function (data) {
                 $('#product_temp').html(data);
+
             }
         });
 
@@ -235,44 +263,41 @@ ob_start();
             }
         });
 
-
-        /*event when start window active*/
-
-        $(window).focus(function () {
-            //send request again when window active
-            $.ajax({
-                type: 'post',
-                url: 'include/productTemp.php',
-                beforeSend: function (xhr) {
-                    xhr.overrideMimeType('content="text/html; charset=tis-620"');
-                },
-                success: function (data) {
-                    $('#product_temp').html(data);
-
-                }
-            });
-
-            $.ajax({
-                type: 'post',
-                url: 'ajax/calculate.php',
-                beforeSend: function (xhr) {
-                    xhr.overrideMimeType('content="text/html; charset=tis-620"');
-                },
-                success: function (data) {
-                    $('#calculate').html(data);
-                }
-            });
-
-        });
-
     });
-    /*End Jquery*/
 
-    /*Custome Script*/
-    /*function modTextbox() {
-     document.formA.trans_etc.disabled = !(document.formA.trans_key.value % 2);
-     }
-     */
+
+    $(document.body).on('click', 'div.del_item_bo', function () {
+        var bod_item = $(this).parent().parent().find('td').first().text();
+        var goods_key = $(this).parent().parent().find('td').first().next().text();
+        var check = confirm("คุณต้องการลบรายการ ลำดับที่ " + bod_item + "รหัสสินค้า " + goods_key);
+        if (check == true) {
+            $.ajax({
+                type: 'post',
+                url: 'ajax/del_item_bod',
+                beforeSend: function (xhr) {
+                    xhr.overrideMimeType('content="text/html; charset=tis-620"');
+                },
+                data: {
+                    bod_item: bod_item
+                },
+                success: function (data) {
+                    //document.write(data);
+                    window.location.href = 'index.php';
+                }
+            });
+
+        }
+    });
+
+
+});
+/*End Jquery*/
+
+/*Custome Script*/
+/*function modTextbox() {
+ document.formA.trans_etc.disabled = !(document.formA.trans_key.value % 2);
+ }
+ */
 
 </script>
 
@@ -302,16 +327,19 @@ include "include/connect.inc.php";
 <div class="content">
 <div id="debug"></div>
 <?PHP if (@$_SESSION["user_ses"] != '' && @$_SESSION["user_id"] != '') {
+
+
 if (@$_GET['id'] == md5('add')) {
     if (isset($_POST['item_address']) == 1 && isset($_POST['item_contact']) == 1 && isset($_POST['item_pay']) == 1) {
-         $sql_address = "SELECT     Address.APF_ARF_KEY, AR_File.ARF_KEY, Address.ADD_ITEM, Address.ADD_NO, Amphoe.AMPHOE_NAME_THAI, Province.PROVINCE_NAME_THAI, Tambon.TAMBON_NAME_THAI, Address.ADD_PROVINCE, Address.ADD_AMPHOE, Address.ADD_TAMBON, Tambon.TAMBON_POSTCODE, Address.ADD_PHONE,  Address.ADD_MOBILE, Address.ADD_FAX, Address.ADD_EMAIL, Address.ADD_DEFAULT FROM Tambon LEFT OUTER JOIN
+
+        $sql_address = "SELECT     Address.APF_ARF_KEY, AR_File.ARF_KEY, Address.ADD_ITEM, Address.ADD_NO, Amphoe.AMPHOE_NAME_THAI, Province.PROVINCE_NAME_THAI, Tambon.TAMBON_NAME_THAI, Address.ADD_PROVINCE, Address.ADD_AMPHOE, Address.ADD_TAMBON, Tambon.TAMBON_POSTCODE, Address.ADD_PHONE,  Address.ADD_MOBILE, Address.ADD_FAX, Address.ADD_EMAIL, Address.ADD_DEFAULT FROM Tambon LEFT OUTER JOIN
                       Address ON Tambon.TAMBON_KEY = Address.ADD_TAMBON RIGHT OUTER JOIN
                       Amphoe ON Address.ADD_AMPHOE = Amphoe.AMPHOE_KEY RIGHT OUTER JOIN
                       Province ON Address.ADD_PROVINCE = Province.PROVINCE_KEY LEFT OUTER JOIN
                       AR_File ON Address.APF_ARF_KEY = AR_File.ARF_KEY
 					  WHERE  (Address.ADD_STATUS = '1')
 					  AND (Address.ADD_ITEM = '" . $_POST['item_address'] . "') AND Address.APF_ARF_KEY = '" . $_POST['ar_key_add'] . "' ";
-         $sql_dbgadd = sqlsrv_query($con,$sql_address);
+        $sql_dbgadd = sqlsrv_query($con, $sql_address);
         $address_ = sqlsrv_fetch_array($sql_dbgadd);
 
         $sql_dbgcont = sqlsrv_query($con, "SELECT     Contact.CONT_TITLE, Title_Name.TITLE_NAME_THAI, Contact.CONT_NAME, Contact.CONT_SURNAME, Contact.CONT_DEPT, Contact.CONT_PHONE,   Contact.CONT_EMAIL, AR_File.ARF_KEY, Contact.CONT_ITEM, Contact.CONT_DEFAULT
@@ -330,7 +358,7 @@ FROM         Title_Name LEFT OUTER JOIN Contact ON Title_Name.TITLE_KEY = Contac
         $cust_arf = $_POST['cust_arf'];
         $cust_name = $_POST['cust_name'];
         $add_item = $address_['ADD_ITEM'];
-        $add_name = $address_['ADD_NO']." ". $address_['AMPHOE_NAME_THAI'] . " " . $address_['TAMBON_NAME_THAI'] . "  " . $address_['PROVINCE_NAME_THAI'] . " " . $address_['TAMBON_POSTCODE'] . " ";
+        $add_name = $address_['ADD_NO'] . " " . $address_['AMPHOE_NAME_THAI'] . " " . $address_['TAMBON_NAME_THAI'] . "  " . $address_['PROVINCE_NAME_THAI'] . " " . $address_['TAMBON_POSTCODE'] . " ";
         $key_con = $contact_[2];
         $add_fax = $address_['ADD_FAX'];
         $phone_con = $address_['ADD_MOBILE']; //----------------------
@@ -440,22 +468,23 @@ if (sqlsrv_num_rows(sqlsrv_query($con, $chk)) > 0) {
                 <select name="ID_CONTACT" class="frominput">
                     <?php
 
-
-                    $sql_c = sqlsrv_query($con, "SELECT DISTINCT  Contact.CONT_TITLE, Contact.CONT_NAME, Contact.CONT_SURNAME, AP_File.APF_KEY, Title_Name.TITLE_NAME_THAI FROM Title_Name INNER JOIN Contact ON Title_Name.TITLE_KEY = Contact.CONT_TITLE LEFT OUTER JOIN
-AP_File ON Contact.APF_ARF_KEY = AP_File.APF_KEY WHERE  (Contact.CONT_DEFAULT = '1') ");
-                    while ($ckey = sqlsrv_fetch_array($sql_c)):?>
+                    $sql_contact = "SELECT   Contact.CONT_ITEM, Contact.CONT_TITLE, Contact.CONT_NAME, Contact.CONT_SURNAME, AP_File.APF_KEY, Title_Name.TITLE_NAME_THAI FROM Title_Name INNER JOIN Contact ON Title_Name.TITLE_KEY = Contact.CONT_TITLE LEFT OUTER JOIN
+AP_File ON Contact.APF_ARF_KEY = AP_File.APF_KEY WHERE  Contact.CONT_STATUS = '1' AND APF_ARF_KEY = '" . $_SESSION['cust_arf'] . "'";
+                    $stmt_contact = sqlsrv_query($con, $sql_contact);
+                    while ($ckey = sqlsrv_fetch_array($stmt_contact)):
+                        ?>
 
                         <?php
 
-
-                        if ($ckey[1] == $_SESSION["key_con"]) {
+                        echo $_SESSION["key_con"];
+                        if ($ckey['CONT_ITEM'] == $_SESSION["key_con"]) {
                             $select = "selected='selected' ";
                         } else {
                             $select = "";
                         }
-                        if ($_SESSION["key_con"] != '') {
-                            echo "<option value='" . $ckey['APF_KEY'] . "' " . $select . ">" . $ckey['TITLE_NAME_THAI'] . " " . $ckey['CONT_NAME'] . "  " . $ckey['CONT_SURNAME'] . "</option>";
-                        }
+
+                        echo "<option value='" . $ckey['CONT_ITEM'] . "' " . $select . ">" . $ckey['TITLE_NAME_THAI'] . " " . $ckey['CONT_NAME'] . "  " . $ckey['CONT_SURNAME'] . "</option>";
+
 
 
                     endwhile;
@@ -505,10 +534,10 @@ ORDER BY Employee_File.EMP_NAME_THAI, Employee_File.EMP_SURNAME_THAI";
 
                     $stmt_emp = sqlsrv_query($con, $sql_emp);
                     while ($ekey = sqlsrv_fetch_array($stmt_emp)) {
-                        if($_SESSION['user_id']==$ekey['EMP_KEY']){
+                        if ($_SESSION['user_id'] == $ekey['EMP_KEY']) {
                             echo "<option value='" . $ekey['EMP_KEY'] . "' selected>" . $ekey['TITLE_NAME_THAI'] . " " . $ekey['EMP_NAME_THAI'] . " " . $ekey['EMP_SURNAME_THAI'] . "</option>";
 
-                        }else{
+                        } else {
                             echo "<option value='" . $ekey['EMP_KEY'] . "'>" . $ekey['TITLE_NAME_THAI'] . " " . $ekey['EMP_NAME_THAI'] . " " . $ekey['EMP_SURNAME_THAI'] . "</option>";
                         }
 
@@ -571,9 +600,6 @@ ORDER BY Employee_File.EMP_NAME_THAI, Employee_File.EMP_SURNAME_THAI";
 </fieldset>
 
 
-
-
-
 <fieldset style="width:96%; margin-left:11px; margin-bottom:10px;">
     <legend>รายละเอียดในใบจองสินค้า</legend>
 
@@ -581,12 +607,7 @@ ORDER BY Employee_File.EMP_NAME_THAI, Employee_File.EMP_SURNAME_THAI";
     <div id="product_temp">
 
     </div>
-    <!--<iframe id="product" src="include/productTemp.php" width="100%" scrolling="no" height="400"
-            style="
-             display:block;
-             border:#FFF thin solid;
-        "> </iframe>
--->
+
 
     <a href="clear_temp.php?id=1" class="clear_list" target="_blank"
        onclick="return confirm('คุณแน่ใจหรือไม่')"></a>

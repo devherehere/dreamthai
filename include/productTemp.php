@@ -14,12 +14,12 @@ FROM            Goods INNER JOIN
                          Book_Order_Detail ON Goods.GOODS_KEY = Book_Order_Detail.GOODS_KEY
 WHERE        (Book_Order_Detail.AR_BO_ID = '" . $_SESSION['id_bo'] . "') AND (Goods_Price_List.GPL_STATUS = 1) ";
 $params = array();
-$options =  array( "Scrollable" => SQLSRV_CURSOR_KEYSET );
-$result = sqlsrv_query($con, $sql,$params, $options);
+$options = array("Scrollable" => SQLSRV_CURSOR_KEYSET);
+$result = sqlsrv_query($con, $sql, $params, $options);
 $num_rows = sqlsrv_num_rows($result);
 if (sqlsrv_has_rows($result)):
 ?>
-<div style="margin-bottom: 5px;" >จำนวนที่เลือก [<?php echo $num_rows?>] </div>
+<div style="margin-bottom: 5px;">จำนวนที่เลือก [<?php echo $num_rows ?>]</div>
 <table width="100%" border="0" cellspacing="1" cellpadding="0" style="color:#FFF; font-size:13px;  ">
     <tr bgcolor="#333333" height="20">
         <td align="center">ลำดับ</td>
@@ -46,7 +46,7 @@ if (sqlsrv_has_rows($result)):
     while (@$reccord = sqlsrv_fetch_array($result)) :
         ?>
         <tr bgcolor="#7f7f7f" height="20">
-            <td align="center"><?= $j ?></td>
+            <td align="center" name="bod_item"><?= $reccord['AR_BOD_ITEM'] ?></td>
             <td align="left" bgcolor="#888888">&nbsp;
                 <?= $reccord['GOODS_CODE'] ?></td>
             <td align="left" bgcolor="#888888">&nbsp;
@@ -74,19 +74,20 @@ if (sqlsrv_has_rows($result)):
             <td align="left" bgcolor="#888888">&nbsp;
                 <?= $reccord['AR_BOD_REMARK'] ?></td>
             <td align="center"><a
-                    href="<?php echo BASE_URL; ?>process_rent.php?ide=<?= md5('fu215') ?>&gkey=<?= $reccord['GOODS_KEY'] ?>&item=<?= $reccord['AR_BOD_ITEM'] ?>"
+                    href="<?php echo BASE_URL; ?>edit_rent.php?goods_key=<?= $reccord['GOODS_KEY']; ?>"
                     target="_blank"> <img src="<?php echo BASE_URL; ?>img/edt_list.png"></a></td>
-            <td align="center"><a
-                    href="<?php echo BASE_URL; ?>clear_temp.php?id=<?= md5('del558') ?>&gitem=<?= $reccord['AR_BOD_ITEM'] ?>"
-                    target="_blank" onClick="return confirm('ต้องการลบ')"> <img
-                        src="<?php echo BASE_URL; ?>img/del_list.png"></a></td>
+            <td align="center">
+                <div style="cursor: pointer" class="del_item_bo">
+                    <img src="<?php echo BASE_URL; ?>img/del_list.png">
+                </div>
+            </td>
         </tr>
         <?PHP
         $j++;
     endwhile;
     else:
-    ?>
-        <div style="text-align: center;color: red" >ยังไม่ได้เพิ่มรายการ!</div>
+        ?>
+        <div style="text-align: center;color: red">ยังไม่ได้เพิ่มรายการ!</div>
     <?php
     endif;
     ?>

@@ -155,7 +155,7 @@ $pdf->Cell(0, 0, $row->DOC_WEBSITE, 0, 1);
 $pdf->Ln(1);
 
 
- $bo_last_insert = 'SELECT        TOP (1) Address.ADD_NO, Amphoe.AMPHOE_NAME_THAI, Province.PROVINCE_NAME_THAI, Tambon.TAMBON_NAME_THAI, Employee_File.EMP_NAME_THAI,
+  $bo_last_insert = 'SELECT        TOP (1) Address.ADD_NO, Amphoe.AMPHOE_NAME_THAI, Province.PROVINCE_NAME_THAI, Tambon.TAMBON_NAME_THAI, Employee_File.EMP_NAME_THAI,
                          Employee_File.EMP_SURNAME_THAI, Book_Order.DOC_KEY, Book_Order.ADD_ITEM, Book_Order.CON_ITEM, Book_Order.PROM_KEY, Book_Order.AR_BO_DATE,
                          Book_Order.AR_BO_EX_DATE, Book_Order.AR_BO_REMARK, Book_Order.AR_BO_MO_TOTAL, Book_Order.PROM_DISCOUNT_PER,
                          Book_Order.PROM_DISCOUNT_AMOUNT, Book_Order.AR_BO_PROM_TOTAL, Book_Order.CASH_DISCOUNT_PER, Book_Order.CASH_DISCOUNT_AMOUNT,

@@ -269,7 +269,22 @@ WHERE        (Goods_Price_List.GPL_STATUS = '1')  AND  Goods.GOODS_CODE   IN  ('
         $dis = $_POST['dis'];
         $uom_key = $_POST['uom_key'];
         $date_re = $_POST['date_re'];
-        $item_no = 1;
+        $item_no = 0;
+
+        $sql_check_item = "SELECT * FROM [Dream_Thai].[dbo].[Book_Order_Detail] WHERE AR_BO_ID = '" . $_SESSION['id_bo'] . "'";
+        $params = array();
+        $options = array("Scrollable" => SQLSRV_CURSOR_KEYSET);
+        $stmt_check_item = sqlsrv_query($con, $sql_check_item, $params, $options);
+        $num = sqlsrv_num_rows($stmt_check_item);
+
+        if ($num > 0) {
+            $item_no = $num + 1;
+        } else {
+            $item_no = 1;
+
+        }
+
+
         for ($i = 0; $i < count($goods_key); $i++) {
 
             $goods_sum = $gpl_price[$i] * $num_rent[$i];
@@ -279,7 +294,7 @@ WHERE        (Goods_Price_List.GPL_STATUS = '1')  AND  Goods.GOODS_CODE   IN  ('
 //            echo $goods_key[$i] . ' ' . $uom_key[$i] . ' ' . $gpl_price[$i] . ' ' . $num_rent[$i] . ' ' . $goods_sum . ' ' . $dis[$i] . ' ' . $dis_amount . ' ' . $dis_total.'<br/>';
 
 
-            $sql_add_temp = "INSERT INTO [Dream_Thai].[dbo].[Book_Order_Detail]
+             $sql_add_temp = "INSERT INTO [Dream_Thai].[dbo].[Book_Order_Detail]
                                     (
                                    [AR_BO_ID]
                                   ,[AR_BOD_ITEM]
@@ -317,9 +332,9 @@ WHERE        (Goods_Price_List.GPL_STATUS = '1')  AND  Goods.GOODS_CODE   IN  ('
 
         }
         $params = array();
-        $options =  array( "Scrollable" => SQLSRV_CURSOR_KEYSET );
+        $options = array("Scrollable" => SQLSRV_CURSOR_KEYSET);
         $sql = "select * from [Dream_Thai].[dbo].[Book_Order_Detail] where [AR_BO_ID] = '" . $_SESSION['id_bo'] . "' ";
-        $stmt = sqlsrv_query($con, $sql, $params, $options );
+        $stmt = sqlsrv_query($con, $sql, $params, $options);
 
         if (sqlsrv_num_rows($stmt) > 0) {
             //	  echo("<meta http-equiv='refresh' content='1;url=product_search.php' />");
@@ -329,97 +344,6 @@ WHERE        (Goods_Price_List.GPL_STATUS = '1')  AND  Goods.GOODS_CODE   IN  ('
     }
 
 
-    /*
-   $itm = @$_POST['mx'];
-   if (@$_GET['id_addtemp'] == md5('id_addtemp') && (@$_GET['gkey'] != "" && @$_GET['item_edt'] != "")) {
-
-
-       $sql_up = "UPDATE [Dream_Thai].[dbo].[Book_Order_Detail_Temp]
-      SET  [AR_BOD_GOODS_AMOUNT] = " . $_POST['1'] . "
-     ,[AR_BOD_DISCOUNT_PER] = " . $_POST['ex1'] . "
-     ,[AR_BOD_RE_DATE] = '" . $_POST['dt1'] . "'
-     ,[AR_BOD_GOODS_SUM]  = '" . ($_POST['1'] * $_POST['gp1']) . "'
-     ,[AR_BOD_DISCOUNT_AMOUNT] = '" . ((($_POST['1'] * $_POST['gp1']) * $_POST['ex1'] / 100)) . "'
-     ,[AR_BOD_TOTAL] = '" . (($_POST['1'] * $_POST['gp1']) - ((($_POST['1'] * $_POST['gp1']) * $_POST['ex1'] / 100))) . "'
-     ,[AR_BOD_REMARK] = '" . $_POST['rm1'] . "'
-     WHERE AR_BOD_ITEM = " . $_REQUEST['item_edt'] . " AND  GOODS_KEY = '" . $_REQUEST['gkey'] . "'  ";
-       sqlsrv_query($con, $sql_up);
-       echo "<script>window.close();</script>";
-
-
-   } else if (@$_GET['id_addtemp'] == md5('id_addtemp') && (@$_GET['gkey'] == "" && @$_GET['item_edt'] == "")) {
-
-
-       $goods_code = $_POST['goods_code'];
-
-
-
-           $run_item = sqlsrv_fetch_array(sqlsrv_query($con, "SELECT ISNULL(MAX(AR_BOD_ITEM),0)+1 AS iTEM FROM [Dream_Thai].[dbo].[Book_Order_Detail_Temp];"));
-
-           for ($k = 1; $k <= $itm; $k++) {
-
-               if ($run_item[0] == 1) {
-                   $item_no = $k;
-               } else {
-                   $item_no = ($run_item[0] + ($k - 1));
-               }
-
-               if ($_POST["" . $k . ""] != "") {
-                   $sum = ($_POST["" . $k . ""] * $_POST["gp" . $k . ""]);
-                   $temp = " Value = '" . $_POST["" . $k . ""] . "' ";
-                   $ex = $_POST["ex" . $k . ""];
-                   $sum_ex = (($sum * $ex) / 100);
-                   $sum_total = ($sum - $sum_ex);
-
-
-                   $sql_add_temp = "INSERT INTO [Dream_Thai].[dbo].[Book_Order_Detail_Temp]
-                    (
-                   [AR_BO_ID]
-                  ,[AR_BOD_ITEM]
-                  ,[GOODS_KEY]
-                  ,[UOM_KEY]
-                  ,[AR_BOD_GOODS_SELL]
-                  ,[AR_BOD_GOODS_AMOUNT]
-                  ,[AR_BOD_GOODS_SUM]
-                  ,[AR_BOD_DISCOUNT_PER]
-                  ,[AR_BOD_DISCOUNT_AMOUNT]
-                  ,[AR_BOD_TOTAL]
-                  ,[AR_BOD_RE_DATE]
-                  ,[AR_BOD_SO_STATUS]
-                  ,[AR_BOD_REMARK]
-                  ,[AR_BOD_LASTUPD])
-            VALUES
-                  (" . $_SESSION['id_bo'] . "
-                  ," . $item_no . "
-                  ,'" . $_POST["gk" . $k . ""] . "'
-                  ,'" . $_POST["uk" . $k . ""] . "'
-                  ,'" . $_POST["gp" . $k . ""] . "'
-                  ,'" . $_POST["" . $k . ""] . "'
-                  ," . $sum . "
-                  ," . $ex . "
-                  ," . $sum_ex . "
-                  ," . $sum_total . "
-                  ,' " . $_POST["dt" . $k . ""] . " " . date("H:i:s") . " '
-                  ,1
-                  , '" . $_POST["rm" . $k . ""] . "'
-                  ,'" . date("Y/m/d H:i:s") . "')";
-
-                   $ap_file1 = sqlsrv_query($con, $sql_add_temp);
-
-
-                   if ($ap_file1 == true) {
-                       //	  echo("<meta http-equiv='refresh' content='1;url=product_search.php' />");
-                       echo "<script>window.close();</script>";
-                   }
-               }
-           }
-
-
-
-
-
-   }
-*/
 } else {
     echo "<center><font color = 'red'>กรุณาเข้าสู่ระบบ</font></center>";
 }
