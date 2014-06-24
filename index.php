@@ -309,6 +309,8 @@ include "include/connect.inc.php";
 
 </head>
 <body>
+
+
 <div id="wrapper">
 <div class="mian">
 <div class="head">
@@ -329,69 +331,21 @@ include "include/connect.inc.php";
 <?PHP if (@$_SESSION["user_ses"] != '' && @$_SESSION["user_id"] != '') {
 
 
-if (@$_GET['id'] == md5('add')) {
-    if (isset($_POST['item_address']) == 1 && isset($_POST['item_contact']) == 1 && isset($_POST['item_pay']) == 1) {
-
-        $sql_address = "SELECT     Address.APF_ARF_KEY, AR_File.ARF_KEY, Address.ADD_ITEM, Address.ADD_NO, Amphoe.AMPHOE_NAME_THAI, Province.PROVINCE_NAME_THAI, Tambon.TAMBON_NAME_THAI, Address.ADD_PROVINCE, Address.ADD_AMPHOE, Address.ADD_TAMBON, Tambon.TAMBON_POSTCODE, Address.ADD_PHONE,  Address.ADD_MOBILE, Address.ADD_FAX, Address.ADD_EMAIL, Address.ADD_DEFAULT FROM Tambon LEFT OUTER JOIN
+ $sql_address = "SELECT     Address.APF_ARF_KEY, AR_File.ARF_KEY, Address.ADD_ITEM, Address.ADD_NO, Amphoe.AMPHOE_NAME_THAI, Province.PROVINCE_NAME_THAI, Tambon.TAMBON_NAME_THAI, Address.ADD_PROVINCE, Address.ADD_AMPHOE, Address.ADD_TAMBON, Tambon.TAMBON_POSTCODE, Address.ADD_PHONE,  Address.ADD_MOBILE, Address.ADD_FAX, Address.ADD_EMAIL, Address.ADD_DEFAULT FROM Tambon LEFT OUTER JOIN
                       Address ON Tambon.TAMBON_KEY = Address.ADD_TAMBON RIGHT OUTER JOIN
                       Amphoe ON Address.ADD_AMPHOE = Amphoe.AMPHOE_KEY RIGHT OUTER JOIN
                       Province ON Address.ADD_PROVINCE = Province.PROVINCE_KEY LEFT OUTER JOIN
                       AR_File ON Address.APF_ARF_KEY = AR_File.ARF_KEY
 					  WHERE  (Address.ADD_STATUS = '1')
-					  AND (Address.ADD_ITEM = '" . $_POST['item_address'] . "') AND Address.APF_ARF_KEY = '" . $_POST['ar_key_add'] . "' ";
-        $sql_dbgadd = sqlsrv_query($con, $sql_address);
-        $address_ = sqlsrv_fetch_array($sql_dbgadd);
+					  AND (Address.ADD_ITEM = '" . $_SESSION['item_address'] . "') AND Address.APF_ARF_KEY = '" . $_SESSION['cust_arf'] . "' ";
+$sql_dbgadd = sqlsrv_query($con, $sql_address);
+$address = sqlsrv_fetch_array($sql_dbgadd);
 
-       $sql_contact = "SELECT     Contact.CONT_TITLE, Title_Name.TITLE_NAME_THAI, Contact.CONT_NAME, Contact.CONT_SURNAME, Contact.CONT_DEPT, Contact.CONT_PHONE,   Contact.CONT_EMAIL, AR_File.ARF_KEY, Contact.CONT_ITEM, Contact.CONT_DEFAULT
-FROM         Title_Name LEFT OUTER JOIN Contact ON Title_Name.TITLE_KEY = Contact.CONT_TITLE LEFT OUTER JOIN AR_File ON Contact.APF_ARF_KEY = AR_File.ARF_KEY  WHERE     (Contact.CONT_STATUS = '1')
-		 AND (Contact.CONT_ITEM = '" . $_POST['item_contact'] . "') AND Contact.APF_ARF_KEY = '" . $_POST['cn_key_add'] . "'";
-        $sql_dbgcont = sqlsrv_query($con,$sql_contact );
-        $contact_ = sqlsrv_fetch_array($sql_dbgcont);
+$full_address = $address['ADD_NO'] . ' ' . $address['TAMBON_NAME_THAI'] . ' ' . $address['AMPHOE_NAME_THAI'] . ' ' . $address['PROVINCE_NAME_THAI'] . ' ' . $address['TAMBON_POSTCODE'];
+$_SESSION['full_address'] = $full_address;
 
-        $sql_dbgpay = sqlsrv_query($con, "SELECT     AR_File.ARF_KEY, CASE Condition_Payment.COND_PUR_STATUS WHEN 0 THEN 'ขายสด'
-			WHEN 1 THEN 'ขายเชื่อ' END AS STATUS, Condition_Payment.TOF_NAME, Tax_Type.TAXT_NAME, Tax_Type.TAXT_KEY,    	
-			Condition_Payment.COND_ITEM, Condition_Payment.COND_DEFAULT  FROM         Tax_Type INNER JOIN
-            Condition_Payment ON Tax_Type.TAXT_KEY = Condition_Payment.TAXT_KEY RIGHT OUTER JOIN  
-			AR_File ON Condition_Payment.APF_ARF_KEY = AR_File.ARF_KEY  WHERE  (Condition_Payment.COND_STATUS = '1') AND     
-			Condition_Payment.TOF_NAME =  " . $_POST['item_pay'] . ";");
-        $c_pay = sqlsrv_fetch_array($sql_dbgpay);
 
-        $cust_arf = $_POST['cust_arf'];
-        $cust_name = $_POST['cust_name'];
-        $add_item = $address_['ADD_ITEM'];
-        $add_name = $address_['ADD_NO'] . " " . $address_['AMPHOE_NAME_THAI'] . " " . $address_['TAMBON_NAME_THAI'] . "  " . $address_['PROVINCE_NAME_THAI'] . " " . $address_['TAMBON_POSTCODE'] . " ";
-        $key_con = $contact_[2];
-        $add_fax = $address_['ADD_FAX'];
-        $phone_con = $address_['ADD_MOBILE']; //----------------------
-        $vat_pay = $c_pay[3];
-        $vat_sale = $c_pay[1];
-        $day_pay = $c_pay[2];
-        $cust_type = $_POST['cust_type'];
-        $cust_credit_conf = $_POST['cust_credit_conf'];
-        $cust_credit = $_POST['cust_credit'];
-        $cust_sta = $_POST['cust_sta'];
-        if ($cust_arf != "") {
-            $_SESSION["add_item"] = $address_['ADD_ITEM'];
-            $_SESSION["con_item"] = $contact_['CONT_ITEM'];
-            $_SESSION["cust_arf"] = $cust_arf;
-            $_SESSION['cust_sta'] = $cust_sta;
-            $_SESSION['cust_credit'] = $cust_credit;
-            $_SESSION['cust_credit_conf'] = $cust_credit_conf;
-            $_SESSION['cust_type'] = $cust_type;
-            $_SESSION['day_pay'] = $day_pay;
-            $_SESSION['vatsale'] = $vat_sale;
-            $_SESSION['vat_pay'] = $vat_pay;
-            $_SESSION['phone_con'] = $phone_con;
-            $_SESSION['add_fax'] = $add_fax;
-            $_SESSION['key_con'] = $key_con;
-            $_SESSION['add_name'] = $add_name;
-            $_SESSION['add_item'] = $add_item;
-            $_SESSION['cust_name'] = $cust_name;
-        }
-    } else {
 
-    }
-}
 $day = explode("-", date("Y-m-d"));
 $sql_duc = "SELECT     DOC_KEY, MODULE_KEY, DOC_TITLE_NAME, DOC_NAME_THAI, DOC_NAME_ENG, DOC_SET_YEAR, DOC_SET_MONTH, DOC_RUN, DOC_DATE, DOC_REMARK, DOC_STATUS, DOC_CREATE_BY, DOC_REVISE_BY, DOC_LASTUPD, DOC_ISO, DOC_DAR, DOC_COMPANY_NAME_THAI, DOC_COMPANY_NAME_ENG, DOC_ADD, DOC_TEL, DOC_FAX, DOC_TAX, DOC_WEBSITE, DOC_LOGO, DOC_FORMPRINT
 FROM   Document_File WHERE  (DOC_STATUS = '1') AND (MODULE_KEY = 2)";
@@ -459,9 +413,14 @@ if (sqlsrv_num_rows(sqlsrv_query($con, $chk)) > 0) {
                 <input type="text" name="arf_key" size="15" class="validate[required,length[0,50]]"
                        value="<?php echo @$_SESSION["cust_arf"]; ?>" readonly="readonly"/>
                 &nbsp;&nbsp;
-                <input type="text" name="NAME_CUST" size="32" class="validate[required,length[0,50]]"
-                       value="<?php echo @$_SESSION["cust_name"] ?>" readonly="readonly"/>
-                <a href="cust_search.php" style="margin:0px;">
+                <input type="text"
+                       name="NAME_CUST"
+                       size="32"
+                       class="validate[required,length[0,50]]"
+                       value="<?php echo @$_SESSION["cust_name"] ?>" readonly="readonly"
+                    />
+
+                <a href="cust_search.php?action=choose_customer" style="margin:0px;">
                     <img src="img/se_c.png" border="0" height="23"/></a><BR>
                 <font color="#000000">ผู้ติดต่อ</font>
                 <select name="ID_CONTACT" class="frominput">
@@ -469,17 +428,18 @@ if (sqlsrv_num_rows(sqlsrv_query($con, $chk)) > 0) {
                     $sql_contact = "SELECT   Contact.CONT_ITEM, Contact.CONT_TITLE, Contact.CONT_NAME, Contact.CONT_SURNAME, AP_File.APF_KEY, Title_Name.TITLE_NAME_THAI FROM Title_Name INNER JOIN Contact ON Title_Name.TITLE_KEY = Contact.CONT_TITLE LEFT OUTER JOIN
 AP_File ON Contact.APF_ARF_KEY = AP_File.APF_KEY WHERE  Contact.CONT_STATUS = '1' AND APF_ARF_KEY = '" . $_SESSION['cust_arf'] . "'";
                     $stmt_contact = sqlsrv_query($con, $sql_contact);
+
                     while ($ckey = sqlsrv_fetch_array($stmt_contact)):
                         ?>
 
                         <?php
-                        if ($ckey['CONT_ITEM'] == $_POST['item_contact']) {
+                        if ($ckey['CONT_ITEM'] == $_SESSION['item_contact']) {
                             $select = "selected='selected' ";
                         } else {
                             $select = "";
                         }
 
-                        echo "<option value='" . $ckey['CONT_ITEM'] . "' " . $select . ">" . $ckey['TITLE_NAME_THAI'] . " " . $ckey['CONT_NAME'] . "  " . $ckey['CONT_SURNAME'] . "</option>";
+                        echo "<option value='" . $ckey['CONT_ITEM'] . "' " . $select . " disabled>" . $ckey['TITLE_NAME_THAI'] . " " . $ckey['CONT_NAME'] . "  " . $ckey['CONT_SURNAME'] . "</option>";
 
 
 
@@ -493,18 +453,18 @@ AP_File ON Contact.APF_ARF_KEY = AP_File.APF_KEY WHERE  Contact.CONT_STATUS = '1
                        value="<?php echo date("d/m/Y") ?>">
                 สถานะการอนุมัติ
                 <input type="text" name="rent_conn" class="validate[required,length[0,50]]"
-                       value="<?php echo @$_SESSION["cust_credit_conf"] ?>" readonly="readonly">
+                       value="<?php echo @$_SESSION['cust_credit_conf'] ?>" readonly="readonly">
                 <BR>
                 <font color="#000000"> ที่อยู่</font>
                 <input type="text" name="ADDRESS" size="75" class="validate[required,length[0,50]]"
-                       value="<?php echo @$_SESSION["add_name"] ?>" readonly="readonly">
+                       value="<?= $full_address; ?>" readonly="readonly">
                 <BR>
                 <font color="#000000">Tel.</font> &nbsp;
                 <input type="text" name="TEL" size="20" class="validate[required,length[0,50]]"
-                       value="<?php echo @$_SESSION["phone_con"] ?>" readonly="readonly">
+                       value="<?= $address['ADD_MOBILE']; ?>" readonly="readonly">
                 <font color="#000000"> FAX. </font>&nbsp;
                 <input type="text" name="FAX" size="20" class="validate[required,length[0,50]]"
-                       value="<?php echo @$_SESSION["add_fax"] ?>" readonly="readonly"></td>
+                       value="<?= $address['ADD_FAX']; ?>" readonly="readonly"></td>
         </tr>
         <tr>
             <td colspan="2"> พนักงานขาย
@@ -544,13 +504,16 @@ ORDER BY Employee_File.EMP_NAME_THAI, Employee_File.EMP_SURNAME_THAI";
                 &nbsp; &nbsp; Vat
                 <select name="vat_key" class="frominput" id="vat_key">
                     <?PHP
-                    $sql_v = sqlsrv_query($con, "SELECT    Tax_Type.TAXT_NAME, Tax_Type.TAXT_KEY
-																   	 FROM         AR_File INNER JOIN
-                     												 Condition_Payment ON AR_File.ARF_KEY = Condition_Payment.APF_ARF_KEY INNER JOIN
-                                                                     Tax_Type ON Condition_Payment.TAXT_KEY = Tax_Type.TAXT_KEY
-                                                                     WHERE    (Tax_Type.TAXT_STATUS = '1') AND (Condition_Payment.COND_STATUS = '1')");
+                    $sql_pay_con = "SELECT        Tax_Type.TAXT_NAME, Tax_Type.TAXT_KEY, Condition_Payment.COND_ITEM, Condition_Payment.COND_PUR_STATUS, Condition_Payment.APF_ARF_KEY
+FROM            Tax_Type RIGHT OUTER JOIN
+                         Condition_Payment ON Tax_Type.TAXT_KEY = Condition_Payment.TAXT_KEY LEFT OUTER JOIN
+                         AR_File ON Condition_Payment.APF_ARF_KEY = AR_File.ARF_KEY
+WHERE        (Tax_Type.TAXT_STATUS = '1') AND (Condition_Payment.COND_STATUS = '1') AND Condition_Payment.APF_ARF_KEY='" . $_SESSION['cust_arf'] . "'";
+
+
+                    $sql_v = sqlsrv_query($con, $sql_pay_con);
                     while ($vatt = sqlsrv_fetch_array($sql_v)) {
-                        if ($vatt[0] == $_SESSION["vat_pay"]) {
+                        if ($vatt['COND_ITEM'] == $_SESSION["item_pay"]) {
                             $selectv = "selected='selected' ";
                         } else {
                             $selectv = "";
@@ -561,33 +524,48 @@ ORDER BY Employee_File.EMP_NAME_THAI, Employee_File.EMP_SURNAME_THAI";
                     <option value="">------ เลือก-------</option>
                 </select>
                 &nbsp; &nbsp; สถานะการขายสินค้า
-                <select name="pur_sta" class="frominput">
+                <select name="pur_sta" class="frominput" >
                     <?PHP
-                    if ($vat_sale == "ขายสด") {
-                        echo "<option value='0'  selected=\"selected\" >ขายสด</option>";
-                    } else {
-                        echo "<option value='0' >ขายสด</option>";
+                    $sql_v = sqlsrv_query($con, $sql_pay_con);
+                    while ($vatt = sqlsrv_fetch_array($sql_v)) {
+
+                        if ($vatt['COND_PUR_STATUS'] == 0) {
+                            $txt = 'ขายสด';
+                        } else {
+                            $txt = 'ขายเชื่อ';
+                        }
+
+                        if ($vatt['COND_ITEM'] ==  $_SESSION["item_pay"]){
+                            $selectv = "selected='selected' ";
+                        }else {
+                            $selectv = "";
+                        }
+
+
+                        echo "<option value='" . $vatt['COND_PUR_STATUS'] . "' " . $selectv . ">" . $txt . " </option>";
                     }
-                    if ($vat_sale == "ขายเชื่อ") {
-                        echo "<option value='1' selected=\"selected\" >ขายเชื่อ</option>";
-                    } else {
-                        echo "<option value='1' >ขายเชื่อ</option>";
-                    }
+
+
+
                     ?>
                 </select>
                 &nbsp; &nbsp; เงื่อนไขการชำระเงิน
-                <select name="tof_name" class="frominput">
+                <select name="tof_name" class="frominput" >
                     <?PHP
+                    echo $_SESSION["tof"];
                     $sql_pay = sqlsrv_query($con, "SELECT   TOF_KEY   ,  TOF_NAME  FROM         Term_of_Payment
 													WHERE     (TOF_STATUS = '1')  ORDER BY TOF_NAME ");
+
                     while ($pay = sqlsrv_fetch_array($sql_pay)) {
-                        if ($_SESSION["day_pay"] == $pay[1]) {
+
+                        if ($_SESSION["tof"] == $pay[1]) {
                             $selectp = "selected='selected' ";
                         } else {
                             $selectp = "  ";
                         }
                         echo "<option value='" . $pay[1] . "' " . $selectp . ">" . $pay[1] . "</option>";
                     }
+
                     ?>
                 </select>(วัน)
             </td>
