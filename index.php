@@ -178,6 +178,7 @@ $(function () {
             var trans_etc = $('input[name="trans_etc"]').val();
             var send_pl = $('input[name="send_pl"]').val();
             var vat = $('input[name="vat"]').val();
+            var con_item = $('select[name="ID_CONTACT"]').val();
 
             $.ajax({
                 type: 'post',
@@ -196,7 +197,8 @@ $(function () {
                     trans_key: trans_key,
                     trans_etc: trans_etc,
                     send_pl: send_pl,
-                    vat: vat
+                    vat: vat,
+                    con_item: con_item
                 },
                 success: function (data) {
 
@@ -439,7 +441,7 @@ AP_File ON Contact.APF_ARF_KEY = AP_File.APF_KEY WHERE  Contact.CONT_STATUS = '1
                             $select = "";
                         }
 
-                        echo "<option value='" . $ckey['CONT_ITEM'] . "' " . $select . " disabled>" . $ckey['TITLE_NAME_THAI'] . " " . $ckey['CONT_NAME'] . "  " . $ckey['CONT_SURNAME'] . "</option>";
+                        echo "<option value='" . $ckey['CONT_ITEM'] . "' " . $select . " >" . $ckey['TITLE_NAME_THAI'] . " " . $ckey['CONT_NAME'] . "  " . $ckey['CONT_SURNAME'] . "</option>";
 
 
 
@@ -461,7 +463,7 @@ AP_File ON Contact.APF_ARF_KEY = AP_File.APF_KEY WHERE  Contact.CONT_STATUS = '1
                 <BR>
                 <font color="#000000">Tel.</font> &nbsp;
                 <input type="text" name="TEL" size="20" class="validate[required,length[0,50]]"
-                       value="<?= $address['ADD_MOBILE']; ?>" readonly="readonly">
+                       value="<?= $address['ADD_PHONE']; ?>" readonly="readonly">
                 <font color="#000000"> FAX. </font>&nbsp;
                 <input type="text" name="FAX" size="20" class="validate[required,length[0,50]]"
                        value="<?= $address['ADD_FAX']; ?>" readonly="readonly"></td>
@@ -585,7 +587,7 @@ WHERE        (Tax_Type.TAXT_STATUS = '1') AND (Condition_Payment.COND_STATUS = '
 
     <a href="clear_temp.php?id=1" class="clear_list" target="_blank"
        onclick="return confirm('คุณแน่ใจหรือไม่')"></a>
-    <a href="product_search.php" target="_blank" class="add_list"></a>
+    <a href="product_search.php?bo=true" target="_blank" class="add_list"></a>
 </fieldset>
 <table width="100%" border="0" cellspacing="0" cellpadding="0">
     <tr>

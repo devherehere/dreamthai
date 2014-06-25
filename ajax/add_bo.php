@@ -54,8 +54,8 @@ $sql = "INSERT INTO [Dream_Thai].[dbo].[Book_Order]
            '" . $_SESSION['key_bo'] . "'
            ,'" . $_SESSION['doc_keyy'] . "'
            ,'" . $_POST['arf_key'] . "'
-           ,'" . $_SESSION["add_item"] . "'
-           ,'" . $_SESSION["con_item"] . "'
+           ,'" . $_SESSION['item_address'] . "'
+           ,'" . $_POST['con_item'] . "'
            ,'" . $_POST['empkey'] . "'
            ,'" . $_POST['promotion'] . "'
            ," . $_POST['tof_name'] . "

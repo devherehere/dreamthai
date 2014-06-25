@@ -69,7 +69,7 @@ include"include/connect.inc.php";
 	?>
       <?PHP
     if(@$_GET['id_key'] == md5('add')){
-		$sql_arf = "INSERT INTO [Dream_Thai].[dbo].[AR_File]
+	$sql_arf = "INSERT INTO [Dream_Thai].[dbo].[AR_File]
            ([ARF_KEY]
            ,[BT_KEY]
            ,[ARF_COMPANY_NAME_THAI]
@@ -108,7 +108,7 @@ include"include/connect.inc.php";
            ,NULL
            ,NULL)";
 		///------------------------------------------------------------------------------------------------------
-		$sql_address = "INSERT INTO [Dream_Thai].[dbo].[Address]
+	$sql_address = "INSERT INTO [Dream_Thai].[dbo].[Address]
            ([APF_ARF_KEY]
            ,[ADD_ITEM]
            ,[ADD_NO]
@@ -167,12 +167,12 @@ include"include/connect.inc.php";
            ,'".$_POST['tell_contact_cust']."'
            ,'".$_POST['email_contact']."'
            ,'".$_POST['depart_cust']."'
-           ,  'REMARK'
+           ,NULL
            ,1
            ,1
            ,'". $_SESSION["user_id"]."');";
 		  ///---------------------------------------------------------------------------------------------------
-		$sql_payment="INSERT INTO [Dream_Thai].[dbo].[Condition_Payment]
+		 $sql_payment="INSERT INTO [Dream_Thai].[dbo].[Condition_Payment]
            ([APF_ARF_KEY]
            ,[COND_ITEM]
            ,[COND_PUR_STATUS]
@@ -202,27 +202,30 @@ include"include/connect.inc.php";
 		 echo "".$sql_contact."<HR>";
 		 echo "".$sql_payment."<HR>";
 		 */
-		$ap_file1 = sqlsrv_query($con,$sql_arf);
-		$ap_file2 = sqlsrv_query($con,$sql_address);
-		$ap_file3 = sqlsrv_query($con,$sql_contact);
-		$ap_file4 = sqlsrv_query($con,$sql_payment);
-	    if($ap_file1 == true && $ap_file2 == true && $ap_file3 == true && $ap_file4 == true){
-			  echo"
-			  <table width=\"100%\">
-			  	<tr bgcolor = '#d6ffcd'>
-			  		<td><font color = '#036d05' size='4'>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;บันทึกสำเร็จ</font></td>
-				</tr>
-			  </table>
-			  "; 
-	   }else{
-		      echo"
-			  <table width=\"100%\">
-			  	<tr bgcolor = '#ffbfbf'>
-			  		<td><font color = 'red' size='4'>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;ผิดผลาด</font></td>
-				</tr>
-			  </table>
-			  ";   
-	   }
+
+        $ap_file1 = sqlsrv_query($con,$sql_arf);
+        $ap_file2 = sqlsrv_query($con,$sql_address);
+        $ap_file3 = sqlsrv_query($con,$sql_contact);
+        $ap_file4 = sqlsrv_query($con,$sql_payment);
+
+        if($ap_file1 == true && $ap_file2 == true && $ap_file3 == true && $ap_file4 == true){
+              echo"
+              <table width=\"100%\">
+                  <tr bgcolor = '#d6ffcd'>
+                      <td><font color = '#036d05' size='4'>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;บันทึกสำเร็จ</font></td>
+                </tr>
+              </table>
+              <script>window.close();</script>
+              ";
+       }else{
+              echo"
+              <table width=\"100%\">
+                  <tr bgcolor = '#ffbfbf'>
+                      <td><font color = 'red' size='4'>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;ผิดผลาด</font></td>
+                </tr>
+              </table>
+              ";
+       }
 	}
 	?>
       <form method="post" action="add_newcust.php?id_key=<?=$add?>">
@@ -281,7 +284,7 @@ include"include/connect.inc.php";
                   <?PHP 
 								$sql_v = sqlsrv_query($con,"SELECT TAXT_NAME, TAXT_KEY FROM Tax_Type WHERE (TAXT_STATUS = '1')");
 									while($vatt = sqlsrv_fetch_array($sql_v)){
-								echo "<option value=' ".$vatt[1]." '> ".$vatt[0]." </option>";	
+								echo "<option value='".$vatt[1]."'> ".$vatt[0]." </option>";
 							    }		
 				   ?>
                   <option value="">--------------เลือก--------------</option>
@@ -335,7 +338,7 @@ include"include/connect.inc.php";
             </tr>
             <tr>
               <td align="left">เบอร์โทรศัพท์
-                <input type="text" name="phone_cust" size="22" class="validate[required,custom[onlyNumber],length[0,50]]"></td>
+                <input type="text" name="phone_cust" size="22" class="validate[required],length[0,50]]"></td>
               <td align="right"><font color="#000000">FAX</font>
                 <input type="text" name="fax_cust" size="22" ></td>
               <td align="right"><font color="#000000">เบอร์มือถือ</font>
