@@ -229,8 +229,12 @@ WHERE        (Goods_Price_List.GPL_STATUS = '1')  AND  Goods.GOODS_CODE   IN  ('
                                             )</font>
                                         <input type="text" value="<?= @$item_t ?>" name="num_rent[<?php echo $i; ?>]"
                                                style="text-align:right;" size="5"
-                                               class="rent" data-rule-required="true"
-                                               data-msg-required="*ต้องกรอกข้อมูล">
+                                               class="rent"
+                                               data-rule-required="true"
+                                               data-rule-number="true"
+                                               data-msg-required="*ต้องกรอกข้อมูล"
+                                               data-msg-number="*ตัวเลขเท่านั้น"
+                                        >
                                         <?= $reccord['UOM_NAME'] ?>
                                     </td>
                                     <td align="left" bgcolor="#888888">&nbsp;

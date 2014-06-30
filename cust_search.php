@@ -23,7 +23,7 @@
             <?PHP if ($_SESSION["user_ses"] != '' && $_SESSION["user_id"] != '') { ?>
 
                 <form method="post" name="011"
-                      action="cust_search.php?id=search&regis=<?= $_GET['tmp'] ?>&action=<?= $_GET['action']; ?>">
+                      action="cust_search.php?id=search&regis=<?= $_GET['tmp'] ?>&action=<?= $_GET['action']; ?>&clam=<?= $_GET['clam']; ?>">
                     <div style="margin-left:30px; color:#000;">
                         ค้นหาชื่อลูกค้า <input type="text" name="search" size="60"><input type="submit" value="ค้นหา"
                                                                                           class="OK"
@@ -76,7 +76,7 @@
                                 <td align="center" bgcolor="#888888"><?= $row_show['ARF_COMPANY_NAME_ENG']; ?></td>
                                 <td align="center" bgcolor="#888888"><?= $row_show['TYPE']; ?></td>
                                 <td align="center" bgcolor="#888888">
-                                    <a href="cust_chk.php?id_search=<?= $row_show['ARF_KEY']; ?>&id_action=<?= $_REQUEST['regis']; ?> ">
+                                    <a href="cust_chk.php?id_search=<?= $row_show['ARF_KEY']; ?>&id_action=<?= $_REQUEST['regis']; ?>&clam=<?= $_GET['clam']; ?> ">
                                         <img src="img/select.png" border='0'></a>
                                 </td>
 
@@ -120,7 +120,7 @@
                                 <td align="center" bgcolor="#888888"><?= $row_show['ARF_COMPANY_NAME_ENG']; ?></td>
                                 <td align="center" bgcolor="#888888"><?= $row_show['TYPE']; ?></td>
                                 <td align="center" bgcolor="#888888">
-                                    <a href="cust_choose.php?id_search=<?= $row_show['ARF_KEY']; ?> ">
+                                    <a href="cust_choose.php?id_search=<?= $row_show['ARF_KEY'];?>&clam=<?= $_GET['clam'];?> ">
                                         <img src="img/select.png" border='0'></a>
                                 </td>
 
