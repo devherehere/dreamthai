@@ -5,15 +5,29 @@
     <meta http-equiv=Content-Type content="text/html; charset=tis-620">
     <link rel="stylesheet" type="text/css" href="css/style.css"/>
     <link rel="stylesheet" type="text/css" href="css/validationEngine.jquery.css">
-    <!-- Validate Form -->
+    <link rel="stylesheet" type="text/css" href="">
+
+
+    <!--Main jquery-->
     <script src="js/jquery-1.7.min.js"></script>
+
+    <!-- Validate Form -->
+
     <script src="js/jquery.validate.min.js"></script>
     <script src="js/jquery.mask.min.js"></script>
+
 
     <!-- Validate Form -->
     <!-- DatePicker Jquery-->
     <script type="text/javascript" src="js/jquery-ui-1.8.10.offset.datepicker.min.js"></script>
     <link rel="stylesheet" href="jquery/themes/base/jquery-ui.css" type="text/css"/>
+
+    <!--jquery file upload-->
+    <script src="js/jquery.ui.widget.js"></script>
+    <script src="js/jquery.iframe-transport.js"></script>
+    <script src="js/jquery.fileupload.js"></script>
+
+
     <script type="text/javascript">
 
 
@@ -59,8 +73,28 @@
                 errorClass: 'error'
             });
 
+            var selected = $('input:file');
+
+            selected.change(function () {
+
+                var file_list = $(this).prop('files');
+
+                $(this).each(function () {
+//                    console.log($(this).parent().find('span').text('adfasf'));
+                    var input_item = $(this);
+                    var reader = new FileReader();
+                    reader.onload = function (e) {
+
+                        input_item.parent().append('<img width="300" height="200"/>').attr('src', reader.result);
+                    }
+                    reader.readAsDataURL(file_list.item(0));
+                });
+
+
+            });
 
         });
+
 
     </script>
     <style type="text/css">
@@ -173,7 +207,7 @@ WHERE        (Goods_Price_List.GPL_STATUS = '1')  AND  Goods.GOODS_CODE   IN  ('
 
                             $result = sqlsrv_query($con, $sql_dbgseh);
                             $j = 1;
-                            $i = 0;
+                            $i = 1;
                             while ($reccord = sqlsrv_fetch_array($result)) {
 
                                 if ($item_edt == "" && $gkey_edt == "") {
@@ -193,7 +227,7 @@ WHERE        (Goods_Price_List.GPL_STATUS = '1')  AND  Goods.GOODS_CODE   IN  ('
                                            value="<?= $reccord['GOODS_KEY'] ?>"/>
 
                                     <td align="center" width="35px" bgcolor="#888888">
-                                        <?= $j; ?>
+                                        <?= $i; ?>
                                     </td>
                                     <td align="left" bgcolor="#888888">&nbsp;
                                         <input type="text" name="goods_code[<?php echo $i; ?>]"
@@ -206,7 +240,7 @@ WHERE        (Goods_Price_List.GPL_STATUS = '1')  AND  Goods.GOODS_CODE   IN  ('
                                                readonly="readonly"/>
                                     </td>
 
-                                    <td align="center" bgcolor="#888888" >&nbsp;
+                                    <td align="center" bgcolor="#888888">&nbsp;
                                         <input type="text" name="un[<?php echo $i; ?>]"
                                                value="<?= $reccord['UOM_NAME'] ?>"
                                                size="5" style="text-align: center" readonly="readonly"/>
@@ -245,6 +279,19 @@ WHERE        (Goods_Price_List.GPL_STATUS = '1')  AND  Goods.GOODS_CODE   IN  ('
                                     <input type="hidden" value="<?= $reccord['UOM_KEY'] ?>"
                                            name="uom_key[<?php echo $i; ?>]">
                                 </tr>
+
+                                <tr>
+                                    <td colspan="8" >
+
+                                        <div style="background-color: #ffffff;color: black;height: 100%; ">
+                                            <input type="file" class="image" name="upload[]" multiple/><br/><br/>
+                                            <!--<img src="" style="visibility: hidden;" height="200" width="300" vspace="10" hspace="5" class="preview">-->
+                                            <span></span>
+                                        </div>
+                                    </td>
+
+                                </tr>
+
                                 <?PHP
                                 $i++;
                             }
@@ -284,61 +331,61 @@ WHERE        (Goods_Price_List.GPL_STATUS = '1')  AND  Goods.GOODS_CODE   IN  ('
         }
 
 
-/*        for ($i = 0; $i < count($goods_key); $i++) {
+        /*        for ($i = 0; $i < count($goods_key); $i++) {
 
-            $goods_sum = $gpl_price[$i] * $num_rent[$i];
-            $dis_amount = $goods_sum * ($dis[$i] / 100);
-            $dis_total = $goods_sum - $dis_amount;
+                    $goods_sum = $gpl_price[$i] * $num_rent[$i];
+                    $dis_amount = $goods_sum * ($dis[$i] / 100);
+                    $dis_total = $goods_sum - $dis_amount;
 
-//            echo $goods_key[$i] . ' ' . $uom_key[$i] . ' ' . $gpl_price[$i] . ' ' . $num_rent[$i] . ' ' . $goods_sum . ' ' . $dis[$i] . ' ' . $dis_amount . ' ' . $dis_total.'<br/>';
-
-
-            $sql_add_temp = "INSERT INTO [Dream_Thai].[dbo].[Book_Order_Detail]
-                                    (
-                                   [AR_BO_ID]
-                                  ,[AR_BOD_ITEM]
-                                  ,[GOODS_KEY]
-                                  ,[UOM_KEY]
-                                  ,[AR_BOD_GOODS_SELL]
-                                  ,[AR_BOD_GOODS_AMOUNT]
-                                  ,[AR_BOD_GOODS_SUM]
-                                  ,[AR_BOD_DISCOUNT_PER]
-                                  ,[AR_BOD_DISCOUNT_AMOUNT]
-                                  ,[AR_BOD_TOTAL]
-                                  ,[AR_BOD_RE_DATE]
-                                  ,[AR_BOD_SO_STATUS]
-                                  ,[AR_BOD_REMARK]
-                                  ,[AR_BOD_LASTUPD])
-                            VALUES
-                                  (" . $_SESSION['id_bo'] . "
-                                  ," . $item_no . "
-                                  ,'" . $goods_key[$i] . "'
-                                  ,'" . $uom_key[$i] . "'
-                                  ,'" . $gpl_price[$i] . "'
-                                  ,'" . $num_rent[$i] . "'
-                                  ," . $goods_sum . "
-                                  ," . $dis[$i] . "
-                                  ," . $dis_amount . "
-                                  ," . $dis_total . "
-                                  ,' " . $date_re[$i] . " " . date("H:i:s") . " '
-                                  ,1
-                                  , '" . $_POST["rm" . $k . ""] . "'
-                                  ,'" . date("Y/m/d H:i:s") . "')";
-
-            $insert_bo_detail = sqlsrv_query($con, $sql_add_temp);
-            $item_no++;
+        //            echo $goods_key[$i] . ' ' . $uom_key[$i] . ' ' . $gpl_price[$i] . ' ' . $num_rent[$i] . ' ' . $goods_sum . ' ' . $dis[$i] . ' ' . $dis_amount . ' ' . $dis_total.'<br/>';
 
 
-        }
-        $params = array();
-        $options = array("Scrollable" => SQLSRV_CURSOR_KEYSET);
-        $sql = "select * from [Dream_Thai].[dbo].[Book_Order_Detail] where [AR_BO_ID] = '" . $_SESSION['id_bo'] . "' ";
-        $stmt = sqlsrv_query($con, $sql, $params, $options);
+                    $sql_add_temp = "INSERT INTO [Dream_Thai].[dbo].[Book_Order_Detail]
+                                            (
+                                           [AR_BO_ID]
+                                          ,[AR_BOD_ITEM]
+                                          ,[GOODS_KEY]
+                                          ,[UOM_KEY]
+                                          ,[AR_BOD_GOODS_SELL]
+                                          ,[AR_BOD_GOODS_AMOUNT]
+                                          ,[AR_BOD_GOODS_SUM]
+                                          ,[AR_BOD_DISCOUNT_PER]
+                                          ,[AR_BOD_DISCOUNT_AMOUNT]
+                                          ,[AR_BOD_TOTAL]
+                                          ,[AR_BOD_RE_DATE]
+                                          ,[AR_BOD_SO_STATUS]
+                                          ,[AR_BOD_REMARK]
+                                          ,[AR_BOD_LASTUPD])
+                                    VALUES
+                                          (" . $_SESSION['id_bo'] . "
+                                          ," . $item_no . "
+                                          ,'" . $goods_key[$i] . "'
+                                          ,'" . $uom_key[$i] . "'
+                                          ,'" . $gpl_price[$i] . "'
+                                          ,'" . $num_rent[$i] . "'
+                                          ," . $goods_sum . "
+                                          ," . $dis[$i] . "
+                                          ," . $dis_amount . "
+                                          ," . $dis_total . "
+                                          ,' " . $date_re[$i] . " " . date("H:i:s") . " '
+                                          ,1
+                                          , '" . $_POST["rm" . $k . ""] . "'
+                                          ,'" . date("Y/m/d H:i:s") . "')";
 
-        if (sqlsrv_num_rows($stmt) > 0) {
-            //	  echo("<meta http-equiv='refresh' content='1;url=product_search.php' />");
-            echo "<script>window.close();</script>";
-        }*/
+                    $insert_bo_detail = sqlsrv_query($con, $sql_add_temp);
+                    $item_no++;
+
+
+                }
+                $params = array();
+                $options = array("Scrollable" => SQLSRV_CURSOR_KEYSET);
+                $sql = "select * from [Dream_Thai].[dbo].[Book_Order_Detail] where [AR_BO_ID] = '" . $_SESSION['id_bo'] . "' ";
+                $stmt = sqlsrv_query($con, $sql, $params, $options);
+
+                if (sqlsrv_num_rows($stmt) > 0) {
+                    //	  echo("<meta http-equiv='refresh' content='1;url=product_search.php' />");
+                    echo "<script>window.close();</script>";
+                }*/
 
     }
 
