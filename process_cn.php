@@ -5,12 +5,12 @@
     <meta http-equiv=Content-Type content="text/html; charset=tis-620">
     <link rel="stylesheet" type="text/css" href="css/style.css"/>
     <link rel="stylesheet" type="text/css" href="css/validationEngine.jquery.css">
-    <link rel="stylesheet" type="text/css" href="">
+    <link rel="stylesheet" type="text/css" href="css/smoothness/jquery-ui-1.7.2.custom.css">
 
 
     <!--Main jquery-->
     <script src="js/jquery-1.7.min.js"></script>
-
+    <script src="js/jquery-ui-1.7.2.custom.min.js"></script>
     <!-- Validate Form -->
 
     <script src="js/jquery.validate.min.js"></script>
@@ -20,7 +20,7 @@
     <!-- Validate Form -->
     <!-- DatePicker Jquery-->
     <script type="text/javascript" src="js/jquery-ui-1.8.10.offset.datepicker.min.js"></script>
-    <link rel="stylesheet" href="jquery/themes/base/jquery-ui.css" type="text/css"/>
+    <!--    <link rel="stylesheet" href="jquery/themes/base/jquery-ui.css" type="text/css"/>-->
 
     <!--jquery file upload-->
     <script src="js/jquery.ui.widget.js"></script>
@@ -85,13 +85,24 @@
                     var reader = new FileReader();
                     reader.onload = function (e) {
 
-                        input_item.parent().append('<img width="300" height="200"/>').attr('src', reader.result);
+                        var tag_img = '<img width="300" height="200" src="' + reader.result + '"/>';
+                        input_item.parent().find('span').append(tag_img);
+//                        input_item.parent().find('span').text('fasdfdsf');
                     }
                     reader.readAsDataURL(file_list.item(0));
                 });
 
 
             });
+
+
+            $(".accordion").accordion({
+
+                collapsible: true,
+                active: false,
+                heightStyle:'fill'
+            });
+
 
         });
 
@@ -281,12 +292,20 @@ WHERE        (Goods_Price_List.GPL_STATUS = '1')  AND  Goods.GOODS_CODE   IN  ('
                                 </tr>
 
                                 <tr>
-                                    <td colspan="8" >
+                                    <td colspan="8">
 
-                                        <div style="background-color: #ffffff;color: black;height: 100%; ">
-                                            <input type="file" class="image" name="upload[]" multiple/><br/><br/>
-                                            <!--<img src="" style="visibility: hidden;" height="200" width="300" vspace="10" hspace="5" class="preview">-->
-                                            <span></span>
+                                        <div class="accordion">
+                                           <h3><p style="margin-left: 20px;">รูปภาพ</p></h3>
+                                            <div>
+                                                <p>
+                                                    <input type="file" class="image" name="upload[]" multiple/><br/><br/>
+                                                    <!--<img src="" style="visibility: hidden;" height="200" width="300" vspace="10" hspace="5" class="preview">-->
+                                                    <span></span>
+
+                                                </p>
+                                            </div>
+
+
                                         </div>
                                     </td>
 
