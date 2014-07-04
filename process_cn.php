@@ -76,18 +76,21 @@
             var selected = $('input:file');
 
             selected.change(function () {
-
+                console.log(selected);
                 var file_list = $(this).prop('files');
 
                 $(this).each(function () {
-//                    console.log($(this).parent().find('span').text('adfasf'));
+
                     var input_item = $(this);
                     var reader = new FileReader();
                     reader.onload = function (e) {
-
-                        var tag_img = '<img width="300" height="200" src="' + reader.result + '"/>';
-                        input_item.parent().find('span').append(tag_img);
-//                        input_item.parent().find('span').text('fasdfdsf');
+                        var str = input_item.prop('value');
+                        var arr = str.split("\\");
+                        var tag_img = '<li><span class="del_pic ui-icon ui-icon-closethick" style="cursor: pointer;"></span>' +
+                            '<img width="300" height="200" src="' + reader.result + '"/> <span>File Name : ' + arr[2] +' </span>' +
+                            '</li>';
+                        input_item.parent().find('ol').append(tag_img);
+                        input_item.prop('value','');
                     }
                     reader.readAsDataURL(file_list.item(0));
                 });
@@ -96,11 +99,16 @@
             });
 
 
-            $(".accordion").accordion({
+            $(document.body).on('click', '.del_pic', function () {
+                $(this).parent().remove();
+            });
 
-                collapsible: true,
-                active: false,
-                heightStyle:'fill'
+            $('.pic').hide();
+
+
+            $(document.body).on('click', '.button_show', function () {
+
+                $(this).next().toggle();
             });
 
 
@@ -293,19 +301,14 @@ WHERE        (Goods_Price_List.GPL_STATUS = '1')  AND  Goods.GOODS_CODE   IN  ('
 
                                 <tr>
                                     <td colspan="8">
+                                        <div class="button_show" style="background-color:  #d5d5d5;border-radius: 5px;width: 100%;" ><span class="ui-icon ui-icon-arrow-1-s">รูปภาพ</span></div>
+                                        <div class="pic"
+                                             style="height: 100%;width: 100%;border-style: dotted;border: 1.5;color: #000000">
 
-                                        <div class="accordion">
-                                           <h3><p style="margin-left: 20px;">รูปภาพ</p></h3>
-                                            <div>
-                                                <p>
-                                                    <input type="file" class="image" name="upload[]" multiple/><br/><br/>
-                                                    <!--<img src="" style="visibility: hidden;" height="200" width="300" vspace="10" hspace="5" class="preview">-->
-                                                    <span></span>
+                                            <input type="file" class="image" name="upload[]" multiple/>
+                                            <ol>
 
-                                                </p>
-                                            </div>
-
-
+                                            </ol>
                                         </div>
                                     </td>
 
