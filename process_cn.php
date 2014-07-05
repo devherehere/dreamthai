@@ -76,7 +76,6 @@
             var selected = $('input:file');
 
             selected.change(function () {
-                console.log(selected);
                 var file_list = $(this).prop('files');
 
                 $(this).each(function () {
@@ -84,10 +83,21 @@
                     var input_item = $(this);
                     var reader = new FileReader();
                     reader.onload = function (e) {
+
+
+                        var sType = reader.result;
+                        var dType = sType.split('/');
+                        if(dType[0] != 'data:image'){
+                            alert('รูปภาพเท่านั้น!!');
+                            return false;
+
+                        }
+
+
                         var str = input_item.prop('value');
                         var arr = str.split("\\");
-                        var tag_img = '<li><span class="del_pic ui-icon ui-icon-closethick" style="cursor: pointer;"></span>' +
-                            '<img width="300" height="200" src="' + reader.result + '"/> <span>File Name : ' + arr[2] +' </span>' +
+                        var tag_img = '<li style="position: relative;"><span class="del_pic ui-icon ui-icon-closethick" style="position:absolute;top:5px;left:270px;cursor: pointer;background-color: #dbdbdb"></span>' +
+                            '<img width="300" height="200" src="' + reader.result + '"/><span>File Name : ' + arr[2] +' </span>' +
                             '</li>';
                         input_item.parent().find('ol').append(tag_img);
                         input_item.prop('value','');
@@ -226,7 +236,7 @@ WHERE        (Goods_Price_List.GPL_STATUS = '1')  AND  Goods.GOODS_CODE   IN  ('
 
                             $result = sqlsrv_query($con, $sql_dbgseh);
                             $j = 1;
-                            $i = 1;
+                            $i = 0;
                             while ($reccord = sqlsrv_fetch_array($result)) {
 
                                 if ($item_edt == "" && $gkey_edt == "") {
@@ -246,7 +256,7 @@ WHERE        (Goods_Price_List.GPL_STATUS = '1')  AND  Goods.GOODS_CODE   IN  ('
                                            value="<?= $reccord['GOODS_KEY'] ?>"/>
 
                                     <td align="center" width="35px" bgcolor="#888888">
-                                        <?= $i; ?>
+                                        <?= $j; ?>
                                     </td>
                                     <td align="left" bgcolor="#888888">&nbsp;
                                         <input type="text" name="goods_code[<?php echo $i; ?>]"
@@ -316,6 +326,7 @@ WHERE        (Goods_Price_List.GPL_STATUS = '1')  AND  Goods.GOODS_CODE   IN  ('
 
                                 <?PHP
                                 $i++;
+                                $j++;
                             }
 
                             ?>
