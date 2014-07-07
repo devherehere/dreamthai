@@ -67,7 +67,7 @@
                 inline: true
             });
 
-            $('.type_detail').mask('99.99');
+            $('.type_detail').mask('999.99');
 
             $('#form').validate({
                 errorClass: 'error'
@@ -87,7 +87,7 @@
 
                         var sType = reader.result;
                         var dType = sType.split('/');
-                        if(dType[0] != 'data:image'){
+                        if (dType[0] != 'data:image') {
                             alert('รูปภาพเท่านั้น!!');
                             return false;
 
@@ -97,10 +97,10 @@
                         var str = input_item.prop('value');
                         var arr = str.split("\\");
                         var tag_img = '<li style="position: relative;"><span class="del_pic ui-icon ui-icon-closethick" style="position:absolute;top:5px;left:270px;cursor: pointer;background-color: #dbdbdb"></span>' +
-                            '<img width="300" height="200" src="' + reader.result + '"/><span>File Name : ' + arr[2] +' </span>' +
+                            '<img width="300" height="200" src="' + reader.result + '"/><span>File Name : ' + arr[2] + ' </span>' +
                             '</li>';
                         input_item.parent().find('ol').append(tag_img);
-                        input_item.prop('value','');
+                        input_item.prop('value', '');
                     }
                     reader.readAsDataURL(file_list.item(0));
                 });
@@ -217,7 +217,8 @@ if ($_SESSION["user_ses"] != '' && $_SESSION["user_id"] != '') {
                                 <td align="center" width="40px">หน่วย</td>
                                 <td align="center" width="70px">Serial</br>Number</td>
                                 <td align="center" width="40px">ดอกยาง</br>ที่เหลือ</td>
-                                <td align="center" width="100px" style="color: #00c2ff">อาการ</br>ที่รับเคลม</td>
+                                <td align="center" width="100px" style="color: #00c2ff">อาการ</br>ที่รับเคลม
+                                </td>
                                 <td align="center" width="100px">หมายเหตุ</td>
                             </tr>
                             <?PHP
@@ -305,13 +306,17 @@ WHERE        (Goods_Price_List.GPL_STATUS = '1')  AND  Goods.GOODS_CODE   IN  ('
                                                size="20"
                                             />
                                     </td>
-                                    <input type="hidden" value="<?= $reccord['UOM_KEY'] ?>"
+                                    <input type="hidden" value="<?= $reccord['UOM_KEY']; ?>"
                                            name="uom_key[<?php echo $i; ?>]">
+                                    <input type="hidden" value="<?= $reccord['GOODS_KEY']; ?>"
+                                           name="goods_key[<?= $i ?>]">
                                 </tr>
 
                                 <tr>
                                     <td colspan="8">
-                                        <div class="button_show" style="background-color:  #d5d5d5;border-radius: 5px;width: 100%;" ><span class="ui-icon ui-icon-arrow-1-s">รูปภาพ</span></div>
+                                        <div class="button_show"
+                                             style="background-color:  #d5d5d5;border-radius: 5px;width: 100%;"><span
+                                                class="ui-icon ui-icon-arrow-1-s">รูปภาพ</span></div>
                                         <div class="pic"
                                              style="height: 100%;width: 100%;border-style: dotted;border: 1.5;color: #000000">
 
@@ -342,15 +347,26 @@ WHERE        (Goods_Price_List.GPL_STATUS = '1')  AND  Goods.GOODS_CODE   IN  ('
     <?PHP
 
     if ($_GET['action'] == 'save') {
+
+
         $goods_key = $_POST['goods_key'];
-        $gpl_price = $_POST['gpl_price'];
-        $num_rent = $_POST['num_rent'];
-        $dis = $_POST['dis'];
+        $serial_num = $_POST['serial_num'];
+
+        $clam_detail = $_POST['clam_detail'];
         $uom_key = $_POST['uom_key'];
-        $date_re = $_POST['date_re'];
+        $remark = $_POST['remark'];
         $item_no = 0;
 
-        $sql_check_item = "SELECT * FROM [Dream_Thai].[dbo].[Book_Order_Detail] WHERE AR_BO_ID = '" . $_SESSION['id_bo'] . "'";
+        if (isset($_POST['type_detail'])) {
+
+            $type_detail = $_POST['type_detail'];
+        } else {
+
+            $type_detail = 0;
+        }
+
+
+        $sql_check_item = "SELECT * FROM [Dream_Thai].[dbo].[Customer_Return_Detail] WHERE AR_CN_ID = '" . $_SESSION['id_cn'] . "'";
         $params = array();
         $options = array("Scrollable" => SQLSRV_CURSOR_KEYSET);
         $stmt_check_item = sqlsrv_query($con, $sql_check_item, $params, $options);
@@ -360,65 +376,64 @@ WHERE        (Goods_Price_List.GPL_STATUS = '1')  AND  Goods.GOODS_CODE   IN  ('
             $item_no = $num + 1;
         } else {
             $item_no = 1;
-
         }
 
 
-        /*        for ($i = 0; $i < count($goods_key); $i++) {
+        for ($i = 0; $i < count($goods_key); $i++) {
 
-                    $goods_sum = $gpl_price[$i] * $num_rent[$i];
-                    $dis_amount = $goods_sum * ($dis[$i] / 100);
-                    $dis_total = $goods_sum - $dis_amount;
+            echo $sql_add = "INSERT INTO [Dream_Thai] . [dbo] . [Customer_Return_Detail]
+     ( [AR_CN_ID]
+      ,[AR_CND_ITEM]
+      ,[GOODS_KEY]
+      ,[UOM_KEY]
+      ,[SERIAL_NUMBER]
+,[AR_CND_REMAIN]
+      ,[AR_CND_DETAIL]
+      ,[AR_CND_LASTUPD]
+      )
+  VALUES (
+  " . $_SESSION['id_cn'] . ",
+  '" . $item_no . "',
+  '" . $goods_key[$i] . "',
+  '" . $uom_key[$i] . "',
+  '" . $serial_num[$i] . "',
+" . $type_detail[$i] . ",
+'" . $clam_detail[$i] . "',
+'" . date('Y-m-d H:i:s') . "'
+)";
+            $item_no++;
+            $insert_cn_detail = sqlsrv_query($con, $sql_add);
+            /*
+                        $sql_add_picture ="INSERT INTO  [Dream_Thai].[dbo].[Customer_Return_Picture]
+                  [AR_CN_ID]
+                  ,[AR_CND_ITEM]
+                  ,[AR_CNP_ITEM]
+                  ,[AR_CNP_PIC]
+                  ,[AR_CNP_REMARK]
+                  ,[AR_CNP_LASTUPD]
+                  ,[AR_CNP_PIC_NAME]
+              VALUES
+               '" . $_SESSION['id_cn'] . "',
+               '',
+               '',
+               '',
+               '".date('Y-m-d H:i:s')."',
+               ''
+               ";
 
-        //            echo $goods_key[$i] . ' ' . $uom_key[$i] . ' ' . $gpl_price[$i] . ' ' . $num_rent[$i] . ' ' . $goods_sum . ' ' . $dis[$i] . ' ' . $dis_amount . ' ' . $dis_total.'<br/>';
+            */
+        }
 
+        $params = array();
+        $options = array("Scrollable" => SQLSRV_CURSOR_KEYSET);
+        $sql = "select * from [Dream_Thai].[dbo].[Customer_Return_Detail] where [AR_CN_ID] = '" . $_SESSION['id_cn'] . "' ";
+        $stmt = sqlsrv_query($con, $sql, $params, $options);
 
-                    $sql_add_temp = "INSERT INTO [Dream_Thai].[dbo].[Book_Order_Detail]
-                                            (
-                                           [AR_BO_ID]
-                                          ,[AR_BOD_ITEM]
-                                          ,[GOODS_KEY]
-                                          ,[UOM_KEY]
-                                          ,[AR_BOD_GOODS_SELL]
-                                          ,[AR_BOD_GOODS_AMOUNT]
-                                          ,[AR_BOD_GOODS_SUM]
-                                          ,[AR_BOD_DISCOUNT_PER]
-                                          ,[AR_BOD_DISCOUNT_AMOUNT]
-                                          ,[AR_BOD_TOTAL]
-                                          ,[AR_BOD_RE_DATE]
-                                          ,[AR_BOD_SO_STATUS]
-                                          ,[AR_BOD_REMARK]
-                                          ,[AR_BOD_LASTUPD])
-                                    VALUES
-                                          (" . $_SESSION['id_bo'] . "
-                                          ," . $item_no . "
-                                          ,'" . $goods_key[$i] . "'
-                                          ,'" . $uom_key[$i] . "'
-                                          ,'" . $gpl_price[$i] . "'
-                                          ,'" . $num_rent[$i] . "'
-                                          ," . $goods_sum . "
-                                          ," . $dis[$i] . "
-                                          ," . $dis_amount . "
-                                          ," . $dis_total . "
-                                          ,' " . $date_re[$i] . " " . date("H:i:s") . " '
-                                          ,1
-                                          , '" . $_POST["rm" . $k . ""] . "'
-                                          ,'" . date("Y/m/d H:i:s") . "')";
+        if (sqlsrv_num_rows($stmt) > 0) {
+            //	  echo("<meta http-equiv='refresh' content='1;url = product_search . php' />");
+            echo "<script>window.close();</script>";
+        }
 
-                    $insert_bo_detail = sqlsrv_query($con, $sql_add_temp);
-                    $item_no++;
-
-
-                }
-                $params = array();
-                $options = array("Scrollable" => SQLSRV_CURSOR_KEYSET);
-                $sql = "select * from [Dream_Thai].[dbo].[Book_Order_Detail] where [AR_BO_ID] = '" . $_SESSION['id_bo'] . "' ";
-                $stmt = sqlsrv_query($con, $sql, $params, $options);
-
-                if (sqlsrv_num_rows($stmt) > 0) {
-                    //	  echo("<meta http-equiv='refresh' content='1;url=product_search.php' />");
-                    echo "<script>window.close();</script>";
-                }*/
 
     }
 
