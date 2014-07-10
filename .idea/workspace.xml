@@ -2,9 +2,7 @@
 <project version="4">
   <component name="ChangeListManager">
     <list default="true" id="1729dc39-a16d-48f9-9f6f-30d04333f4a1" name="Default" comment="">
-      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/ajax/del_item_clam.php" />
       <change type="MODIFICATION" beforePath="$PROJECT_DIR$/Cn_online.php" afterPath="$PROJECT_DIR$/Cn_online.php" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/include/clamTemp.php" afterPath="$PROJECT_DIR$/include/clamTemp.php" />
       <change type="MODIFICATION" beforePath="$PROJECT_DIR$/process_cn.php" afterPath="$PROJECT_DIR$/process_cn.php" />
       <change type="MODIFICATION" beforePath="$PROJECT_DIR$/.idea/workspace.xml" afterPath="$PROJECT_DIR$/.idea/workspace.xml" />
     </list>
@@ -32,7 +30,7 @@
       <file leaf-file-name="process_cn.php" pinned="false" current="true" current-in-tab="true">
         <entry file="file://$PROJECT_DIR$/process_cn.php">
           <provider selected="true" editor-type-id="text-editor">
-            <state line="360" column="0" selection-start="14461" selection-end="14461" vertical-scroll-proportion="0.39446366" vertical-offset="5892" max-vertical-offset="7786">
+            <state line="142" column="0" selection-start="4684" selection-end="4684" vertical-scroll-proportion="0.6112116" vertical-offset="2076" max-vertical-offset="8211">
               <folding>
                 <element signature="n#style#0;n#fieldset#0;n#form#0;n#div#1;n#div#0;n#div#0;n#body#0;n#html#0;n#!!top" expanded="true" />
                 <element signature="n#style#0;n#table#0;n#td#0;n#tr#0;n#table#0;n#fieldset#0;n#form#0;n#div#1;n#div#0;n#div#0;n#body#0;n#html#0;n#!!top" expanded="true" />
@@ -43,8 +41,8 @@
                 <element signature="n#style#0;n#input#0;n#td#6;n#tr#1;n#table#0;n#td#0;n#tr#0;n#table#0;n#fieldset#0;n#form#0;n#div#1;n#div#0;n#div#0;n#body#0;n#html#0;n#!!top" expanded="true" />
                 <element signature="n#style#0;n#div#0;n#td#0;n#tr#2;n#table#0;n#td#0;n#tr#0;n#table#0;n#fieldset#0;n#form#0;n#div#1;n#div#0;n#div#0;n#body#0;n#html#0;n#!!top" expanded="true" />
                 <element signature="n#style#0;n#div#1;n#td#0;n#tr#2;n#table#0;n#td#0;n#tr#0;n#table#0;n#fieldset#0;n#form#0;n#div#1;n#div#0;n#div#0;n#body#0;n#html#0;n#!!top" expanded="true" />
-                <marker date="1404729485606" expanded="true" signature="3416:3435" placeholder="..." />
-                <marker date="1404729485606" expanded="true" signature="3493:3571" placeholder="..." />
+                <marker date="1404986901987" expanded="true" signature="3638:3650" placeholder="..." />
+                <marker date="1404986901987" expanded="true" signature="3708:3749" placeholder="..." />
               </folding>
             </state>
           </provider>
@@ -53,7 +51,7 @@
       <file leaf-file-name="Cn_online.php" pinned="false" current="false" current-in-tab="false">
         <entry file="file://$PROJECT_DIR$/Cn_online.php">
           <provider selected="true" editor-type-id="text-editor">
-            <state line="45" column="24" selection-start="1516" selection-end="1516" vertical-scroll-proportion="50.0" vertical-offset="3315" max-vertical-offset="5576">
+            <state line="310" column="0" selection-start="14465" selection-end="14465" vertical-scroll-proportion="-177.1923" vertical-offset="663" max-vertical-offset="5576">
               <folding>
                 <element signature="n#style#0;n#fieldset#0;n#form#0;n#div#1;n#div#0;n#div#0;n#body#0;n#html#0;n#!!top" expanded="true" />
                 <element signature="n#style#0;n#a#0;n#td#0;n#tr#0;n#table#0;n#fieldset#0;n#form#0;n#div#1;n#div#0;n#div#0;n#body#0;n#html#0;n#!!top" expanded="true" />
@@ -61,14 +59,13 @@
                 <element signature="n#style#0;n#fieldset#0;n#td#0;n#tr#0;n#table#0;n#form#0;n#div#1;n#div#0;n#div#0;n#body#0;n#html#0;n#!!top" expanded="true" />
                 <element signature="n#style#0;n#fieldset#0;n#td#2;n#tr#0;n#table#0;n#form#0;n#div#1;n#div#0;n#div#0;n#body#0;n#html#0;n#!!top" expanded="true" />
                 <element signature="n#style#0;n#fieldset#2;n#form#0;n#div#1;n#div#0;n#div#0;n#body#0;n#html#0;n#!!top" expanded="true" />
-                <marker date="1404728273899" expanded="true" signature="14026:14208" placeholder="..." />
-                <marker date="1404728273899" expanded="true" signature="14026:14047" placeholder="..." />
-                <marker date="1404728273899" expanded="true" signature="14026:14047" placeholder="..." />
-                <marker date="1404728273899" expanded="true" signature="14026:14209" placeholder="..." />
-                <marker date="1404728273899" expanded="true" signature="14058:14194" placeholder="..." />
-                <marker date="1404728273899" expanded="true" signature="14058:14193" placeholder="..." />
-                <marker date="1404728273899" expanded="true" signature="14359:14424" placeholder="..." />
-                <marker date="1404728273899" expanded="true" signature="14360:14424" placeholder="..." />
+                <marker date="1404966525510" expanded="true" signature="14033:14215" placeholder="..." />
+                <marker date="1404966525510" expanded="true" signature="14033:14054" placeholder="..." />
+                <marker date="1404966525510" expanded="true" signature="14033:14216" placeholder="..." />
+                <marker date="1404966525510" expanded="true" signature="14065:14201" placeholder="..." />
+                <marker date="1404966525510" expanded="true" signature="14065:14200" placeholder="..." />
+                <marker date="1404966525510" expanded="true" signature="14366:14431" placeholder="..." />
+                <marker date="1404966525510" expanded="true" signature="14367:14431" placeholder="..." />
               </folding>
             </state>
           </provider>
@@ -77,12 +74,8 @@
       <file leaf-file-name="clamTemp.php" pinned="false" current="false" current-in-tab="false">
         <entry file="file://$PROJECT_DIR$/include/clamTemp.php">
           <provider selected="true" editor-type-id="text-editor">
-            <state line="69" column="21" selection-start="3454" selection-end="3670" vertical-scroll-proportion="-9.807693" vertical-offset="918" max-vertical-offset="1530">
-              <folding>
-                <element signature="n#style#0;n#table#0;n#!!top" expanded="true" />
-                <element signature="n#style#0;n#img#0;n#td#10;n#tr#1;n#table#0;n#!!top" expanded="true" />
-                <element signature="n#style#0;n#div#0;n#table#0;n#!!top" expanded="true" />
-              </folding>
+            <state line="69" column="21" selection-start="3454" selection-end="3670" vertical-scroll-proportion="0.0" vertical-offset="918" max-vertical-offset="1530">
+              <folding />
             </state>
           </provider>
         </entry>
@@ -162,7 +155,6 @@
       <sortByType />
     </navigator>
     <panes>
-      <pane id="Scope" />
       <pane id="ProjectPane">
         <subPane>
           <PATH>
@@ -197,17 +189,18 @@
           </PATH>
         </subPane>
       </pane>
+      <pane id="Scope" />
     </panes>
   </component>
   <component name="PropertiesComponent">
     <property name="options.splitter.main.proportions" value="0.3" />
     <property name="WebServerToolWindowFactoryState" value="false" />
-    <property name="options.lastSelected" value="reference.settingsdialog.IDE.editor.colors" />
     <property name="recentsLimit" value="5" />
+    <property name="options.lastSelected" value="reference.settingsdialog.IDE.editor.colors" />
     <property name="last_opened_file_path" value="$PROJECT_DIR$/../../php5" />
     <property name="FullScreen" value="false" />
-    <property name="options.splitter.details.proportions" value="0.2" />
     <property name="options.searchVisible" value="true" />
+    <property name="options.splitter.details.proportions" value="0.2" />
   </component>
   <component name="PublishConfig">
     <servers>
@@ -384,9 +377,7 @@
     </entry>
     <entry file="file://$PROJECT_DIR$/include/connect.inc.php">
       <provider selected="true" editor-type-id="text-editor">
-        <state line="0" column="0" selection-start="0" selection-end="0" vertical-scroll-proportion="0.0" vertical-offset="0" max-vertical-offset="617">
-          <folding />
-        </state>
+        <state line="0" column="0" selection-start="0" selection-end="0" vertical-scroll-proportion="0.0" vertical-offset="0" max-vertical-offset="617" />
       </provider>
     </entry>
     <entry file="file://$PROJECT_DIR$/index.php">
@@ -398,25 +389,19 @@
     </entry>
     <entry file="file://$PROJECT_DIR$/ajax/del_item_clam.php">
       <provider selected="true" editor-type-id="text-editor">
-        <state line="6" column="0" selection-start="243" selection-end="243" vertical-scroll-proportion="0.17258883" vertical-offset="0" max-vertical-offset="591">
-          <folding />
-        </state>
+        <state line="6" column="0" selection-start="243" selection-end="243" vertical-scroll-proportion="0.17258883" vertical-offset="0" max-vertical-offset="591" />
       </provider>
     </entry>
     <entry file="file://$PROJECT_DIR$/include/clamTemp.php">
       <provider selected="true" editor-type-id="text-editor">
-        <state line="69" column="21" selection-start="3454" selection-end="3670" vertical-scroll-proportion="-9.807693" vertical-offset="918" max-vertical-offset="1530">
-          <folding>
-            <element signature="n#style#0;n#table#0;n#!!top" expanded="true" />
-            <element signature="n#style#0;n#img#0;n#td#10;n#tr#1;n#table#0;n#!!top" expanded="true" />
-            <element signature="n#style#0;n#div#0;n#table#0;n#!!top" expanded="true" />
-          </folding>
+        <state line="69" column="21" selection-start="3454" selection-end="3670" vertical-scroll-proportion="0.0" vertical-offset="918" max-vertical-offset="1530">
+          <folding />
         </state>
       </provider>
     </entry>
     <entry file="file://$PROJECT_DIR$/Cn_online.php">
       <provider selected="true" editor-type-id="text-editor">
-        <state line="45" column="24" selection-start="1516" selection-end="1516" vertical-scroll-proportion="50.0" vertical-offset="3315" max-vertical-offset="5576">
+        <state line="310" column="0" selection-start="14465" selection-end="14465" vertical-scroll-proportion="-177.1923" vertical-offset="663" max-vertical-offset="5576">
           <folding>
             <element signature="n#style#0;n#fieldset#0;n#form#0;n#div#1;n#div#0;n#div#0;n#body#0;n#html#0;n#!!top" expanded="true" />
             <element signature="n#style#0;n#a#0;n#td#0;n#tr#0;n#table#0;n#fieldset#0;n#form#0;n#div#1;n#div#0;n#div#0;n#body#0;n#html#0;n#!!top" expanded="true" />
@@ -424,21 +409,20 @@
             <element signature="n#style#0;n#fieldset#0;n#td#0;n#tr#0;n#table#0;n#form#0;n#div#1;n#div#0;n#div#0;n#body#0;n#html#0;n#!!top" expanded="true" />
             <element signature="n#style#0;n#fieldset#0;n#td#2;n#tr#0;n#table#0;n#form#0;n#div#1;n#div#0;n#div#0;n#body#0;n#html#0;n#!!top" expanded="true" />
             <element signature="n#style#0;n#fieldset#2;n#form#0;n#div#1;n#div#0;n#div#0;n#body#0;n#html#0;n#!!top" expanded="true" />
-            <marker date="1404728273899" expanded="true" signature="14026:14208" placeholder="..." />
-            <marker date="1404728273899" expanded="true" signature="14026:14047" placeholder="..." />
-            <marker date="1404728273899" expanded="true" signature="14026:14047" placeholder="..." />
-            <marker date="1404728273899" expanded="true" signature="14026:14209" placeholder="..." />
-            <marker date="1404728273899" expanded="true" signature="14058:14194" placeholder="..." />
-            <marker date="1404728273899" expanded="true" signature="14058:14193" placeholder="..." />
-            <marker date="1404728273899" expanded="true" signature="14359:14424" placeholder="..." />
-            <marker date="1404728273899" expanded="true" signature="14360:14424" placeholder="..." />
+            <marker date="1404966525510" expanded="true" signature="14033:14215" placeholder="..." />
+            <marker date="1404966525510" expanded="true" signature="14033:14054" placeholder="..." />
+            <marker date="1404966525510" expanded="true" signature="14033:14216" placeholder="..." />
+            <marker date="1404966525510" expanded="true" signature="14065:14201" placeholder="..." />
+            <marker date="1404966525510" expanded="true" signature="14065:14200" placeholder="..." />
+            <marker date="1404966525510" expanded="true" signature="14366:14431" placeholder="..." />
+            <marker date="1404966525510" expanded="true" signature="14367:14431" placeholder="..." />
           </folding>
         </state>
       </provider>
     </entry>
     <entry file="file://$PROJECT_DIR$/process_cn.php">
       <provider selected="true" editor-type-id="text-editor">
-        <state line="360" column="0" selection-start="14461" selection-end="14461" vertical-scroll-proportion="0.39446366" vertical-offset="5892" max-vertical-offset="7786">
+        <state line="142" column="0" selection-start="4684" selection-end="4684" vertical-scroll-proportion="0.6112116" vertical-offset="2076" max-vertical-offset="8211">
           <folding>
             <element signature="n#style#0;n#fieldset#0;n#form#0;n#div#1;n#div#0;n#div#0;n#body#0;n#html#0;n#!!top" expanded="true" />
             <element signature="n#style#0;n#table#0;n#td#0;n#tr#0;n#table#0;n#fieldset#0;n#form#0;n#div#1;n#div#0;n#div#0;n#body#0;n#html#0;n#!!top" expanded="true" />
@@ -449,8 +433,8 @@
             <element signature="n#style#0;n#input#0;n#td#6;n#tr#1;n#table#0;n#td#0;n#tr#0;n#table#0;n#fieldset#0;n#form#0;n#div#1;n#div#0;n#div#0;n#body#0;n#html#0;n#!!top" expanded="true" />
             <element signature="n#style#0;n#div#0;n#td#0;n#tr#2;n#table#0;n#td#0;n#tr#0;n#table#0;n#fieldset#0;n#form#0;n#div#1;n#div#0;n#div#0;n#body#0;n#html#0;n#!!top" expanded="true" />
             <element signature="n#style#0;n#div#1;n#td#0;n#tr#2;n#table#0;n#td#0;n#tr#0;n#table#0;n#fieldset#0;n#form#0;n#div#1;n#div#0;n#div#0;n#body#0;n#html#0;n#!!top" expanded="true" />
-            <marker date="1404729485606" expanded="true" signature="3416:3435" placeholder="..." />
-            <marker date="1404729485606" expanded="true" signature="3493:3571" placeholder="..." />
+            <marker date="1404986901987" expanded="true" signature="3638:3650" placeholder="..." />
+            <marker date="1404986901987" expanded="true" signature="3708:3749" placeholder="..." />
           </folding>
         </state>
       </provider>

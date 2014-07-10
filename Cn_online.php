@@ -27,7 +27,7 @@ ob_start();
             });
 
 
-            $(window).focus(function(){
+            $(window).focus(function () {
                 $.ajax({
                     type: 'post',
                     url: 'include/clamTemp.php',
@@ -41,9 +41,9 @@ ob_start();
 
             });
 
-            $(document.body).on('click','.del_item_clam',function(){
-               var check = confirm('ต้องการลบ ใช่หรือไม่?');
-                if(check == true){
+            $(document.body).on('click', '.del_item_clam', function () {
+                var check = confirm('ต้องการลบ ใช่หรือไม่?');
+                if (check == true) {
                     var goods_key = $(this).data('goods-key');
                     $.post('ajax/del_item_clam.php', {goods_key: goods_key, id_cn:<?= $_SESSION['id_cn'];?>}, function () {
                         window.location = 'Cn_online.php';
@@ -53,9 +53,7 @@ ob_start();
                 }
 
 
-
             });
-
 
 
         });
@@ -309,6 +307,8 @@ AP_File ON Contact.APF_ARF_KEY = AP_File.APF_KEY WHERE  Contact.CONT_STATUS = '1
     }
     ?>
 <?PHP
+
+
 } else {
     echo "<center><font color = 'red'>กรุณาเข้าสู่ระบบ</font></center>";
 }

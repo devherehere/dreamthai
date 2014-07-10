@@ -2,184 +2,224 @@
     "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
 <html xmlns="http://www.w3.org/1999/xhtml">
 <head>
-    <meta http-equiv=Content-Type content="text/html; charset=tis-620">
-    <link rel="stylesheet" type="text/css" href="css/style.css"/>
-    <link rel="stylesheet" type="text/css" href="css/validationEngine.jquery.css">
-    <link rel="stylesheet" type="text/css" href="css/smoothness/jquery-ui-1.7.2.custom.css">
+<meta http-equiv=Content-Type content="text/html; charset=tis-620">
+<link rel="stylesheet" type="text/css" href="css/style.css"/>
+<link rel="stylesheet" type="text/css" href="css/validationEngine.jquery.css">
+<link rel="stylesheet" type="text/css" href="css/smoothness/jquery-ui-1.7.2.custom.css">
 
 
-    <!--Main jquery-->
-    <script src="js/jquery-1.7.min.js"></script>
-    <script src="js/jquery-ui-1.7.2.custom.min.js"></script>
-    <!-- Validate Form -->
+<!--Main jquery-->
+<script src="js/jquery-1.7.min.js"></script>
+<script src="js/jquery-ui-1.7.2.custom.min.js"></script>
+<!-- Validate Form -->
 
-    <script src="js/jquery.validate.min.js"></script>
-    <script src="js/jquery.mask.min.js"></script>
-
-
-    <!-- Validate Form -->
-    <!-- DatePicker Jquery-->
-    <script type="text/javascript" src="js/jquery-ui-1.8.10.offset.datepicker.min.js"></script>
-    <!--    <link rel="stylesheet" href="jquery/themes/base/jquery-ui.css" type="text/css"/>-->
-
-    <!--jquery file upload-->
-    <script src="js/jquery.ui.widget.js"></script>
-    <script src="js/jquery.iframe-transport.js"></script>
-    <script src="js/jquery.fileupload.js"></script>
+<script src="js/jquery.validate.min.js"></script>
+<script src="js/jquery.mask.min.js"></script>
 
 
-    <script type="text/javascript">
+<!-- Validate Form -->
+<!-- DatePicker Jquery-->
+<script type="text/javascript" src="js/jquery-ui-1.8.10.offset.datepicker.min.js"></script>
+<!--    <link rel="stylesheet" href="jquery/themes/base/jquery-ui.css" type="text/css"/>-->
+
+<!--jquery file upload-->
+<script src="js/jquery.ui.widget.js"></script>
+<script src="js/jquery.iframe-transport.js"></script>
+<script src="js/jquery.fileupload.js"></script>
 
 
-        $(function () {
-            $(".datepicker").datepicker({
-                changeMonth: true,
-                changeYear: true,
-                minDate: 0,
-                //dateFormat: 'dd/mm/yy',
-                dateFormat: 'yy/mm/dd',
-                // yearRange: '1900:2013',
-                dayNames: ['อาทิตย์', 'จันทร์', 'อังคาร', 'พุธ', 'พฤหัสบดี', 'ศุกร์', 'เสาร์'],
-                dayNamesMin: ['อา.', 'จ.', 'อ.', 'พ.', 'พฤ.', 'ศ.', 'ส.'],
-                monthNames: [
-                    'มกราคม',
-                    'กุมภาพันธ์',
-                    'มีนาคม',
-                    'เมษายน',
-                    'พฤษภาคม',
-                    'มิถุนายน',
-                    'กรกฎาคม',
-                    'สิงหาคม',
-                    'กันยายน',
-                    'ตุลาคม',
-                    'พฤศจิกายน',
-                    'ธันวาคม'
-                ],
-                monthNamesShort: ['ม.ค.', 'ก.พ.', 'มี.ค.', 'เม.ย.', 'พ.ค.', 'มิ.ย.', 'ก.ค.', 'ส.ค.', 'ก.ย.', 'ต.ค.', 'พ.ย.', 'ธ.ค.']
-            });
-
-            $("#datepicker-en").datepicker({
-                dateFormat: 'dd/mm/yy'
-            });
-
-            $("#inline").datepicker({
-                dateFormat: 'dd/mm/yy',
-                inline: true
-            });
-
-            $('.type_detail').mask('999.99');
-
-            $('#form').validate({
-                errorClass: 'error'
-            });
-
-            var selected = $('input:file');
-
-            selected.change(function () {
-                var file_list = $(this).prop('files');
-
-                $(this).each(function () {
-
-                    var input_item = $(this);
-                    var reader = new FileReader();
-                    reader.onload = function (e) {
+<script type="text/javascript">
 
 
-                        var sType = reader.result;
-                        var dType = sType.split('/');
-                        if (dType[0] != 'data:image') {
-                            alert('รูปภาพเท่านั้น!!');
-                            return false;
+    $(function () {
+        $(".datepicker").datepicker({
+            changeMonth: true,
+            changeYear: true,
+            minDate: 0,
+            //dateFormat: 'dd/mm/yy',
+            dateFormat: 'yy/mm/dd',
+            // yearRange: '1900:2013',
+            dayNames: ['อาทิตย์', 'จันทร์', 'อังคาร', 'พุธ', 'พฤหัสบดี', 'ศุกร์', 'เสาร์'],
+            dayNamesMin: ['อา.', 'จ.', 'อ.', 'พ.', 'พฤ.', 'ศ.', 'ส.'],
+            monthNames: [
+                'มกราคม',
+                'กุมภาพันธ์',
+                'มีนาคม',
+                'เมษายน',
+                'พฤษภาคม',
+                'มิถุนายน',
+                'กรกฎาคม',
+                'สิงหาคม',
+                'กันยายน',
+                'ตุลาคม',
+                'พฤศจิกายน',
+                'ธันวาคม'
+            ],
+            monthNamesShort: ['ม.ค.', 'ก.พ.', 'มี.ค.', 'เม.ย.', 'พ.ค.', 'มิ.ย.', 'ก.ค.', 'ส.ค.', 'ก.ย.', 'ต.ค.', 'พ.ย.', 'ธ.ค.']
+        });
 
-                        }
+        $("#datepicker-en").datepicker({
+            dateFormat: 'dd/mm/yy'
+        });
 
+        $("#inline").datepicker({
+            dateFormat: 'dd/mm/yy',
+            inline: true
+        });
 
-                        var str = input_item.prop('value');
-                        var arr = str.split("\\");
-                        var tag_img = '<li style="position: relative;"><span class="del_pic ui-icon ui-icon-closethick" style="position:absolute;top:5px;left:270px;cursor: pointer;background-color: #dbdbdb"></span>' +
-                            '<img width="300" height="200" src="' + reader.result + '"/><span>File Name : ' + arr[2] + ' </span>' +
-                            '</li>';
-                        input_item.parent().find('ol').append(tag_img);
-                        input_item.prop('value', '');
-                    }
-                    reader.readAsDataURL(file_list.item(0));
-                });
+        $('.type_detail').mask('999.99');
 
-
-            });
-
-
-            $(document.body).on('click', '.del_pic', function () {
-                $(this).parent().remove();
-            });
-
-            $('.pic').hide();
-
-
-            $(document.body).on('click', '.button_show', function () {
-
-                $(this).next().toggle();
-            });
-
-
+        $('#form').validate({
+            errorClass: 'error'
         });
 
 
-    </script>
-    <style type="text/css">
-        .demoHeaders {
-            margin-top: 2em;
+        var list_clam_item = [];
+
+        var selected = $('input:file');
+
+        selected.change(function () {
+            var file_list = $(this).prop('files');
+
+            $(this).each(function () {
+
+                var input_item = $(this);
+                var reader = new FileReader();
+
+                var list_clam_id = input_item.parent().parent().parent().prev().find('td').text();
+                var num_pic_clam = input_item.parent().find('.show_pic_clam').children('.pic_item_clam').length + 1;
+                //var show_detail = 'รายการเคลมที่ ' + list_clam_id + 'ลำดับภาพที่ ' + num_pic_clam;
+                var str = input_item.prop('value');
+                var arr = str.split("\\");
+
+                //input_item.parent().find('.show_pic_clam').append(show_detail);
+
+
+                reader.readAsDataURL(file_list.item(0));
+                reader.onload = function () {
+
+
+                    var sType = reader.result;
+                    var dType = sType.split('/');
+
+                    if (dType[0] != 'data:image') {
+                        alert('รูปภาพเท่านั้น!!');
+                        return false;
+
+                    }
+
+
+                    var tag_img = '<div class="pic_item_clam" style="margin: 5px;"><span class="del_pic ui-icon ui-icon-closethick" style="cursor: pointer;background-color: #dbdbdb"></span>' +
+                        '<img width="300" height="200" src="' + reader.result + '"/><span>File Name : ' + arr[2] + ' </span></div>';
+                    input_item.parent().find('.show_pic_clam').append(tag_img);
+                    input_item.prop('value', '');
+
+
+                };
+                var reader2 = new FileReader();
+                reader2.readAsBinaryString(file_list.item(0));
+
+                reader2.onload = function () {
+                    list_clam_item[list_clam_item.length] = new objImg(list_clam_id, num_pic_clam, reader2.result, arr[2]);
+                };
+            });
+
+        });
+
+        function objImg(clam_item_list, num, blob, file_name) {
+            this.clam_item_list = clam_item_list;
+            this.num = num;
+            this.blob = blob;
+            this.file_name = file_name;
+
         }
 
-        #dialog_link {
-            padding: .4em 1em .4em 20px;
-            text-decoration: none;
-            position: relative;
-        }
 
-        #dialog_link span.ui-icon {
-            margin: 0 5px 0 0;
-            position: absolute;
-            left: .2em;
-            top: 50%;
-            margin-top: -8px;
-        }
 
-        ul#icons {
-            margin: 0;
-            padding: 0;
-        }
 
-        ul#icons li {
-            margin: 2px;
-            position: relative;
-            padding: 4px 0;
-            cursor: pointer;
-            float: left;
-            list-style: none;
-        }
+$('#formA').submit(function(e){
+   console.log(list_clam_item);
+   /* $.ajax({
+        url:'process_cn.php?action=save',
+        type:'post',
+        data:{list_item:list_clam_item}
 
-        ul#icons span.ui-icon {
-            float: left;
-            margin: 0 4px;
-        }
+    });*/
 
-        ul.test {
-            list-style: none;
-            line-height: 30px;
-        }
+});
 
-        .error {
-            color: red
+        $(document.body).on('click', '.del_pic', function () {
+            $(this).parent().remove();
+        });
 
-        }
-    </style>
-    <!-- DatePicker Jquery-->
-    <?PHP
-    ob_start();
-    @session_start();
-    include "include/connect.inc.php";?>
-    <title>BOOKING(Online)</title>
+        $('.pic').hide();
+
+
+        $(document.body).on('click', '.button_show', function () {
+
+            $(this).next().toggle();
+        });
+
+
+    })
+    ;
+
+
+</script>
+<style type="text/css">
+    .demoHeaders {
+        margin-top: 2em;
+    }
+
+    #dialog_link {
+        padding: .4em 1em .4em 20px;
+        text-decoration: none;
+        position: relative;
+    }
+
+    #dialog_link span.ui-icon {
+        margin: 0 5px 0 0;
+        position: absolute;
+        left: .2em;
+        top: 50%;
+        margin-top: -8px;
+    }
+
+    ul#icons {
+        margin: 0;
+        padding: 0;
+    }
+
+    ul#icons li {
+        margin: 2px;
+        position: relative;
+        padding: 4px 0;
+        cursor: pointer;
+        float: left;
+        list-style: none;
+    }
+
+    ul#icons span.ui-icon {
+        float: left;
+        margin: 0 4px;
+    }
+
+    ul.test {
+        list-style: none;
+        line-height: 30px;
+    }
+
+    .error {
+        color: red
+
+    }
+</style>
+<!-- DatePicker Jquery-->
+<?PHP
+ob_start();
+@session_start();
+include "include/connect.inc.php";?>
+<title>BOOKING(Online)</title>
 </head>
 <body>
 <div id="wrapper">
@@ -201,7 +241,7 @@ if ($_SESSION["user_ses"] != '' && $_SESSION["user_id"] != '') {
     ?>
 
 
-    <form id="form" method="post" action="process_cn.php?action=save">
+    <form id="form" method="post" action="process_cn.php?action=save" name="formA">
 
 
         <fieldset style="width:96%; margin-left:11px; margin-bottom:10px;">
@@ -320,10 +360,9 @@ WHERE        (Goods_Price_List.GPL_STATUS = '1')  AND  Goods.GOODS_CODE   IN  ('
                                         <div class="pic"
                                              style="height: 100%;width: 100%;border-style: dotted;border: 1.5;color: #000000">
 
-                                            <input type="file" class="image" name="upload[]" multiple/>
-                                            <ol>
+                                            <input type="file" class="image" name="upload[<?= $i; ?>]" multiple/>
 
-                                            </ol>
+                                            <div class="show_pic_clam"></div>
                                         </div>
                                     </td>
 
@@ -344,97 +383,83 @@ WHERE        (Goods_Price_List.GPL_STATUS = '1')  AND  Goods.GOODS_CODE   IN  ('
             <input type="submit" class="cinfirm" value="">
         </fieldset>
     </form>
+
     <?PHP
 
     if ($_GET['action'] == 'save') {
 
 
-        $goods_key = $_POST['goods_key'];
-        $serial_num = $_POST['serial_num'];
+        $list_clam_item = $_POST['list_item'];
+        var_dump($list_clam_item);
+        /*
+                $goods_key = $_POST['goods_key'];
+                $serial_num = $_POST['serial_num'];
 
-        $clam_detail = $_POST['clam_detail'];
-        $uom_key = $_POST['uom_key'];
-        $remark = $_POST['remark'];
-        $item_no = 0;
+                $clam_detail = $_POST['clam_detail'];
+                $uom_key = $_POST['uom_key'];
+                $remark = $_POST['remark'];
+                $item_no = 0;
 
-        if (isset($_POST['type_detail'])) {
+                if (isset($_POST['type_detail'])) {
 
-            $type_detail = $_POST['type_detail'];
-        } else {
+                    $type_detail = $_POST['type_detail'];
+                } else {
 
-            $type_detail = 0;
-        }
-
-
-        $sql_check_item = "SELECT * FROM [Dream_Thai].[dbo].[Customer_Return_Detail] WHERE AR_CN_ID = '" . $_SESSION['id_cn'] . "'";
-        $params = array();
-        $options = array("Scrollable" => SQLSRV_CURSOR_KEYSET);
-        $stmt_check_item = sqlsrv_query($con, $sql_check_item, $params, $options);
-        $num = sqlsrv_num_rows($stmt_check_item);
-
-        if ($num > 0) {
-            $item_no = $num + 1;
-        } else {
-            $item_no = 1;
-        }
+                    $type_detail = 0;
+                }
 
 
-        for ($i = 0; $i < count($goods_key); $i++) {
+                $sql_check_item = "SELECT * FROM [Dream_Thai].[dbo].[Customer_Return_Detail] WHERE AR_CN_ID = '" . $_SESSION['id_cn'] . "'";
+                $params = array();
+                $options = array("Scrollable" => SQLSRV_CURSOR_KEYSET);
+                $stmt_check_item = sqlsrv_query($con, $sql_check_item, $params, $options);
+                $num = sqlsrv_num_rows($stmt_check_item);
 
-            echo $sql_add = "INSERT INTO [Dream_Thai] . [dbo] . [Customer_Return_Detail]
-     ( [AR_CN_ID]
-      ,[AR_CND_ITEM]
-      ,[GOODS_KEY]
-      ,[UOM_KEY]
-      ,[SERIAL_NUMBER]
-,[AR_CND_REMAIN]
-      ,[AR_CND_DETAIL]
-      ,[AR_CND_LASTUPD]
-      )
-  VALUES (
-  " . $_SESSION['id_cn'] . ",
-  '" . $item_no . "',
-  '" . $goods_key[$i] . "',
-  '" . $uom_key[$i] . "',
-  '" . $serial_num[$i] . "',
-" . $type_detail[$i] . ",
-'" . $clam_detail[$i] . "',
-'" . date('Y-m-d H:i:s') . "'
-)";
-            $item_no++;
-            $insert_cn_detail = sqlsrv_query($con, $sql_add);
-            /*
-                        $sql_add_picture ="INSERT INTO  [Dream_Thai].[dbo].[Customer_Return_Picture]
-                  [AR_CN_ID]
-                  ,[AR_CND_ITEM]
-                  ,[AR_CNP_ITEM]
-                  ,[AR_CNP_PIC]
-                  ,[AR_CNP_REMARK]
-                  ,[AR_CNP_LASTUPD]
-                  ,[AR_CNP_PIC_NAME]
-              VALUES
-               '" . $_SESSION['id_cn'] . "',
-               '',
-               '',
-               '',
-               '".date('Y-m-d H:i:s')."',
-               ''
-               ";
-
-            */
-        }
-
-        $params = array();
-        $options = array("Scrollable" => SQLSRV_CURSOR_KEYSET);
-        $sql = "select * from [Dream_Thai].[dbo].[Customer_Return_Detail] where [AR_CN_ID] = '" . $_SESSION['id_cn'] . "' ";
-        $stmt = sqlsrv_query($con, $sql, $params, $options);
-
-        if (sqlsrv_num_rows($stmt) > 0) {
-            //	  echo("<meta http-equiv='refresh' content='1;url = product_search . php' />");
-            echo "<script>window.close();</script>";
-        }
+                if ($num > 0) {
+                    $item_no = $num + 1;
+                } else {
+                    $item_no = 1;
+                }
 
 
+                for ($i = 0; $i < count($goods_key); $i++) {
+
+                    echo $sql_add = "INSERT INTO [Dream_Thai] . [dbo] . [Customer_Return_Detail]
+             ( [AR_CN_ID]
+              ,[AR_CND_ITEM]
+              ,[GOODS_KEY]
+              ,[UOM_KEY]
+              ,[SERIAL_NUMBER]
+        ,[AR_CND_REMAIN]
+              ,[AR_CND_DETAIL]
+              ,[AR_CND_LASTUPD]
+              )
+          VALUES (
+          " . $_SESSION['id_cn'] . ",
+          '" . $item_no . "',
+          '" . $goods_key[$i] . "',
+          '" . $uom_key[$i] . "',
+          '" . $serial_num[$i] . "',
+        " . $type_detail[$i] . ",
+        '" . $clam_detail[$i] . "',
+        '" . date('Y-m-d H:i:s') . "'
+        )";
+                    $item_no++;
+                    $insert_cn_detail = sqlsrv_query($con, $sql_add);
+
+                }
+
+                $params = array();
+                $options = array("Scrollable" => SQLSRV_CURSOR_KEYSET);
+                $sql = "select * from [Dream_Thai].[dbo].[Customer_Return_Detail] where [AR_CN_ID] = '" . $_SESSION['id_cn'] . "' ";
+                $stmt = sqlsrv_query($con, $sql, $params, $options);
+
+                if (sqlsrv_num_rows($stmt) > 0) {
+                    //	  echo("<meta http-equiv='refresh' content='1;url = product_search . php' />");
+                    echo "<script>window.close();</script>";
+                }
+
+    */
     }
 
 
