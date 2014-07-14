@@ -78,51 +78,44 @@
 
         var selected = $('input:file');
 
+        $(document.body).on('change','input:file',function(){
+
+            console.log($(this).prop('files'));
+        });
+
+
         selected.change(function () {
             var file_list = $(this).prop('files');
 
-            $(this).each(function () {
 
-                var input_item = $(this);
-                var reader = new FileReader();
+            var input_item = $(this);
+            var reader = new FileReader();
 
-                var list_clam_id = input_item.parent().parent().parent().prev().find('td').text();
-                var num_pic_clam = input_item.parent().find('.show_pic_clam').children('.pic_item_clam').length + 1;
-                //var show_detail = 'รายการเคลมที่ ' + list_clam_id + 'ลำดับภาพที่ ' + num_pic_clam;
-                var str = input_item.prop('value');
-                var arr = str.split("\\");
+            var list_clam_id = input_item.parent().parent().parent().prev().find('td').text();
+            var num_pic_clam = input_item.parent().find('.show_pic_clam').children('.pic_item_clam').length + 1;
+            //var show_detail = 'รายการเคลมที่ ' + list_clam_id + 'ลำดับภาพที่ ' + num_pic_clam;
+            var str = input_item.prop('value');
+            var arr = str.split("\\");
 
-                //input_item.parent().find('.show_pic_clam').append(show_detail);
-
-
-                reader.readAsDataURL(file_list.item(0));
-                reader.onload = function () {
+            reader.readAsDataURL(file_list.item(0));
+            reader.onload = function () {
 
 
-                    var sType = reader.result;
-                    var dType = sType.split('/');
+                var sType = reader.result;
+                var dType = sType.split('/');
 
-                    if (dType[0] != 'data:image') {
-                        alert('รูปภาพเท่านั้น!!');
-                        return false;
+                if (dType[0] != 'data:image') {
+                    alert('รูปภาพเท่านั้น!!');
+                    return false;
 
-                    }
+                }
 
-
-                    var tag_img = '<div class="pic_item_clam" style="margin: 5px;"><span class="del_pic ui-icon ui-icon-closethick" style="cursor: pointer;background-color: #dbdbdb"></span>' +
-                        '<img width="300" height="200" src="' + reader.result + '"/><span>File Name : ' + arr[2] + ' </span></div>';
-                    input_item.parent().find('.show_pic_clam').append(tag_img);
-                    input_item.prop('value', '');
+                input_item.next().prop('src', reader.result).css('display','block');
 
 
-                };
-                var reader2 = new FileReader();
-                reader2.readAsBinaryString(file_list.item(0));
 
-                reader2.onload = function () {
-                    list_clam_item[list_clam_item.length] = new objImg(list_clam_id, num_pic_clam, reader2.result, arr[2]);
-                };
-            });
+            };
+
 
         });
 
@@ -135,18 +128,16 @@
         }
 
 
+        $(document.body).on('click', '.cinfirm', function () {
 
+            $.post('ajax/add_pic.php', {list_item: list_clam_item}, function (data) {
 
-$('#formA').submit(function(e){
-   console.log(list_clam_item);
-   /* $.ajax({
-        url:'process_cn.php?action=save',
-        type:'post',
-        data:{list_item:list_clam_item}
+                window.open('ajax/add_pic.php');
+            });
 
-    });*/
+            $('#form').submit();
+        });
 
-});
 
         $(document.body).on('click', '.del_pic', function () {
             $(this).parent().remove();
@@ -159,6 +150,14 @@ $('#formA').submit(function(e){
 
             $(this).next().toggle();
         });
+
+          $(document.body).on('click', '.add_pic', function () {
+
+            $(this).parent().append('<input type="file" class="image" name="upload[]" style="clear:both"multiple/>').append('<img src="" width="200px" height="150px" style="display: none ; margin: 5px">');
+        });
+
+
+
 
 
     })
@@ -241,7 +240,7 @@ if ($_SESSION["user_ses"] != '' && $_SESSION["user_id"] != '') {
     ?>
 
 
-    <form id="form" method="post" action="process_cn.php?action=save" name="formA">
+    <form id="form" method="post" action="process_cn.php?action=save" name="formA" enctype="multipart/form-data">
 
 
         <fieldset style="width:96%; margin-left:11px; margin-bottom:10px;">
@@ -358,11 +357,17 @@ WHERE        (Goods_Price_List.GPL_STATUS = '1')  AND  Goods.GOODS_CODE   IN  ('
                                              style="background-color:  #d5d5d5;border-radius: 5px;width: 100%;"><span
                                                 class="ui-icon ui-icon-arrow-1-s">รูปภาพ</span></div>
                                         <div class="pic"
-                                             style="height: 100%;width: 100%;border-style: dotted;border: 1.5;color: #000000">
+                                             style="height: 100%;width: 100%;border-style: dotted;border: 1.5;color: #000000; padding: 5px;">
 
-                                            <input type="file" class="image" name="upload[<?= $i; ?>]" multiple/>
 
-                                            <div class="show_pic_clam"></div>
+                                            <span class="ui-icon ui-icon-plus add_pic"
+                                                  style="position: relative;float:left;background-color: #c7cdde; cursor: pointer;"></span>
+
+
+                                            <div style="clear: both;"></div>
+                                            <input type="file" class="image" name="upload[]" multiple style="clear: both"/>
+                                            <img src="" width="200px" height="150px" style="display: none ; margin: 5px">
+                                            <div style="clear: both;"></div>
                                         </div>
                                     </td>
 
@@ -380,7 +385,8 @@ WHERE        (Goods_Price_List.GPL_STATUS = '1')  AND  Goods.GOODS_CODE   IN  ('
             </table>
             <input type="hidden" value="<?= $m ?>" name="mx">
             <input type="reset" class="Xcloase" value="">
-            <input type="submit" class="cinfirm" value="">
+
+            <div class="cinfirm" value=""></div>
         </fieldset>
     </form>
 
@@ -389,8 +395,6 @@ WHERE        (Goods_Price_List.GPL_STATUS = '1')  AND  Goods.GOODS_CODE   IN  ('
     if ($_GET['action'] == 'save') {
 
 
-        $list_clam_item = $_POST['list_item'];
-        var_dump($list_clam_item);
         /*
                 $goods_key = $_POST['goods_key'];
                 $serial_num = $_POST['serial_num'];
