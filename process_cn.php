@@ -393,7 +393,7 @@ WHERE        (Goods_Price_List.GPL_STATUS = '1')  AND  Goods.GOODS_CODE   IN  ('
                                             <input type="file" class="image" name="upload[]" multiple
                                                    style="clear: both"/>
                                             <img src="" width="200px" height="150px"
-                                                 style="display: none ; margin: 5px">
+                                                 style="display: none ; margin: 5px;cursor:no-drop">
 
                                             <div style="clear: both;"></div>
                                         </div>
