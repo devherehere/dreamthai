@@ -1,7 +1,7 @@
 <meta http-equiv=Content-Type content="text/html; charset=tis-620">
     <?PHP
 	
-	$query = " SELECT *  FROM [Dream_Thai].[dbo].[Document_File] WHERE  [DOC_KEY] ='DOC-01' ";
+	$query = " SELECT *  FROM [Document_File] WHERE  [DOC_KEY] ='DOC-01' ";
 	$stmt = sqlsrv_query($con,$query);
 	 $head = sqlsrv_fetch_array($stmt);    
 	 echo"<BR><center>".$head['DOC_COMPANY_NAME_THAI']."</center><BR>";

@@ -33,13 +33,13 @@ include"include/connect.inc.php";
 	  echo "<script>alert(\" ลบทั้งหมดเรียบร้อย\");  window.close(); </script>";
 	 //---------------------------------------------------------------------------------------------------------------
 	}else if($_GET['id'] == 2){
-		    $sql = "SELECT * FROM [Dream_Thai].[dbo].[Customer_Return_Picture] WHERE   AR_CN_ID = ".$_SESSION['id_cn']." ";
+		    $sql = "SELECT * FROM [Customer_Return_Picture] WHERE   AR_CN_ID = ".$_SESSION['id_cn']." ";
 		    $row = sqlsrv_num_rows(sqlsrv_query($con,$sql));
 			for($i = 1; $i <= $row ; $i ++){
-				  $sql2 = "SELECT * FROM [Dream_Thai].[dbo].[Customer_Return_Picture] WHERE   AR_CN_ID = ".$_SESSION['id_cn']." AND AR_CND_ITEM = ".$i." ";
+				  $sql2 = "SELECT * FROM [Customer_Return_Picture] WHERE   AR_CN_ID = ".$_SESSION['id_cn']." AND AR_CND_ITEM = ".$i." ";
 		          $row2 = sqlsrv_num_rows(sqlsrv_query($con,$sql2));
 				       for($j = 1; $j <= $row2 ; $j ++){
-		                   $sql_qli = " SELECT AR_CNP_PIC_NAME FROM [Dream_Thai].[dbo].[Customer_Return_Picture] 
+		                   $sql_qli = " SELECT AR_CNP_PIC_NAME FROM [Customer_Return_Picture] 
 			               WHERE AR_CN_ID = ".$_SESSION['id_cn']." AND AR_CND_ITEM = ".$i." AND AR_CNP_ITEM  = ".$j." ";
 		                   $item_pic = sqlsrv_fetch_array(sqlsrv_query($con,$sql_qli));
 		                   @unlink("_pic_file_cn/".$item_pic['AR_CNP_PIC_NAME'].""); 
@@ -54,14 +54,14 @@ include"include/connect.inc.php";
 	   }
     //---------------------------------------------------------------------------------------------------------------   
 	}else if ($_GET['id'] == md5('del313')){
-		$sql = "SELECT * FROM [Dream_Thai].[dbo].[Customer_Return_Picture] WHERE   AR_CND_ITEM = ".$_GET['gitem']." ";
+		$sql = "SELECT * FROM [Customer_Return_Picture] WHERE   AR_CND_ITEM = ".$_GET['gitem']." ";
 		if($_GET['gitem'] != ""){
 		$_SESSION['gitem']  =  $_GET['gitem'];	
 		}
 		$row = sqlsrv_num_rows(sqlsrv_query($con,$sql));
 		if($row  != 0){
 			for($i = 1; $i <= $row ; $i ++){
-		    $sql_qli = " SELECT AR_CNP_PIC_NAME FROM [Dream_Thai].[dbo].[Customer_Return_Picture] 
+		    $sql_qli = " SELECT AR_CNP_PIC_NAME FROM [Customer_Return_Picture] 
 			WHERE AR_CN_ID = ".$_SESSION['id_cn']." AND AR_CND_ITEM = ".$_SESSION['gitem']." AND AR_CNP_ITEM  = ".$i." ";
 		    $item_pic = sqlsrv_fetch_array(sqlsrv_query($con,$sql_qli));
 		     	if($item_pic['AR_CNP_PIC_NAME'] != ""){
@@ -87,7 +87,7 @@ include"include/connect.inc.php";
 	}
 	/*else if($_GET['id']  == md5('del_pic_all')){ 
 	  for($i = 1; $i <= $_GET['itemp']; $i ++){
-		    $sql_qli = " SELECT AR_CNP_PIC_NAME FROM [Dream_Thai].[dbo].[Customer_Return_Picture] WHERE AR_CN_ID = ".$_SESSION['id_cn']." AND AR_CND_ITEM = ".$_SESSION['id_item']." AND AR_CNP_ITEM  = ".$i." ";
+		    $sql_qli = " SELECT AR_CNP_PIC_NAME FROM [Customer_Return_Picture] WHERE AR_CN_ID = ".$_SESSION['id_cn']." AND AR_CND_ITEM = ".$_SESSION['id_item']." AND AR_CNP_ITEM  = ".$i." ";
 		    $item_pic = mssql_fetch_array(mssql_query($sql_qli));
 		   @unlink("_pic_file_cn/".$item_pic[0].""); 
 		    $ap_file1 = mssql_query("DELETE FROM Customer_Return_Picture WHERE AR_CN_ID = ".$_SESSION['id_cn']." AND AR_CND_ITEM = ".$_GET['item']." AND AR_CNP_ITEM  = ".$i."");
@@ -98,7 +98,7 @@ include"include/connect.inc.php";
 	//---------------------------------------------------------------------------------------------------------------
 	else if($_GET['id']  == md5('del_pic_calcle')){ 
 	  for($i = 1; $i <= $_GET['itemp']; $i ++){
-		    $sql_qli = " SELECT AR_CNP_PIC_NAME FROM [Dream_Thai].[dbo].[Customer_Return_Picture] WHERE AR_CN_ID = ".$_SESSION['id_cn']." AND AR_CND_ITEM = ".$_SESSION['id_item']." AND AR_CNP_ITEM  = ".$i." ";
+		    $sql_qli = " SELECT AR_CNP_PIC_NAME FROM [Customer_Return_Picture] WHERE AR_CN_ID = ".$_SESSION['id_cn']." AND AR_CND_ITEM = ".$_SESSION['id_item']." AND AR_CNP_ITEM  = ".$i." ";
 		    $item_pic = sqlsrv_fetch_array(sqlsrv_query($con,$sql_qli));
 		   @unlink("_pic_file_cn/".$item_pic[0].""); 
 		    $ap_file1 = sqlsrv_query($con,"DELETE FROM Customer_Return_Picture WHERE AR_CN_ID = ".$_SESSION['id_cn']." AND AR_CND_ITEM = ".$_GET['item']." AND AR_CNP_ITEM  = ".$i."");

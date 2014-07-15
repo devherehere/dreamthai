@@ -275,7 +275,7 @@ WHERE        (Goods_Price_List.GPL_STATUS = '1')  AND  Goods.GOODS_CODE   IN  ('
         $date_re = $_POST['date_re'];
         $item_no = 0;
 
-        $sql_check_item = "SELECT * FROM [Dream_Thai].[dbo].[Book_Order_Detail] WHERE AR_BO_ID = '" . $_SESSION['id_bo'] . "'";
+        $sql_check_item = "SELECT * FROM [Book_Order_Detail] WHERE AR_BO_ID = '" . $_SESSION['id_bo'] . "'";
         $params = array();
         $options = array("Scrollable" => SQLSRV_CURSOR_KEYSET);
         $stmt_check_item = sqlsrv_query($con, $sql_check_item, $params, $options);
@@ -298,7 +298,7 @@ WHERE        (Goods_Price_List.GPL_STATUS = '1')  AND  Goods.GOODS_CODE   IN  ('
 //            echo $goods_key[$i] . ' ' . $uom_key[$i] . ' ' . $gpl_price[$i] . ' ' . $num_rent[$i] . ' ' . $goods_sum . ' ' . $dis[$i] . ' ' . $dis_amount . ' ' . $dis_total.'<br/>';
 
 
-             $sql_add_temp = "INSERT INTO [Dream_Thai].[dbo].[Book_Order_Detail]
+             $sql_add_temp = "INSERT INTO [Book_Order_Detail]
                                     (
                                    [AR_BO_ID]
                                   ,[AR_BOD_ITEM]
@@ -337,7 +337,7 @@ WHERE        (Goods_Price_List.GPL_STATUS = '1')  AND  Goods.GOODS_CODE   IN  ('
         }
         $params = array();
         $options = array("Scrollable" => SQLSRV_CURSOR_KEYSET);
-        $sql = "select * from [Dream_Thai].[dbo].[Book_Order_Detail] where [AR_BO_ID] = '" . $_SESSION['id_bo'] . "' ";
+        $sql = "select * from [Book_Order_Detail] where [AR_BO_ID] = '" . $_SESSION['id_bo'] . "' ";
         $stmt = sqlsrv_query($con, $sql, $params, $options);
 
         if (sqlsrv_num_rows($stmt) > 0) {

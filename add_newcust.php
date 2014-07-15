@@ -69,7 +69,7 @@ include"include/connect.inc.php";
 	?>
       <?PHP
     if(@$_GET['id_key'] == md5('add')){
-	$sql_arf = "INSERT INTO [Dream_Thai].[dbo].[AR_File]
+	$sql_arf = "INSERT INTO [AR_File]
            ([ARF_KEY]
            ,[BT_KEY]
            ,[ARF_COMPANY_NAME_THAI]
@@ -108,7 +108,7 @@ include"include/connect.inc.php";
            ,NULL
            ,NULL)";
 		///------------------------------------------------------------------------------------------------------
-	$sql_address = "INSERT INTO [Dream_Thai].[dbo].[Address]
+	$sql_address = "INSERT INTO [Address]
            ([APF_ARF_KEY]
            ,[ADD_ITEM]
            ,[ADD_NO]
@@ -145,7 +145,7 @@ include"include/connect.inc.php";
            ,NULL
            ,'".date("Y/m/d H:i:s")."')";
      ///------------------------------------------------------------------------------------------------------	   
-	$sql_contact = "INSERT INTO [Dream_Thai].[dbo].[Contact]
+	$sql_contact = "INSERT INTO [Contact]
            ([APF_ARF_KEY]
            ,[CONT_ITEM]
            ,[CONT_TITLE]
@@ -172,7 +172,7 @@ include"include/connect.inc.php";
            ,1
            ,'". $_SESSION["user_id"]."');";
 		  ///---------------------------------------------------------------------------------------------------
-		 $sql_payment="INSERT INTO [Dream_Thai].[dbo].[Condition_Payment]
+		 $sql_payment="INSERT INTO [Condition_Payment]
            ([APF_ARF_KEY]
            ,[COND_ITEM]
            ,[COND_PUR_STATUS]

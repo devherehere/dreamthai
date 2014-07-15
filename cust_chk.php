@@ -66,7 +66,7 @@ ob_start();
       ,[ARF_REASON_APPROVE]
       ,[ARF_APPROVE_BY]
       ,[ARF_APPROVE_DATE]
-  FROM [Dream_Thai].[dbo].[AR_File]
+  FROM [AR_File]
   WHERE  ARF_KEY = '" . $_GET['id_search'] . "'";
         $arr_ss = sqlsrv_fetch_array(sqlsrv_query($con, $sql_ss));
     }

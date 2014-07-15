@@ -282,7 +282,7 @@ WHERE        (Book_Order_Detail.AR_BO_ID = '" . $_SESSION['id_bo'] . "') AND (Go
 //            echo $goods_key[$i] . ' ' . $uom_key[$i] . ' ' . $gpl_price[$i] . ' ' . $num_rent[$i] . ' ' . $goods_sum . ' ' . $dis[$i] . ' ' . $dis_amount . ' ' . $dis_total.'<br/>';
 
 
-                    $sql_add_temp = "UPDATE [Dream_Thai].[dbo].[Book_Order_Detail]
+                    $sql_add_temp = "UPDATE [Book_Order_Detail]
                              SET
                                   [AR_BOD_GOODS_SELL]= '" . $gpl_price . "'
                                   ,[AR_BOD_GOODS_AMOUNT]= '" . $num_rent . "'

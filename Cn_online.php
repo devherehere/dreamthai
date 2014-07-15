@@ -99,7 +99,7 @@ FROM  Document_File WHERE (DOC_STATUS = '1') AND (MODULE_KEY = 2)";
     } else {
         $mm = $day[1];
     }
-    $cn_run = sqlsrv_fetch_array(sqlsrv_query($con, "SELECT ISNULL(MAX(AR_CN_ID),0)+1 AS  AR_CN_KEY FROM [Dream_Thai].[dbo].[Customer_Return] "));
+    $cn_run = sqlsrv_fetch_array(sqlsrv_query($con, "SELECT ISNULL(MAX(AR_CN_ID),0)+1 AS  AR_CN_KEY FROM [Customer_Return] "));
     $_SESSION['id_cn'] = $cn_run[0];
     $cn_id = sprintf("%03d", $cn_run[0]);
     $don_no = "" . $docrun['DOC_TITLE_NAME'] . "-" . $yy . "" . $mm . "-" . $cn_id;
@@ -198,7 +198,7 @@ AP_File ON Contact.APF_ARF_KEY = AP_File.APF_KEY WHERE  Contact.CONT_STATUS = '1
                         ประเภทการเครม
                         <select name="type_re" class="frominput">
                             <?PHP
-                            $sql_e = sqlsrv_query($con, "SELECT *FROM [Dream_Thai].[dbo].[Customer_Return_Type] WHERE (CNT_STATUS = '1')");
+                            $sql_e = sqlsrv_query($con, "SELECT *FROM [Customer_Return_Type] WHERE (CNT_STATUS = '1')");
                             while ($type_re = sqlsrv_fetch_array($sql_e)) {
                                 echo "<option value='" . $type_re['CNT_KEY'] . "' selected=\"selected\" >" . $type_re['CNT_NAME'] . "</option>";
                             }
@@ -252,7 +252,7 @@ AP_File ON Contact.APF_ARF_KEY = AP_File.APF_KEY WHERE  Contact.CONT_STATUS = '1
     <?PHP
     if ($_GET['action'] == 'save') {
 
-        $sql_insert_cus_return_detail = "INSERT INTO  [Dream_Thai].[dbo].[Customer_Return_Detail]
+        $sql_insert_cus_return_detail = "INSERT INTO  [Customer_Return_Detail]
        [AR_CN_ID],
       ,[AR_CND_ITEM]
       ,[GOODS_KEY]
@@ -278,9 +278,9 @@ AP_File ON Contact.APF_ARF_KEY = AP_File.APF_KEY WHERE  Contact.CONT_STATUS = '1
   ";
 
 
-        $sql_temp_to_mas = "INSERT INTO [Dream_Thai].[dbo].[Customer_Return_Detail]  SELECT * FROM
-		   [Dream_Thai].[dbo].[Customer_Return_Detail_Temp] WHERE [AR_CN_ID] = " . $_SESSION['id_cn'] . " ";
-        $chkadd = "SELECT * FROM [Dream_Thai].[dbo].[Customer_Return_Detail_Temp] WHERE AR_CN_ID = " . ($_SESSION['id_cn']) . " ;";
+        $sql_temp_to_mas = "INSERT INTO [Customer_Return_Detail]  SELECT * FROM
+		   [Customer_Return_Detail_Temp] WHERE [AR_CN_ID] = " . $_SESSION['id_cn'] . " ";
+        $chkadd = "SELECT * FROM [Customer_Return_Detail_Temp] WHERE AR_CN_ID = " . ($_SESSION['id_cn']) . " ;";
         if (sqlsrv_num_rows(sqlsrv_query($chkadd)) > 0) {
             $ap_file1 = sqlsrv_query($con, $sql_temp_to_mas);
             $ap_file2 = sqlsrv_query($con, $sql);

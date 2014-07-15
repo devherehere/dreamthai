@@ -5,13 +5,13 @@ ini_set('default_charset', 'tis-620');
 if ($_SESSION["user_ses"]  != ''  &&  $_SESSION["user_id"]  != ''){ 
 include"include/ms_db_to_csv.php";
 include"include/connect.inc.php";
-$table1 = "[Dream_Thai].[dbo].[AR_File]";
-$table2 = "[Dream_Thai].[dbo].[AP_File]";
-$table3 = "[Dream_Thai].[dbo].[Book_Order]";
-$table4 = "[Dream_Thai].[dbo].[Book_Order_Detail]";
-$table5 = "[Dream_Thai].[dbo].[Customer_Return]";
-$table6 = "[Dream_Thai].[dbo].[Customer_Return_Detail]";
-$table7 = "[Dream_Thai].[dbo].[Customer_Return_Picture]";
+$table1 = "[AR_File]";
+$table2 = "[AP_File]";
+$table3 = "[Book_Order]";
+$table4 = "[Book_Order_Detail]";
+$table5 = "[Customer_Return]";
+$table6 = "[Customer_Return_Detail]";
+$table7 = "[Customer_Return_Picture]";
 $file_name = "test01";
 $ex1 = ms_db_to_csv($table1,$file_name);
 $ex2 = ms_db_to_csv($table2,$file_name);
@@ -32,7 +32,7 @@ echo $out;
  for($k = 1; $k <= $rows; $k ++){
 	  $recccre = mssql_fetch_array($ree);
   $file = $k;
-  $ex = ms_db_to_csv("[Dream_Thai].[dbo].[".$recccre[2]."]",$file1);
+  $ex = ms_db_to_csv("[".$recccre[2]."]",$file1);
   $ep .= $ex."<br> ";
  }
  echo $ep;

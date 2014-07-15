@@ -373,17 +373,17 @@ if ($docresult[6] == 0) {
     $mm = $day[1];
 }
 if (empty($_SESSION['id_bo'])) {
-    $query = " SELECT  ISNULL(MAX(AR_BO_ID),0)+1 AS AR_BO_KEY  FROM   [Dream_Thai].[dbo].[Book_Order] ";
+    $query = " SELECT  ISNULL(MAX(AR_BO_ID),0)+1 AS AR_BO_KEY  FROM   [Book_Order] ";
     $stm = sqlsrv_query($con, $query);
     $rec_run = sqlsrv_fetch_array($stm);
     $_SESSION['id_bo'] = $rec_run[0];
 }
-$chk = "SELECT * FROM [Dream_Thai].[dbo].[Book_Order] WHERE AR_BO_ID = " . ($_SESSION['id_bo']) . " ;";
+$chk = "SELECT * FROM [Book_Order] WHERE AR_BO_ID = " . ($_SESSION['id_bo']) . " ;";
 if (sqlsrv_num_rows(sqlsrv_query($con, $chk)) > 0) {
     $temp = $_SESSION['id_bo'];
     $_SESSION['id_bo'] = $temp + 1;
-    sqlsrv_query($con, "UPDATE [Dream_Thai].[dbo].[Book_Order_Detail_Temp] SET [AR_BO_ID] = " . $_SESSION['id_bo'] . " WHERE AR_BO_ID = " . $temp . " ");
-    $rec_run = sqlsrv_fetch_array(sqlsrv_query($con, " SELECT  ISNULL(MAX(AR_BO_ID),0)+1 AS AR_BO_KEY  FROM   [Dream_Thai].[dbo].[Book_Order] "));
+    sqlsrv_query($con, "UPDATE [Book_Order_Detail_Temp] SET [AR_BO_ID] = " . $_SESSION['id_bo'] . " WHERE AR_BO_ID = " . $temp . " ");
+    $rec_run = sqlsrv_fetch_array(sqlsrv_query($con, " SELECT  ISNULL(MAX(AR_BO_ID),0)+1 AS AR_BO_KEY  FROM   [Book_Order] "));
     $_SESSION['id_bo'] = $rec_run[0];
     $run_id = sprintf("%03d", $rec_run[0]);
     $run_id2 = sprintf("%03d", ($run_id - 1));
@@ -391,7 +391,7 @@ if (sqlsrv_num_rows(sqlsrv_query($con, $chk)) > 0) {
     $_SESSION['key_bo'] = $BO_KEY;
     echo "<script>alert('เลขที่ใบจอง ( " . "" . $docresult['DOC_TITLE_NAME'] . "-" . $yy . "" . $mm . "-" . $run_id2 . "" . " ) ซ้ำ เลขที่ใหม่คือ ( " . $_SESSION['key_bo'] . " )')</script>";
 } else {
-    $rec_run = sqlsrv_fetch_array(sqlsrv_query($con, " SELECT  ISNULL(MAX(AR_BO_ID),0)+1 AS AR_BO_KEY  FROM   [Dream_Thai].[dbo].[Book_Order] "));
+    $rec_run = sqlsrv_fetch_array(sqlsrv_query($con, " SELECT  ISNULL(MAX(AR_BO_ID),0)+1 AS AR_BO_KEY  FROM   [Book_Order] "));
     $_SESSION['id_bo'] = $rec_run[0];
     $run_id = sprintf("%03d", $rec_run[0]);
     $BO_KEY = $docresult['DOC_TITLE_NAME'] . "-" . $yy . "" . $mm . "-" . $run_id . "";
@@ -630,7 +630,7 @@ WHERE        (Tax_Type.TAXT_STATUS = '1') AND (Condition_Payment.COND_STATUS = '
 
                             <?php
 
-                            $sql_promo = sqlsrv_query($con, "SELECT * FROM [Dream_Thai].[dbo].[Promotion]  order by PROM_YEAR DESC , PROM_MONTH DESC");
+                            $sql_promo = sqlsrv_query($con, "SELECT * FROM [Promotion]  order by PROM_YEAR DESC , PROM_MONTH DESC");
                             $row = sqlsrv_fetch_array($sql_promo);
 
                             ?>

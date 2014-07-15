@@ -78,13 +78,9 @@
 
         var selected = $('input:file');
 
-        $(document.body).on('change','input:file',function(){
+        $(document.body).on('change', 'input:file', function () {
 
             console.log($(this).prop('files'));
-        });
-
-
-        selected.change(function () {
             var file_list = $(this).prop('files');
 
 
@@ -110,15 +106,47 @@
 
                 }
 
-                input_item.next().prop('src', reader.result).css('display','block');
-
-
-
+                input_item.next().prop('src', reader.result).css('display', 'block');
             };
-
-
         });
 
+
+        /* selected.change(function () {
+
+         var file_list = $(this).prop('files');
+
+
+         var input_item = $(this);
+         var reader = new FileReader();
+
+         var list_clam_id = input_item.parent().parent().parent().prev().find('td').text();
+         var num_pic_clam = input_item.parent().find('.show_pic_clam').children('.pic_item_clam').length + 1;
+         //var show_detail = 'รายการเคลมที่ ' + list_clam_id + 'ลำดับภาพที่ ' + num_pic_clam;
+         var str = input_item.prop('value');
+         var arr = str.split("\\");
+
+         reader.readAsDataURL(file_list.item(0));
+         reader.onload = function () {
+
+
+         var sType = reader.result;
+         var dType = sType.split('/');
+
+         if (dType[0] != 'data:image') {
+         alert('รูปภาพเท่านั้น!!');
+         return false;
+
+         }
+
+         input_item.next().prop('src', reader.result).css('display','block');
+
+
+
+         };
+
+
+         });
+         */
         function objImg(clam_item_list, num, blob, file_name) {
             this.clam_item_list = clam_item_list;
             this.num = num;
@@ -151,13 +179,10 @@
             $(this).next().toggle();
         });
 
-          $(document.body).on('click', '.add_pic', function () {
+        $(document.body).on('click', '.add_pic', function () {
 
-            $(this).parent().append('<input type="file" class="image" name="upload[]" style="clear:both"multiple/>').append('<img src="" width="200px" height="150px" style="display: none ; margin: 5px">');
+            $(this).parent().append('<input type="file" class="image" name="upload[]" style="clear:both"multiple/>').append('<img src="" width="200px" height="150px" style="display: none ; margin: 5px"><div style="clear:both"></div>');
         });
-
-
-
 
 
     })
@@ -365,8 +390,11 @@ WHERE        (Goods_Price_List.GPL_STATUS = '1')  AND  Goods.GOODS_CODE   IN  ('
 
 
                                             <div style="clear: both;"></div>
-                                            <input type="file" class="image" name="upload[]" multiple style="clear: both"/>
-                                            <img src="" width="200px" height="150px" style="display: none ; margin: 5px">
+                                            <input type="file" class="image" name="upload[]" multiple
+                                                   style="clear: both"/>
+                                            <img src="" width="200px" height="150px"
+                                                 style="display: none ; margin: 5px">
+
                                             <div style="clear: both;"></div>
                                         </div>
                                     </td>
@@ -413,7 +441,7 @@ WHERE        (Goods_Price_List.GPL_STATUS = '1')  AND  Goods.GOODS_CODE   IN  ('
                 }
 
 
-                $sql_check_item = "SELECT * FROM [Dream_Thai].[dbo].[Customer_Return_Detail] WHERE AR_CN_ID = '" . $_SESSION['id_cn'] . "'";
+                $sql_check_item = "SELECT * FROM [Customer_Return_Detail] WHERE AR_CN_ID = '" . $_SESSION['id_cn'] . "'";
                 $params = array();
                 $options = array("Scrollable" => SQLSRV_CURSOR_KEYSET);
                 $stmt_check_item = sqlsrv_query($con, $sql_check_item, $params, $options);
@@ -455,7 +483,7 @@ WHERE        (Goods_Price_List.GPL_STATUS = '1')  AND  Goods.GOODS_CODE   IN  ('
 
                 $params = array();
                 $options = array("Scrollable" => SQLSRV_CURSOR_KEYSET);
-                $sql = "select * from [Dream_Thai].[dbo].[Customer_Return_Detail] where [AR_CN_ID] = '" . $_SESSION['id_cn'] . "' ";
+                $sql = "select * from [Customer_Return_Detail] where [AR_CN_ID] = '" . $_SESSION['id_cn'] . "' ";
                 $stmt = sqlsrv_query($con, $sql, $params, $options);
 
                 if (sqlsrv_num_rows($stmt) > 0) {

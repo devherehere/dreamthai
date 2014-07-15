@@ -16,7 +16,7 @@ ob_start();
     <div class="content">
     <?PHP
 	         $tdate_up = date("Y-m-d ")." ".date("H:i:s");
-   			 $sql="select * from  [Dream_Thai].[dbo].[Login]  where USERNAME = '".$_POST['user']."'  and  PASSWORD = '".$_POST['pwd']."'";
+   			 $sql="select * from  [Login]  where USERNAME = '".$_POST['user']."'  and  PASSWORD = '".$_POST['pwd']."'";
 			 $result=sqlsrv_query($con,$sql);
 			 $record=sqlsrv_fetch_array($result);
 			 $user_id = $record['EMP_KEY'];
@@ -24,7 +24,7 @@ ob_start();
 			 $password_ses=$record['PASSWORD'];
 			 $status_ses=$record['LOGIN_STATUS'];
 			 if($_POST['user']  ==  $user_ses   &&  $_POST['pwd']  ==  $password_ses){
-							    $settime="UPDATE  [Dream_Thai].[dbo].[Login]   SET  LOGIN_LASTUPD  =  '".$tdate_up."'  WHERE  EMP_KEY =  '".$user_id."'";
+							    $settime="UPDATE  [Login]   SET  LOGIN_LASTUPD  =  '".$tdate_up."'  WHERE  EMP_KEY =  '".$user_id."'";
 			                    sqlsrv_query($con,$settime);	 
    				 if($status_ses == '1'){
 						    $_SESSION["user_ses"]  = $user_ses;

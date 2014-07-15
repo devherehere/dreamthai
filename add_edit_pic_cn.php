@@ -181,8 +181,8 @@ ob_start();
 		  }					
 		  copy($_FILES["upload"]["tmp_name"],"".$pass.$namepic);
 		  $item_pic_run = mssql_fetch_array(mssql_query("SELECT ISNULL(MAX(AR_CNP_ITEM),0)+1 AS  AR_CNP_ITEM 
-		  FROM [Dream_Thai].[dbo].[Customer_Return_Picture]  WHERE AR_CN_ID = ".$_SESSION['id_cn']." AND AR_CND_ITEM = ".$_SESSION['id_item'].""));
-		  $sql = "INSERT INTO [Dream_Thai].[dbo].[Customer_Return_Picture]
+		  FROM [Customer_Return_Picture]  WHERE AR_CN_ID = ".$_SESSION['id_cn']." AND AR_CND_ITEM = ".$_SESSION['id_item'].""));
+		  $sql = "INSERT INTO [Customer_Return_Picture]
            ([AR_CN_ID]
            ,[AR_CND_ITEM]
            ,[AR_CNP_ITEM]
@@ -231,8 +231,8 @@ ob_start();
 }
       
 	  if($_GET['id'] == md5('save')){
-		 /*  $sql_temp_to_mas = "INSERT INTO [Dream_Thai].[dbo].[Customer_Return_Picture]
-		   SELECT * FROM [Dream_Thai].[dbo].[Customer_Return_Picture] WHERE [AR_CN_ID] = ".$_SESSION['id_cn']." 
+		 /*  $sql_temp_to_mas = "INSERT INTO [Customer_Return_Picture]
+		   SELECT * FROM [Customer_Return_Picture] WHERE [AR_CN_ID] = ".$_SESSION['id_cn']." 
 		   AND  AR_CND_ITEM = ".$_SESSION['id_item']."";
 		   mssql_query($sql_temp_to_mas);
 		   mssql_query("DELETE FROM   Customer_Return_Picture WHERE AR_CN_ID = ".$_SESSION['id_cn']." 
