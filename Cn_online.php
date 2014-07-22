@@ -54,6 +54,19 @@ ob_start();
 
 
             });
+            $(document.body).on('click', '.clear_list', function () {
+                var check = confirm('ต้องการลบทั้งหมด ใช่หรือไม่?');
+                if (check == true) {
+
+                    $.post('ajax/clear_clam_list.php', {id_cn:<?= $_SESSION['id_cn'];?>}, function () {
+                        window.location = 'Cn_online.php';
+
+                    });
+
+                }
+
+
+            });
 
 
         });
@@ -174,19 +187,31 @@ AP_File ON Contact.APF_ARF_KEY = AP_File.APF_KEY WHERE  Contact.CONT_STATUS = '1
                         <br>
                         ที่อยู่
                         <?php
-                        $sql_address = "SELECT     Address.APF_ARF_KEY, AR_File.ARF_KEY, Address.ADD_ITEM, Address.ADD_NO, Amphoe.AMPHOE_NAME_THAI, Province.PROVINCE_NAME_THAI, Tambon.TAMBON_NAME_THAI, Address.ADD_PROVINCE, Address.ADD_AMPHOE, Address.ADD_TAMBON, Tambon.TAMBON_POSTCODE, Address.ADD_PHONE,  Address.ADD_MOBILE, Address.ADD_FAX, Address.ADD_EMAIL, Address.ADD_DEFAULT FROM Tambon LEFT OUTER JOIN
+
+                        $sql_address = "SELECT   Address.ADD_ITEM,  Address.APF_ARF_KEY, AR_File.ARF_KEY, Address.ADD_ITEM, Address.ADD_NO, Amphoe.AMPHOE_NAME_THAI, Province.PROVINCE_NAME_THAI, Tambon.TAMBON_NAME_THAI, Address.ADD_PROVINCE, Address.ADD_AMPHOE, Address.ADD_TAMBON, Tambon.TAMBON_POSTCODE, Address.ADD_PHONE,  Address.ADD_MOBILE, Address.ADD_FAX, Address.ADD_EMAIL, Address.ADD_DEFAULT FROM Tambon LEFT OUTER JOIN
                       Address ON Tambon.TAMBON_KEY = Address.ADD_TAMBON RIGHT OUTER JOIN
                       Amphoe ON Address.ADD_AMPHOE = Amphoe.AMPHOE_KEY RIGHT OUTER JOIN
                       Province ON Address.ADD_PROVINCE = Province.PROVINCE_KEY LEFT OUTER JOIN
                       AR_File ON Address.APF_ARF_KEY = AR_File.ARF_KEY
 					  WHERE  (Address.ADD_STATUS = '1')
-					  AND (Address.ADD_ITEM = '" . $_SESSION['clam_item_address'] . "') AND Address.APF_ARF_KEY = '" . $_SESSION['clam_cust_arf'] . "' ";
+					  AND Address.APF_ARF_KEY = '" . $_SESSION['clam_cust_arf'] . "' ";
                         $sql_dbgadd = sqlsrv_query($con, $sql_address);
-                        $address = sqlsrv_fetch_array($sql_dbgadd);
 
-                        $full_address = $address['ADD_NO'] . ' ' . $address['TAMBON_NAME_THAI'] . ' ' . $address['AMPHOE_NAME_THAI'] . ' ' . $address['PROVINCE_NAME_THAI'] . ' ' . $address['TAMBON_POSTCODE'];
                         ?>
-                        <input type="text" name="cn_add" size="80" value="<?= $full_address; ?>" disabled>
+
+
+
+                        <select name="ADD_ITEM" class="frominput">
+                            <?php
+                            while ($address = sqlsrv_fetch_array($sql_dbgadd)):
+                                $full_address = $address['ADD_NO'] . ' ' . $address['TAMBON_NAME_THAI'] . ' ' . $address['AMPHOE_NAME_THAI'] . ' ' . $address['PROVINCE_NAME_THAI'] . ' ' . $address['TAMBON_POSTCODE'];
+                                ?>
+                                <option <?= ($address['ADD_ITEM'] == $_SESSION['clam_item_address']) ? 'selected' : ' ' ?>
+                                    value="<?= $address['ADD_ITEM']; ?>"><?php echo $full_address; ?></option>
+                            <?php endwhile; ?>
+                        </select>
+
+
                         <br>
                         Tel.
                         <input type="text" name="cn_tel" size="30" disabled="disabled"
@@ -217,8 +242,8 @@ AP_File ON Contact.APF_ARF_KEY = AP_File.APF_KEY WHERE  Contact.CONT_STATUS = '1
             </div>
 
 
-            <a href="clear_temp.php?id=2" class="clear_list" target="_blank"
-               onclick="return confirm('คุณแน่ใจหรือไม่')"></a>
+            <div class="clear_list"></div>
+
             <a href="product_search.php?clam=true" target="_blank" class="add_list"></a>
         </fieldset>
         <table width="100%" border="0" cellspacing="0" cellpadding="0">
@@ -246,64 +271,54 @@ AP_File ON Contact.APF_ARF_KEY = AP_File.APF_KEY WHERE  Contact.CONT_STATUS = '1
             <legend></legend>
             <input type="reset" value="  " class="Clear">
             <input type="submit" value=" " class="CnOk "
-                   onclick="return confirm('ต้องการบันทึกข้อมูลเลขที่ <?= $_SESSION['key_bo'] ?> ใช่หรือไม่')">
+                   onclick="return confirm('ต้องการบันทึกข้อมูลเลขที่ <?= $_SESSION['clam_doc'] ?> ใช่หรือไม่')">
         </fieldset>
     </form>
     <?PHP
     if ($_GET['action'] == 'save') {
 
-        $sql_insert_cus_return_detail = "INSERT INTO  [Customer_Return_Detail]
-       [AR_CN_ID],
-      ,[AR_CND_ITEM]
-      ,[GOODS_KEY]
-      ,[UOM_KEY]
-      ,[SERIAL_NUMBER]
-      ,[AR_DO_ID]
-      ,[AR_CND_DOT]
-      ,[AR_CND_REMAIN]
-      ,[CNR_KEY]
-      ,[AR_CND_DETAIL]
-      ,[AR_CND_PER_CLAIM]
-      ,[AR_CND_PRICE_CLAIM]
-      ,[AR_CND_STATUS]
-      ,[AR_CND_LASTUPD]
-      ,[AR_CND_SENT_STATUS]
-      ,[AR_CND_SENT_PRICE]
-      ,[AR_CND_PER_ WEARING_OUT]
+        $sql_insert = " INSERT INTO [Customer_Return]
+       (
+       [AR_CN_ID]
+      ,[AR_CN_KEY]
+      ,[DOC_KEY]
+      ,[ARF_KEY]
+      ,[ADD_ITEM]
+      ,[CON_ITEM]
+      ,[EMP_KEY]
+      ,[AR_CN_DATE]
+      ,[CNT_KEY]
+      ,[AR_CN_REMARK]
+      ,[AR_CN_STATUS]
+      ,[AR_CN_S_STATUS]
+      ,[AR_CN_QTY]
+      ,[AR_CN_YES]
+      ,[AR_CN_NO]
+      ,[AR_CN_NET]
+      ,[AR_CN_CREATE_BY]
+      ,[AR_CN_REVISE_BY]
+      ,[AR_CN_APPROVE_BY]
+      ,[AR_CN_LASTUPD]
+      )
   VALUES
-'" . $_SESSION['id_cn'] . "',
-'" . $_SESSION['clam_doc'] . "',
+  (
+  ".$_SESSION['id_cn'].",
+  '".$_SESSION['clam_doc']."',
+  'DOC-02',
+  '".$_SESSION["clam_cust_arf"] ."',
+  '".$_POST['ADD_ITEM']."',
+  '".$_POST['contact']."',
+'".$_POST['empkey']."',
+'".date('Y-m-d')."',
+'".$_POST['type_re']."',
+'".$_POST['cn_remark']."'
+3,
+".$_POST['sta_return']."
 
 
-  ";
+  )";
 
 
-        $sql_temp_to_mas = "INSERT INTO [Customer_Return_Detail]  SELECT * FROM
-		   [Customer_Return_Detail_Temp] WHERE [AR_CN_ID] = " . $_SESSION['id_cn'] . " ";
-        $chkadd = "SELECT * FROM [Customer_Return_Detail_Temp] WHERE AR_CN_ID = " . ($_SESSION['id_cn']) . " ;";
-        if (sqlsrv_num_rows(sqlsrv_query($chkadd)) > 0) {
-            $ap_file1 = sqlsrv_query($con, $sql_temp_to_mas);
-            $ap_file2 = sqlsrv_query($con, $sql);
-            $ap_file3 = sqlsrv_query($con, "DELETE FROM   Customer_Return_Detail_Temp WHERE AR_CN_ID = " . $_SESSION['id_cn'] . "");
-        } else {
-            echo "ไม่สามารถบันทึกข้อมูลซ้ำอีกได้ได้!!";
-            mssql_close();
-            echo("<meta http-equiv='refresh' content='3;url = index . php' />");
-        }
-        if ($ap_file1 == true && $ap_file2 == true && $ap_file3 == true) {
-            echo "
-			  <table width=\"100%\">
-			  	<tr bgcolor = ' #d6ffcd'>
-        < td><font color = '#036d05' size = '4' >&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;บันทึกสำเร็จ </font ></td >
-				</tr >
-			  </table >
-        ";
-            echo("<meta http - equiv = 'refresh' content = '3;url= report/report_cn.php' />");
-        } else {
-            echo "<script > alert(\" ผิดผลาด\")
-             window.close();
-		   </script>";
-        }
     }
     ?>
 <?PHP

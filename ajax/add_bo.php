@@ -13,7 +13,7 @@ $send_pl = iconv('UTF-8', 'TIS-620', $_POST['send_pl']);
 $trans_etc = iconv('UTF-8', 'TIS-620', $_POST['trans_etc']);
 $remark = iconv('UTF-8', 'TIS-620', $_POST['remark']);
 
-$sql = "INSERT INTO [Dream_Thai].[dbo].[Book_Order]
+$sql = "INSERT INTO [Book_Order]
            (
 		   [AR_BO_KEY]
            ,[DOC_KEY]

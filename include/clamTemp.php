@@ -62,7 +62,7 @@ if (sqlsrv_has_rows($result) == true):
                     <a href="<?= BASE_URL;?>add_edit_pic_cn.php?id_item=<?= $reccord['AR_CND_ITEM'] ?>" target="_blank"  ><img src="<?= BASE_URL;?>img/pic.png" border="0"></a>
                 </td>
                 <td align="center">
-                    <a href="<?= BASE_URL;?>process_cn.php?ide=<?= md5('fu313') ?>&gkey=<?= $reccord['GOODS_KEY'] ?>&item=<?= $reccord['AR_CND_ITEM'] ?>"  target="_blank" >
+                    <a href="<?= BASE_URL;?>edit_cn.php?goods_key=<?= $reccord['GOODS_KEY'] ?>&item=<?= $reccord['AR_CND_ITEM'] ?>"  target="_blank" >
                         <img src="<?= BASE_URL;?>img/edt_list.png" border="0"></a>
                 </td>
                 <td align="center">

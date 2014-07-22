@@ -4,7 +4,7 @@ ob_start();
 include "../include/connect.inc.php";
 
 
-$sql_add_temp = "INSERT INTO [Dream_Thai].[dbo].[Book_Order_Detail_Temp]
+$sql_add_temp = "INSERT INTO [Book_Order_Detail_Temp]
 (
 [AR_BO_ID]
 ,[AR_BOD_ITEM]

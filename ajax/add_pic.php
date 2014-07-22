@@ -8,7 +8,7 @@ var_dump($list_clam_item);
 /*
 for($i = 0;$i<count($list_clam_item);$i++){
 
-    $sql = "INSERT INTO [Dream_Thai].[dbo].[Customer_Return_Picture]
+    $sql = "INSERT INTO [Customer_Return_Picture]
        [AR_CN_ID]
       ,[AR_CND_ITEM]
       ,[AR_CNP_ITEM]

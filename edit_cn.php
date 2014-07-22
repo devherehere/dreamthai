@@ -265,7 +265,7 @@ if ($_SESSION["user_ses"] != '' && $_SESSION["user_id"] != '') {
     ?>
 
 
-    <form id="form" method="post" action="process_cn.php?action=save" name="formA" enctype="multipart/form-data">
+    <form id="form" method="post" action="edit_cn.php?action=save" name="formA" enctype="multipart/form-data">
 
 
         <fieldset style="width:96%; margin-left:11px; margin-bottom:10px;">
@@ -286,18 +286,23 @@ if ($_SESSION["user_ses"] != '' && $_SESSION["user_id"] != '') {
                                 <td align="center" width="100px">หมายเหตุ</td>
                             </tr>
                             <?PHP
-                            $goods_code = implode("','", $_POST['goods_code']);
-                            $sql_dbgseh = "SELECT        Goods.GOODS_CODE,Goods.GOODS_KEY, Goods.GOODS_NAME_MAIN, Units_of_Measurement.UOM_NAME ,Units_of_Measurement.UOM_KEY, Size.SIZE_NAME, Brand.BRAND_NAME, Category.CATE_NAME,
+                            $goods_key = $_GET['goods_key'];
+                            $sql_dbgseh = "SELECT        Goods.GOODS_CODE, Goods.GOODS_KEY, Goods.GOODS_NAME_MAIN, Units_of_Measurement.UOM_NAME, Units_of_Measurement.UOM_KEY, Size.SIZE_NAME,
+                         Brand.BRAND_NAME, Category.CATE_NAME,
                              (SELECT        SUM(STOCK_BALANCE) AS Expr1
                                FROM            Stock_Balance
-                               WHERE        (GOODS_KEY = Goods.GOODS_KEY)) AS STOCK_BALANCE, Goods_Price_List.GPL_PRICE, Goods.GOODS_KEY
+                               WHERE        (GOODS_KEY = Goods.GOODS_KEY)) AS STOCK_BALANCE, Goods_Price_List.GPL_PRICE, Goods.GOODS_KEY AS Expr1,
+                         Customer_Return_Detail.AR_CND_DETAIL, Customer_Return_Detail.SERIAL_NUMBER, Customer_Return_Detail.AR_DO_ID, Customer_Return_Detail.AR_CND_DOT,
+                         Customer_Return_Detail.AR_CND_REMAIN, Customer_Return_Detail.CNR_KEY, Customer_Return_Detail.AR_CND_PER_CLAIM,
+                         Customer_Return_Detail.AR_CND_PRICE_CLAIM, Customer_Return_Detail.AR_CND_STATUS, Customer_Return_Detail.AR_CND_LASTUPD
 FROM            Goods INNER JOIN
                          Brand ON Goods.BRAND_KEY = Brand.BRAND_KEY INNER JOIN
                          Category ON Goods.CATE_KEY = Category.CATE_KEY INNER JOIN
                          Goods_Price_List ON Goods.GOODS_KEY = Goods_Price_List.GOODS_KEY LEFT OUTER JOIN
+                         Customer_Return_Detail ON Goods.GOODS_KEY = Customer_Return_Detail.GOODS_KEY LEFT OUTER JOIN
                          Size ON Goods.SIZE_KEY = Size.SIZE_KEY LEFT OUTER JOIN
                          Units_of_Measurement ON Goods.UOM_KEY = Units_of_Measurement.UOM_KEY
-WHERE        (Goods_Price_List.GPL_STATUS = '1')  AND  Goods.GOODS_CODE   IN  ('" . $goods_code . "')";
+WHERE        (Goods_Price_List.GPL_STATUS = '1')  AND  Goods.GOODS_KEY  = '" . $goods_key . "'";
 
                             $result = sqlsrv_query($con, $sql_dbgseh);
                             $j = 1;
@@ -340,13 +345,15 @@ WHERE        (Goods_Price_List.GPL_STATUS = '1')  AND  Goods.GOODS_CODE   IN  ('
                                                size="5" style="text-align: center" readonly="readonly"/>
                                     </td>
                                     <td align="center" bgcolor="#888888">&nbsp;
-                                        <input type="text" name="serial_num[<?php echo $i; ?>]" value=""
+                                        <input type="text" name="serial_num[<?php echo $i; ?>]"
+                                               value="<?= $reccord['SERIAL_NUMBER']; ?>"
                                                size="20" style="text-align: center;"
 
                                             />
                                     </td>
                                     <td align="center" bgcolor="#888888">&nbsp;
-                                        <input type="text" name="type_detail[<?php echo $i; ?>]" value=""
+                                        <input type="text" name="type_detail[<?php echo $i; ?>]"
+                                               value="<?= $reccord['AR_CND_REMAIN']; ?>"
                                                size="10"
                                                style="text-align:right;"
                                                class="type_detail"
@@ -355,7 +362,8 @@ WHERE        (Goods_Price_List.GPL_STATUS = '1')  AND  Goods.GOODS_CODE   IN  ('
 
                                     </td>
                                     <td align="center" bgcolor="#888888"><font color='#FFFFFF' size="3"></font>
-                                        <input type="text" value="" name="clam_detail[<?php echo $i; ?>]"
+                                        <input type="text" value="<?= $reccord['AR_CND_DETAIL']; ?>"
+                                               name="clam_detail[<?php echo $i; ?>]"
                                                style="text-align:right;" size="20"
                                                class="rent"
                                                data-rule-required="true"
@@ -372,8 +380,11 @@ WHERE        (Goods_Price_List.GPL_STATUS = '1')  AND  Goods.GOODS_CODE   IN  ('
                                     </td>
                                     <input type="hidden" value="<?= $reccord['UOM_KEY']; ?>"
                                            name="uom_key[<?php echo $i; ?>]">
-                                    <input type="hidden" value="<?= $reccord['GOODS_KEY']; ?>"
-                                           name="goods_key[<?= $i ?>]">
+                                    <input type="hidden" value="<?= $_GET['goods_key']; ?>"
+                                           name="goods_key">
+                                    <input type="hidden" value="<?= $_GET['item']; ?>"
+                                           name="item">
+
                                 </tr>
 
                                 <tr>
@@ -429,7 +440,7 @@ WHERE        (Goods_Price_List.GPL_STATUS = '1')  AND  Goods.GOODS_CODE   IN  ('
         $clam_detail = $_POST['clam_detail'];
         $uom_key = $_POST['uom_key'];
         $remark = $_POST['remark'];
-        $item_no = 0;
+
 
         if (isset($_POST['type_detail'])) {
 
@@ -446,66 +457,34 @@ WHERE        (Goods_Price_List.GPL_STATUS = '1')  AND  Goods.GOODS_CODE   IN  ('
         $stmt_check_item = sqlsrv_query($con, $sql_check_item, $params, $options);
         $num = sqlsrv_num_rows($stmt_check_item);
 
-        if ($num > 0) {
-            $item_no = $num + 1;
-        } else {
-            $item_no = 1;
-        }
+
 
 
         for ($i = 0; $i < count($goods_key); $i++) {
 
             if ($type_detail[$i] == '') {
 
-                echo $sql_add = "INSERT INTO  [Customer_Return_Detail]
-             ( [AR_CN_ID]
-              ,[AR_CND_ITEM]
-              ,[GOODS_KEY]
-              ,[UOM_KEY]
-              ,[SERIAL_NUMBER]
-              ,[AR_CND_REMAIN]
-              ,[AR_CND_DETAIL]
-              ,[AR_CND_LASTUPD]
-              )
-          VALUES (
-          " . $_SESSION['id_cn'] . ",
-          '" . $item_no . "',
-          '" . $goods_key[$i] . "',
-          '" . $uom_key[$i] . "',
-          '" . $serial_num[$i] . "',
-        NULL,
-        '" . $clam_detail[$i] . "',
-        '" . date('Y-m-d H:i:s') . "'
-        )";
+               echo  $sql_add = "UPDATE  [Customer_Return_Detail] SET
+             [AR_CN_ID] = " . $_SESSION['id_cn'] . "
+              ,[SERIAL_NUMBER] = '" . $serial_num[$i] . "'
+              ,[AR_CND_REMAIN] = NULL
+              ,[AR_CND_DETAIL] = '" . $clam_detail[$i] . "'
+              ,[AR_CND_LASTUPD] = '" . date('Y-m-d H:i:s') . "'
+              WHERE [GOODS_KEY] = '" . $_POST['goods_key'] . "' AND [AR_CND_ITEM]= '" . $_POST['item'] . "'";
 
 
             } else {
-                echo $sql_add = "INSERT INTO  [Customer_Return_Detail]
-             ( [AR_CN_ID]
-              ,[AR_CND_ITEM]
-              ,[GOODS_KEY]
-              ,[UOM_KEY]
-              ,[SERIAL_NUMBER]
-              ,[AR_CND_REMAIN]
-              ,[AR_CND_DETAIL]
-              ,[AR_CND_LASTUPD]
-              )
-          VALUES (
-          " . $_SESSION['id_cn'] . ",
-          '" . $item_no . "',
-          '" . $goods_key[$i] . "',
-          '" . $uom_key[$i] . "',
-          '" . $serial_num[$i] . "',
-        " . $type_detail[$i] . ",
-        '" . $clam_detail[$i] . "',
-        '" . date('Y-m-d H:i:s') . "'
-        )";
-
-
+                echo $sql_add = "UPDATE  [Customer_Return_Detail] SET
+             [AR_CN_ID] = " . $_SESSION['id_cn'] . "
+              ,[SERIAL_NUMBER] = '" . $serial_num[$i] . "'
+              ,[AR_CND_REMAIN] = " . $type_detail[$i] . "
+              ,[AR_CND_DETAIL] = '" . $clam_detail[$i] . "'
+              ,[AR_CND_LASTUPD] = '" . date('Y-m-d H:i:s') . "'
+              WHERE [GOODS_KEY] = '" . $_POST['goods_key'] . "' AND [AR_CND_ITEM]= '" . $_POST['item'] . "'";
             }
 
 
-            $item_no++;
+
             $insert_cn_detail = sqlsrv_query($con, $sql_add);
 
         }

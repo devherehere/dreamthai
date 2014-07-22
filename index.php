@@ -291,6 +291,18 @@ $(function () {
         }
     });
 
+    $(document.body).on('click', '.clear_list', function () {
+       var check = confirm('คุณต้องการลบทั้งหมด ?');
+       if(check == true){
+           $.post('ajax/clear_bo_list.php',{id_bo:<?=$_SESSION['id_bo'];?>},function(){
+
+               window.location.href = 'index.php';
+           });
+
+       }
+
+    });
+
 
 });
 /*End Jquery*/
@@ -585,8 +597,7 @@ WHERE        (Tax_Type.TAXT_STATUS = '1') AND (Condition_Payment.COND_STATUS = '
     </div>
 
 
-    <a href="clear_temp.php?id=1" class="clear_list" target="_blank"
-       onclick="return confirm('คุณแน่ใจหรือไม่')"></a>
+    <div  class="clear_list"></div>
     <a href="product_search.php?bo=true" target="_blank" class="add_list"></a>
 </fieldset>
 <table width="100%" border="0" cellspacing="0" cellpadding="0">

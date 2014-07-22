@@ -1,6 +1,6 @@
 <?php
 include "../include/connect.inc.php";
-$sql_promo = sqlsrv_query($con, "SELECT * FROM [Dream_Thai].[dbo].[Promotion]  order by PROM_YEAR DESC , PROM_MONTH DESC");
+$sql_promo = sqlsrv_query($con, "SELECT * FROM [Promotion]  order by PROM_YEAR DESC , PROM_MONTH DESC");
 $row = sqlsrv_fetch_array($sql_promo);
 
 
