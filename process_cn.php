@@ -466,6 +466,11 @@ WHERE        (Goods_Price_List.GPL_STATUS = '1')  AND  Goods.GOODS_CODE   IN  ('
               ,[AR_CND_REMAIN]
               ,[AR_CND_DETAIL]
               ,[AR_CND_LASTUPD]
+              ,[AR_CND_PER_CLAIM]
+              ,[AR_CND_PRICE_CLAIM]
+              ,[AR_CND_STATUS]
+              ,[AR_CND_SENT_STATUS]
+              ,[AR_CND_SENT_PRICE]
               )
           VALUES (
           " . $_SESSION['id_cn'] . ",
@@ -475,7 +480,13 @@ WHERE        (Goods_Price_List.GPL_STATUS = '1')  AND  Goods.GOODS_CODE   IN  ('
           '" . $serial_num[$i] . "',
         NULL,
         '" . $clam_detail[$i] . "',
-        '" . date('Y-m-d H:i:s') . "'
+        '" . date('Y-m-d H:i:s') . "',
+        0,
+        0,
+        3,
+        NULL,
+        NULL
+
         )";
 
 
@@ -489,6 +500,11 @@ WHERE        (Goods_Price_List.GPL_STATUS = '1')  AND  Goods.GOODS_CODE   IN  ('
               ,[AR_CND_REMAIN]
               ,[AR_CND_DETAIL]
               ,[AR_CND_LASTUPD]
+              ,[AR_CND_PER_CLAIM]
+              ,[AR_CND_PRICE_CLAIM]
+              ,[AR_CND_STATUS]
+              ,[AR_CND_SENT_STATUS]
+              ,[AR_CND_SENT_PRICE]
               )
           VALUES (
           " . $_SESSION['id_cn'] . ",
@@ -498,7 +514,12 @@ WHERE        (Goods_Price_List.GPL_STATUS = '1')  AND  Goods.GOODS_CODE   IN  ('
           '" . $serial_num[$i] . "',
         " . $type_detail[$i] . ",
         '" . $clam_detail[$i] . "',
-        '" . date('Y-m-d H:i:s') . "'
+        '" . date('Y-m-d H:i:s') . "',
+        0,
+        0,
+        3,
+        NULL,
+        NULL
         )";
 
 

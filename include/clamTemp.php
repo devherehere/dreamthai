@@ -27,7 +27,14 @@ FROM            Customer_Return_Detail LEFT OUTER JOIN
                          Units_of_Measurement ON Customer_Return_Detail.UOM_KEY = Units_of_Measurement.UOM_KEY
 WHERE        (Customer_Return_Detail.AR_CN_ID = ".$_SESSION['id_cn'].")";
 
-$result = sqlsrv_query($con, $sql);
+
+$params = array();
+$options =  array( "Scrollable" => SQLSRV_CURSOR_KEYSET );
+$result = sqlsrv_query($con, $sql, $params, $options );
+$row_count = sqlsrv_num_rows($result);
+
+$_SESSION['num_item_clam'] = $row_count;
+
 if (sqlsrv_has_rows($result) == true):
     ?>
     <table width="100%" border="0" cellspacing="1" cellpadding="0"  style="color:#FFF; font-size:13px; font-family:Tahoma, Geneva, sans-serif; border:  thin #999 solid; ">

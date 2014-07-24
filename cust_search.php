@@ -42,7 +42,7 @@
                     </tr>
 
                     <?PHP
-                    if (@$_GET['id'] == 'search' && @$_GET['action'] == ''):
+                    if (@$_GET['id'] == 'search' && @$_GET['action'] == '' ):
 
 
                         if ($_POST['search'] == ""):
@@ -87,7 +87,7 @@
                         endwhile; // END  While
 
 
-                    elseif (@$_GET['id'] == 'search' && @$_GET['action'] != ''):
+                    elseif (@$_GET['id'] == 'search' && @$_GET['action'] != '' ):
 
                         if ($_POST['search'] == ""):
 

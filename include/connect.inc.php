@@ -8,7 +8,7 @@ $password="1234";
 //$objDB = mssql_select_db("Dream_Thai");
 
 	$connectInfo = array(
-		"Database"=>'Dream_Thai',
+		"Database"=>'Dream_Thai_Imp',
 		"UID"=>$username,
 		"PWD"=>$password
 	);

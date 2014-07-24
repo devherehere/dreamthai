@@ -8,6 +8,7 @@ ob_start();
 <head>
     <meta http-equiv=Content-Type content="text/html; charset=tis-620">
     <link rel="stylesheet" type="text/css" href="css/style.css"/>
+    <!--    <link rel="stylesheet" type="text/css" href="css/bootstrap-theme.min.css"-->
     <?PHP include "include/connect.inc.php"; ?>
     <title>BOOKING (Online)</title>
     <script src="js/jquery-1.9.1.js"></script>
@@ -69,6 +70,20 @@ ob_start();
             });
 
 
+            $('#content2').hide();
+            $('#content3').hide();
+            $('#content4').hide();
+            $('#content5').hide();
+
+            $(document.body).on('click','.add_cn', function () {
+                $('#content2').show();
+                $('#content3').show();
+                $('#content4').show();
+                $('#content5').show();
+
+            });
+
+
         });
     </script>
 
@@ -94,7 +109,7 @@ ob_start();
 if ($_SESSION["user_ses"] != '' && $_SESSION["user_id"] != '') {
 
     $sql_duc = "SELECT     DOC_KEY, MODULE_KEY, DOC_TITLE_NAME, DOC_NAME_THAI, DOC_NAME_ENG, DOC_SET_YEAR, DOC_SET_MONTH, DOC_RUN, DOC_DATE, DOC_REMARK, DOC_STATUS, DOC_CREATE_BY, DOC_REVISE_BY, DOC_LASTUPD, DOC_ISO, DOC_DAR, DOC_COMPANY_NAME_THAI, DOC_COMPANY_NAME_ENG, DOC_ADD, DOC_TEL, DOC_FAX, DOC_TAX, DOC_WEBSITE, DOC_LOGO, DOC_FORMPRINT
-FROM  Document_File WHERE (DOC_STATUS = '1') AND (MODULE_KEY = 2)";
+FROM  Document_File WHERE (DOC_STATUS = '1') AND (MODULE_KEY = 3)";
     $docrun = sqlsrv_fetch_array(sqlsrv_query($con, $sql_duc));
     $date_ex = date('Y/m/d H:i:s', strtotime("+" . $docrun['DOC_DATE'] . " day"));
     $day = explode("-", date("Y-m-d"));
@@ -232,8 +247,13 @@ AP_File ON Contact.APF_ARF_KEY = AP_File.APF_KEY WHERE  Contact.CONT_STATUS = '1
                         </select></td>
                 </tr>
             </table>
+
+            <button type="button" class="add_cn">เพิ่ม</button>
+
+
         </fieldset>
-        <fieldset style="width:96%; margin-left:11px; margin-bottom:10px;">
+
+        <fieldset style="width:96%; margin-left:11px; margin-bottom:10px;" id="content2">
 
             <legend>
 
@@ -249,7 +269,7 @@ AP_File ON Contact.APF_ARF_KEY = AP_File.APF_KEY WHERE  Contact.CONT_STATUS = '1
         <table width="100%" border="0" cellspacing="0" cellpadding="0">
             <tr>
                 <td valign="top" width="50%">
-                    <fieldset style="width:93%; margin-left:11px; margin-bottom:10px;">
+                    <fieldset style="width:93%; margin-left:11px; margin-bottom:10px;" id="content3">
                         <legend>กรณีที่ยางไม่สามารถเคลมได้</legend>
                         <br>
                         <input type="radio" name="sta_return" checked="checked" value="1">ลุกค้าประสงค์ขอรับยางเคลมคืน
@@ -259,7 +279,7 @@ AP_File ON Contact.APF_ARF_KEY = AP_File.APF_KEY WHERE  Contact.CONT_STATUS = '1
                 <td valign="top" width="5">
                 </td>
                 <td valign="top">
-                    <fieldset style="width:92%; margin-left:11px; margin-bottom:10px;">
+                    <fieldset style="width:92%; margin-left:11px; margin-bottom:10px;" id="content4">
                         <legend>หมายเหตุ</legend>
                         <input type="text" name="cn_remark" size="70">
                         &nbsp;&nbsp;
@@ -267,14 +287,17 @@ AP_File ON Contact.APF_ARF_KEY = AP_File.APF_KEY WHERE  Contact.CONT_STATUS = '1
                 </td>
             </tr>
         </table>
-        <fieldset style="width:96%; margin-left:11px; margin-bottom:10px;">
+        <fieldset style="width:96%; margin-left:11px; margin-bottom:10px;" id="content5">
             <legend></legend>
             <input type="reset" value="  " class="Clear">
             <input type="submit" value=" " class="CnOk "
                    onclick="return confirm('ต้องการบันทึกข้อมูลเลขที่ <?= $_SESSION['clam_doc'] ?> ใช่หรือไม่')">
         </fieldset>
     </form>
+
+
     <?PHP
+
     if ($_GET['action'] == 'save') {
 
         $sql_insert = " INSERT INTO [Customer_Return]
@@ -296,25 +319,30 @@ AP_File ON Contact.APF_ARF_KEY = AP_File.APF_KEY WHERE  Contact.CONT_STATUS = '1
       ,[AR_CN_NO]
       ,[AR_CN_NET]
       ,[AR_CN_CREATE_BY]
-      ,[AR_CN_REVISE_BY]
-      ,[AR_CN_APPROVE_BY]
       ,[AR_CN_LASTUPD]
+      ,[AR_CN_CREATE_DATE]
       )
   VALUES
   (
-  ".$_SESSION['id_cn'].",
-  '".$_SESSION['clam_doc']."',
+  " . $_SESSION['id_cn'] . ",
+  '" . $_SESSION['clam_doc'] . "',
   'DOC-02',
-  '".$_SESSION["clam_cust_arf"] ."',
-  '".$_POST['ADD_ITEM']."',
-  '".$_POST['contact']."',
-'".$_POST['empkey']."',
-'".date('Y-m-d')."',
-'".$_POST['type_re']."',
-'".$_POST['cn_remark']."'
+  '" . $_SESSION["clam_cust_arf"] . "',
+  '" . $_POST['ADD_ITEM'] . "',
+  '" . $_POST['contact'] . "',
+'" . $_POST['empkey'] . "',
+'" . date('Y-m-d') . "',
+'" . $_POST['type_re'] . "',
+'" . $_POST['cn_remark'] . "',
 3,
-".$_POST['sta_return']."
-
+" . $_POST['sta_return'] . ",
+" . $_SESSION['num_item_clam'] . ",
+0,
+0,
+0,
+'" . $_POST['empkey'] . "',
+'" . date('Y-m-d H:i:s') . "',
+'" . date('Y-m-d H:i:s') . "'
 
   )";
 
