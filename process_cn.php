@@ -89,7 +89,7 @@
 
             var list_clam_id = input_item.parent().parent().parent().prev().find('td').text();
             var num_pic_clam = input_item.parent().find('.show_pic_clam').children('.pic_item_clam').length + 1;
-            //var show_detail = 'รายการเคลมที่ ' + list_clam_id + 'ลำดับภาพที่ ' + num_pic_clam;
+
             var str = input_item.prop('value');
             var arr = str.split("\\");
 
@@ -106,47 +106,11 @@
 
                 }
 
-                input_item.next().prop('src', reader.result).css('display', 'block');
+                input_item.next().next().next().prop('src', reader.result).css('display', 'block');
             };
         });
 
 
-        /* selected.change(function () {
-
-         var file_list = $(this).prop('files');
-
-
-         var input_item = $(this);
-         var reader = new FileReader();
-
-         var list_clam_id = input_item.parent().parent().parent().prev().find('td').text();
-         var num_pic_clam = input_item.parent().find('.show_pic_clam').children('.pic_item_clam').length + 1;
-         //var show_detail = 'รายการเคลมที่ ' + list_clam_id + 'ลำดับภาพที่ ' + num_pic_clam;
-         var str = input_item.prop('value');
-         var arr = str.split("\\");
-
-         reader.readAsDataURL(file_list.item(0));
-         reader.onload = function () {
-
-
-         var sType = reader.result;
-         var dType = sType.split('/');
-
-         if (dType[0] != 'data:image') {
-         alert('รูปภาพเท่านั้น!!');
-         return false;
-
-         }
-
-         input_item.next().prop('src', reader.result).css('display','block');
-
-
-
-         };
-
-
-         });
-         */
         function objImg(clam_item_list, num, blob, file_name) {
             this.clam_item_list = clam_item_list;
             this.num = num;
@@ -156,15 +120,6 @@
         }
 
 
-        $(document.body).on('click', '.cinfirm', function () {
-
-            $.post('ajax/add_pic.php', {list_item: list_clam_item}, function (data) {
-
-                window.open('ajax/add_pic.php');
-            });
-
-            $('#form').submit();
-        });
 
 
         $(document.body).on('click', '.del_pic', function () {
@@ -181,9 +136,16 @@
 
         $(document.body).on('click', '.add_pic', function () {
 
-            $(this).parent().append('<input type="file" class="image" name="upload[]" style="clear:both"multiple/>').append('<img src="" width="200px" height="150px" style="display: none ; margin: 5px"><div style="clear:both"></div>');
+            $(this).parent().append('<input type="file" class="image" name="upload[]" multiple style="float: left">').append('<span class="del_picture ui-icon ui-icon-minus " style="float:left;background-color: #c7cdde; cursor: pointer;"></span><div style="clear: both;"></div>').append('<img src="" width="200px" height="150px" style="display: none ; margin: 5px;cursor:no-drop" class="pic_show"></br><div style="clear:both"></div>');
         });
 
+        $(document.body).on('click', '.del_picture', function () {
+
+            $(this).prev().prev().remove();
+            $(this).prev().remove();
+            $(this).next().next().remove();
+            $(this).remove();
+        });
 
     })
     ;
@@ -283,7 +245,7 @@ if ($_SESSION["user_ses"] != '' && $_SESSION["user_id"] != '') {
                                 <td align="center" width="40px">ดอกยาง</br>ที่เหลือ</td>
                                 <td align="center" width="100px" style="color: #00c2ff">อาการ</br>ที่รับเคลม
                                 </td>
-                                <td align="center" width="100px">หมายเหตุ</td>
+
                             </tr>
                             <?PHP
                             $goods_code = implode("','", $_POST['goods_code']);
@@ -364,19 +326,14 @@ WHERE        (Goods_Price_List.GPL_STATUS = '1')  AND  Goods.GOODS_CODE   IN  ('
 
                                     </td>
 
-                                    <td align="center" bgcolor="#888888">&nbsp;
-                                        <input type="text" name="remark[<?php echo $i; ?>]" value=""
-                                               class=""
-                                               size="20"
-                                            />
-                                    </td>
+
                                     <input type="hidden" value="<?= $reccord['UOM_KEY']; ?>"
                                            name="uom_key[<?php echo $i; ?>]">
                                     <input type="hidden" value="<?= $reccord['GOODS_KEY']; ?>"
                                            name="goods_key[<?= $i ?>]">
                                 </tr>
 
-                                <tr>
+                               <!-- <tr>
                                     <td colspan="8">
                                         <div class="button_show"
                                              style="background-color:  #d5d5d5;border-radius: 5px;width: 100%;"><span
@@ -386,20 +343,22 @@ WHERE        (Goods_Price_List.GPL_STATUS = '1')  AND  Goods.GOODS_CODE   IN  ('
 
 
                                             <span class="ui-icon ui-icon-plus add_pic"
-                                                  style="position: relative;float:left;background-color: #c7cdde; cursor: pointer;"></span>
-
-
+                                                  style="float:left;background-color: #c7cdde; cursor: pointer;"></span>
                                             <div style="clear: both;"></div>
-                                            <input type="file" class="image" name="upload[]" multiple
-                                                   style="clear: both"/>
+                                            <input type="file" class="image" name="upload[]" multiple style="float: left"
+                                                >
+                                            <span class="ui-icon ui-icon-minus del_picture"
+                                                  style="float:left;background-color: #c7cdde; cursor: pointer;"></span>
+                                            <div style="clear: both;"></div>
                                             <img src="" width="200px" height="150px"
-                                                 style="display: none ; margin: 5px;cursor:no-drop">
+                                                 style="display: none ; margin: 5px;cursor:no-drop" class="pic_show">
 
-                                            <div style="clear: both;"></div>
+                                            </br>
+
                                         </div>
                                     </td>
 
-                                </tr>
+                                </tr>-->
 
                                 <?PHP
                                 $i++;
@@ -414,7 +373,7 @@ WHERE        (Goods_Price_List.GPL_STATUS = '1')  AND  Goods.GOODS_CODE   IN  ('
             <input type="hidden" value="<?= $m ?>" name="mx">
             <input type="reset" class="Xcloase" value="">
 
-            <div class="cinfirm" value=""></div>
+            <input type="submit" class="cinfirm" value="">
         </fieldset>
     </form>
 
@@ -457,7 +416,7 @@ WHERE        (Goods_Price_List.GPL_STATUS = '1')  AND  Goods.GOODS_CODE   IN  ('
 
             if ($type_detail[$i] == '') {
 
-                echo $sql_add = "INSERT INTO  [Customer_Return_Detail]
+                 $sql_add = "INSERT INTO  [Customer_Return_Detail]
              ( [AR_CN_ID]
               ,[AR_CND_ITEM]
               ,[GOODS_KEY]
@@ -491,7 +450,7 @@ WHERE        (Goods_Price_List.GPL_STATUS = '1')  AND  Goods.GOODS_CODE   IN  ('
 
 
             } else {
-                echo $sql_add = "INSERT INTO  [Customer_Return_Detail]
+                 $sql_add = "INSERT INTO  [Customer_Return_Detail]
              ( [AR_CN_ID]
               ,[AR_CND_ITEM]
               ,[GOODS_KEY]
@@ -537,7 +496,7 @@ WHERE        (Goods_Price_List.GPL_STATUS = '1')  AND  Goods.GOODS_CODE   IN  ('
         $stmt = sqlsrv_query($con, $sql, $params, $options);
 
         if (sqlsrv_num_rows($stmt) > 0) {
-            //	  echo("<meta http-equiv='refresh' content='1;url = product_search . php' />");
+
             echo "<script>window.close();</script>";
         }
 

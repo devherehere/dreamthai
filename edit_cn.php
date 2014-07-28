@@ -302,7 +302,7 @@ FROM            Goods INNER JOIN
                          Customer_Return_Detail ON Goods.GOODS_KEY = Customer_Return_Detail.GOODS_KEY LEFT OUTER JOIN
                          Size ON Goods.SIZE_KEY = Size.SIZE_KEY LEFT OUTER JOIN
                          Units_of_Measurement ON Goods.UOM_KEY = Units_of_Measurement.UOM_KEY
-WHERE        (Goods_Price_List.GPL_STATUS = '1')  AND  Goods.GOODS_KEY  = '" . $goods_key . "'";
+WHERE        (Goods_Price_List.GPL_STATUS = '1')  AND  Goods.GOODS_KEY  = '" . $goods_key . "' AND AR_CN_ID = '".$_SESSION['id_cn']."'";
 
                             $result = sqlsrv_query($con, $sql_dbgseh);
                             $j = 1;
@@ -387,7 +387,7 @@ WHERE        (Goods_Price_List.GPL_STATUS = '1')  AND  Goods.GOODS_KEY  = '" . $
 
                                 </tr>
 
-                                <tr>
+                          <!--      <tr>
                                     <td colspan="8">
                                         <div class="button_show"
                                              style="background-color:  #d5d5d5;border-radius: 5px;width: 100%;"><span
@@ -410,7 +410,7 @@ WHERE        (Goods_Price_List.GPL_STATUS = '1')  AND  Goods.GOODS_KEY  = '" . $
                                         </div>
                                     </td>
 
-                                </tr>
+                                </tr>-->
 
                                 <?PHP
                                 $i++;
@@ -470,7 +470,7 @@ WHERE        (Goods_Price_List.GPL_STATUS = '1')  AND  Goods.GOODS_KEY  = '" . $
               ,[AR_CND_REMAIN] = NULL
               ,[AR_CND_DETAIL] = '" . $clam_detail[$i] . "'
               ,[AR_CND_LASTUPD] = '" . date('Y-m-d H:i:s') . "'
-              WHERE [GOODS_KEY] = '" . $_POST['goods_key'] . "' AND [AR_CND_ITEM]= '" . $_POST['item'] . "'";
+              WHERE [GOODS_KEY] = '" . $_POST['goods_key'] . "' AND [AR_CND_ITEM]= '" . $_POST['item'] . "' AND  AR_CN_ID = '" . $_SESSION['id_cn'] . "'";
 
 
             } else {
@@ -480,7 +480,7 @@ WHERE        (Goods_Price_List.GPL_STATUS = '1')  AND  Goods.GOODS_KEY  = '" . $
               ,[AR_CND_REMAIN] = " . $type_detail[$i] . "
               ,[AR_CND_DETAIL] = '" . $clam_detail[$i] . "'
               ,[AR_CND_LASTUPD] = '" . date('Y-m-d H:i:s') . "'
-              WHERE [GOODS_KEY] = '" . $_POST['goods_key'] . "' AND [AR_CND_ITEM]= '" . $_POST['item'] . "'";
+              WHERE [GOODS_KEY] = '" . $_POST['goods_key'] . "' AND [AR_CND_ITEM]= '" . $_POST['item'] . "' AND  AR_CN_ID = '" . $_SESSION['id_cn'] . "'";
             }
 
 

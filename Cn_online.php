@@ -69,7 +69,7 @@ ob_start();
 
             });
 
-
+/*
             $('#content2').hide();
             $('#content3').hide();
             $('#content4').hide();
@@ -82,6 +82,7 @@ ob_start();
                 $('#content5').show();
 
             });
+            */
 
 
         });
@@ -133,7 +134,7 @@ FROM  Document_File WHERE (DOC_STATUS = '1') AND (MODULE_KEY = 3)";
     $don_no = "" . $docrun['DOC_TITLE_NAME'] . "-" . $yy . "" . $mm . "-" . $cn_id;
     $_SESSION['clam_doc'] = $don_no;
     ?>
-    <form method="post" name="01" action="Cn_online.php?action=save" target="_blank">
+    <form method="post" name="01" action="Cn_online.php?action=save">
         <fieldset style="width:96%; margin-left:11px; margin-bottom:10px;">
             <legend>ใบเคลมสินค้า</legend>
             <table width="100%" border="0" cellspacing="0" cellpadding="0">
@@ -248,7 +249,7 @@ AP_File ON Contact.APF_ARF_KEY = AP_File.APF_KEY WHERE  Contact.CONT_STATUS = '1
                 </tr>
             </table>
 
-            <button type="button" class="add_cn">เพิ่ม</button>
+<!--            <button type="button" class="add_cn">เพิ่ม</button>-->
 
 
         </fieldset>
@@ -300,7 +301,7 @@ AP_File ON Contact.APF_ARF_KEY = AP_File.APF_KEY WHERE  Contact.CONT_STATUS = '1
 
     if ($_GET['action'] == 'save') {
 
-        echo $sql_insert = " INSERT INTO [Customer_Return]
+       $sql_insert = " INSERT INTO [Customer_Return]
        (
        [AR_CN_ID]
       ,[AR_CN_KEY]
@@ -345,8 +346,12 @@ AP_File ON Contact.APF_ARF_KEY = AP_File.APF_KEY WHERE  Contact.CONT_STATUS = '1
 '" . date('Y-m-d H:i:s') . "'
 
   )";
-       // sqlsrv_query($con,$sql_insert);
+        $stmt = sqlsrv_query($con, $sql_insert);
+        if (sqlsrv_rows_affected($stmt) > 0) {
+            echo '<script>window.open("report/gen_clam.php", "_blank")</script>';
+            echo '<script>window.location.href = "Cn_online.php"</script>';
 
+        }
     }
     ?>
 <?PHP

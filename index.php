@@ -305,13 +305,7 @@ $(function () {
 
 
 });
-/*End Jquery*/
 
-/*Custome Script*/
-/*function modTextbox() {
- document.formA.trans_etc.disabled = !(document.formA.trans_key.value % 2);
- }
- */
 
 </script>
 

@@ -46,7 +46,7 @@ if (sqlsrv_has_rows($result) == true):
             <td align="center">Serial Number</td>
             <td align="center">ดอกยางที่เหลือ<BR>(.mm)</td>
             <td align="center">อาการที่รับเคลม</td>
-            <td align="center" width="15%">หมายเหตุ</td>
+
             <td align="center"></td>
             <td align="center"></td>
             <td align="center"></td>
@@ -64,7 +64,6 @@ if (sqlsrv_has_rows($result) == true):
                 <td align="left" bgcolor="#888888">&nbsp;<?= $reccord['SERIAL_NUMBER'] ?></td>
                 <td align="left" bgcolor="#888888">&nbsp;<?= $reccord['AR_CND_REMAIN'] ?></td>
                 <td align="left" bgcolor="#888888">&nbsp;<?= $reccord['AR_CND_DETAIL'] ?></td>
-                <td align="left" bgcolor="#888888">&nbsp;<?= $reccord['AR_CND_REMARK'] ?></td>
                 <td align="center" bgcolor="#888888">
                     <a href="<?= BASE_URL;?>add_edit_pic_cn.php?id_item=<?= $reccord['AR_CND_ITEM'] ?>" target="_blank"  ><img src="<?= BASE_URL;?>img/pic.png" border="0"></a>
                 </td>
