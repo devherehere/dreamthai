@@ -65,7 +65,7 @@ if (sqlsrv_has_rows($result) == true):
                 <td align="left" bgcolor="#888888">&nbsp;<?= $reccord['AR_CND_REMAIN'] ?></td>
                 <td align="left" bgcolor="#888888">&nbsp;<?= $reccord['AR_CND_DETAIL'] ?></td>
                 <td align="center" bgcolor="#888888">
-                    <a href="<?= BASE_URL;?>add_edit_pic_cn.php?id_item=<?= $reccord['AR_CND_ITEM'] ?>" target="_blank"  ><img src="<?= BASE_URL;?>img/pic.png" border="0"></a>
+                    <a href="<?= BASE_URL;?>add_edit_pic_cn.php?id_item=<?= $reccord['AR_CND_ITEM'] ?>&goods_code=<?= $reccord['GOODS_CODE'];?>" target="_blank"  ><img src="<?= BASE_URL;?>img/pic.png" border="0"></a>
                 </td>
                 <td align="center">
                     <a href="<?= BASE_URL;?>edit_cn.php?goods_key=<?= $reccord['GOODS_KEY'] ?>&item=<?= $reccord['AR_CND_ITEM'] ?>"  target="_blank" >

@@ -197,12 +197,12 @@ ob_start();
         else:
             ?>
             <div style="color: red;text-align: center">ไม่มีรูป!</div>
-            </table>
-            </fieldset>
+
         <?
         endif;
         ?>
-
+        </table>
+        </fieldset>
 
         <fieldset style="width:96%; margin-left:11px; margin-bottom:10px;">
             <legend>อัพโหลดรูป</legend>
@@ -220,6 +220,7 @@ ob_start();
                     </tr>
                 </table>
                 <p class="show_pic" style="display: none;color: #000000">ภาพตัวอย่าง</p>
+
                 <div class="show_pic" style="display: none;border:1px dashed #000000 ;width: 200px;height: 150px;">
 
                     <img class="show_pic" width="200" height="150" src="" style="display: none;"/>
@@ -249,7 +250,7 @@ ob_start();
                         if (file_exists("_pic_file_cn/" . $_FILES["upload"]["name"])) {
                             echo $_FILES["upload"]["name"] . " already exists. ";
                         } else {
-                            $cn_id = "cn_" . $_SESSION['id_cn'] . "_item_";
+                            /*$cn_id = "cn_" . $_SESSION['id_cn'] . "_item_";
                             $cn_item = $_SESSION['id_item'] . "_";
                             $day = date("Y-m-dHis");
                             $fnamepic = $cn_id . $cn_item . $day;
@@ -260,15 +261,21 @@ ob_start();
                             } else if ($_FILES["upload"]["type"] == "image/png") {
                                 $namepic = $fnamepic . ".png";
                             }
-                            $pass = "_pic_file_cn/";
+                            $pass = "_pic_file_cn/";*/
+
+                            $fp = fopen($_FILES["upload"]["tmp_name"], "r");
+                            $ReadBinary = fread($fp,128);
+                            fclose($fp);
+                            $FileData = addslashes($ReadBinary);
                         }
-                        copy($_FILES["upload"]["tmp_name"], "" . $pass . $namepic);
+                   /*     copy($_FILES["upload"]["tmp_name"], "" . $pass . $namepic);*/
                         $item_pic_run = sqlsrv_fetch_array(sqlsrv_query($con, "SELECT ISNULL(MAX(AR_CNP_ITEM),0)+1 AS  AR_CNP_ITEM
 		  FROM [Customer_Return_Picture]  WHERE AR_CN_ID = " . $_SESSION['id_cn'] . " AND AR_CND_ITEM = " . $_SESSION['id_item'] . ""));
-                        $sql = "INSERT INTO [Customer_Return_Picture]
+                     echo $sql = "INSERT INTO [Customer_Return_Picture]
            ([AR_CN_ID]
            ,[AR_CND_ITEM]
            ,[AR_CNP_ITEM]
+           ,[AR_CNP_PIC]
            ,[AR_CNP_REMARK]
            ,[AR_CNP_LASTUPD]
            ,[AR_CNP_PIC_NAME])
@@ -276,11 +283,14 @@ ob_start();
            (" . $_SESSION['id_cn'] . "
            ," . $_SESSION['id_item'] . "
            ," . $item_pic_run[0] . "
+           ,'".$FileData."'
            ,'" . $_POST['remark'] . "'
            ,'" . date("Y/m/d H:i:s") . "'
-           ,'" . $namepic . "')";
-                        $result = sqlsrv_query($con, $sql);
-                        if ($result != false) {
+           ,'" . $_FILES["upload"]["name"] . "');";
+
+                        $stmt = sqlsrv_query($con, $sql);
+                        var_dump($stmt);
+                        if (sqlsrv_rows_affected($stmt) > 0) {
                             echo "
 			  <table width=\"100%\">
 			  	<tr bgcolor = '#d6ffcd'>
