@@ -153,55 +153,60 @@ ob_start();
 
         ?>
         <fieldset style="width:96%; margin-left:11px; margin-bottom:10px;">
-        <legend>รายละเอียดใบเคลมสินค้า</legend>
+            <legend>รายละเอียดใบเคลมสินค้า</legend>
 
 
-        <?
-        $open = "SELECT * FROM  Customer_Return_Picture
+            <?
+            $open = "SELECT * FROM  Customer_Return_Picture
 		 WHERE AR_CN_ID = " . $_SESSION['id_cn'] . " AND AR_CND_ITEM = " . $_SESSION['id_item'] . " ORDER BY AR_CNP_ITEM ASC ";
-        $result = sqlsrv_query($con, $open);
-        $i = 1;
+            $result = sqlsrv_query($con, $open);
+            $i = 1;
 
-        if (sqlsrv_has_rows($result)):
+            if (sqlsrv_has_rows($result)):
 
             ?>
             <table width="100%" border="0" cellspacing="1" cellpadding="0"
-            style="color:#FFF; font-size:13px; font-family:Tahoma, Geneva, sans-serif; border:  thin #999 solid; ">
-            <tr bgcolor="#333333" height="20">
-                <td align="center" width="5%">ลำดับ</td>
-                <td align="center" width="35%">รูป</td>
-                <td align="center">หมายเหตุ</td>
-                <td align="center" width="5%">ลบรูป</td>
-            </tr>
-            <?PHP
-
-
-            while ($arr = sqlsrv_fetch_array($result)):
-                ?>
-                <tr height="25">
-                    <td align="center" bgcolor="#888888"><?= $i ?></td>
-                    <td align="left" bgcolor="#888888">&nbsp;
-                        <a class="group1" href="_pic_file_cn/<?= $arr['AR_CNP_PIC_NAME'] ?>"
-                           title="<?= $arr['AR_CNP_PIC_NAME'] ?>">
-                            <font color="#FFFFFF"><?= $arr['AR_CNP_PIC_NAME'] ?></font>
-                        </a></td>
-                    <td align="left" bgcolor="#888888">&nbsp;<?= $arr['AR_CNP_REMARK'] ?></td>
-                    <td align="center" bgcolor="#888888">
-                        <a href="clear_temp.php?id=<?= md5('del_pic_cn') ?>&gitem=<?= $arr['AR_CNP_ITEM'] ?>&namep=<?= $arr['AR_CNP_PIC_NAME'] ?>&item=<?= $_SESSION['id_item'] ?>"
-                           onClick="return confirm('คุณแน่ใจหรือไม่')">
-                            <img src="img/del_list.png" border="0"></a></td>
+                   style="color:#FFF; font-size:13px; font-family:Tahoma, Geneva, sans-serif; border:  thin #999 solid; ">
+                <tr bgcolor="#333333" height="20">
+                    <td align="center" width="5%">ลำดับ</td>
+                    <td align="center" width="35%">รูปตัวอย่าง</td>
+                    <td align="center" width="35%">ชื่อรูป</td>
+                    <td align="center">หมายเหตุ</td>
+                    <td align="center" width="5%">ลบรูป</td>
                 </tr>
                 <?PHP
-                $i++;
-            endwhile;
-        else:
-            ?>
-            <div style="color: red;text-align: center">ไม่มีรูป!</div>
 
-        <?
-        endif;
-        ?>
-        </table>
+
+                while ($arr = sqlsrv_fetch_array($result)):
+                    ?>
+                    <tr height="25">
+                        <td align="center" bgcolor="#888888"><?= $i ?></td>
+                        <td align="left" bgcolor="#888888">
+                           <img src="img_view.php?ar_cnp_item=<?= $arr['AR_CNP_ITEM'];?>" width="200" height="150">
+                        </td>
+                        <td align="left" bgcolor="#888888">&nbsp;
+                            <a class="group1" href="_pic_file_cn/<?= $arr['AR_CNP_PIC_NAME'] ?>"
+                               title="<?= $arr['AR_CNP_PIC_NAME'] ?>">
+                                <font color="#FFFFFF"><?= $arr['AR_CNP_PIC_NAME'] ?></font>
+                            </a>
+                        </td>
+                        <td align="left" bgcolor="#888888">&nbsp;<?= $arr['AR_CNP_REMARK'] ?></td>
+                        <td align="center" bgcolor="#888888">
+                            <a href="clear_temp.php?id=<?= md5('del_pic_cn') ?>&gitem=<?= $arr['AR_CNP_ITEM'] ?>&namep=<?= $arr['AR_CNP_PIC_NAME'] ?>&item=<?= $_SESSION['id_item'] ?>"
+                               onClick="return confirm('คุณแน่ใจหรือไม่')">
+                                <img src="img/del_list.png" border="0"></a></td>
+                    </tr>
+                    <?PHP
+                    $i++;
+                endwhile;
+                else:
+                    ?>
+                    <div style="color: red;text-align: center">ไม่มีรูป!</div>
+
+                <?
+                endif;
+                ?>
+            </table>
         </fieldset>
 
         <fieldset style="width:96%; margin-left:11px; margin-bottom:10px;">
@@ -263,15 +268,15 @@ ob_start();
                             }
                             $pass = "_pic_file_cn/";*/
 
-                            $fp = fopen($_FILES["upload"]["tmp_name"], "r");
-                            $ReadBinary = fread($fp,128);
-                            fclose($fp);
-                            $FileData = addslashes($ReadBinary);
-                        }
-                   /*     copy($_FILES["upload"]["tmp_name"], "" . $pass . $namepic);*/
-                        $item_pic_run = sqlsrv_fetch_array(sqlsrv_query($con, "SELECT ISNULL(MAX(AR_CNP_ITEM),0)+1 AS  AR_CNP_ITEM
+
+                            $DataImage = file_get_contents($_FILES["upload"]["tmp_name"]);
+                            $ArrData = unpack("H*hex", $DataImage);
+                            $HexData = "0x" . $ArrData['hex'];
+
+
+                            $item_pic_run = sqlsrv_fetch_array(sqlsrv_query($con, "SELECT ISNULL(MAX(AR_CNP_ITEM),0)+1 AS  AR_CNP_ITEM
 		  FROM [Customer_Return_Picture]  WHERE AR_CN_ID = " . $_SESSION['id_cn'] . " AND AR_CND_ITEM = " . $_SESSION['id_item'] . ""));
-                     echo $sql = "INSERT INTO [Customer_Return_Picture]
+                           $sql = "INSERT INTO [Customer_Return_Picture]
            ([AR_CN_ID]
            ,[AR_CND_ITEM]
            ,[AR_CNP_ITEM]
@@ -283,13 +288,17 @@ ob_start();
            (" . $_SESSION['id_cn'] . "
            ," . $_SESSION['id_item'] . "
            ," . $item_pic_run[0] . "
-           ,'".$FileData."'
+           ,'" . $HexData . "'
            ,'" . $_POST['remark'] . "'
            ,'" . date("Y/m/d H:i:s") . "'
-           ,'" . $_FILES["upload"]["name"] . "');";
+           ,'" . $_FILES["upload"]["name"] . "')";
 
-                        $stmt = sqlsrv_query($con, $sql);
-                        var_dump($stmt);
+                            $stmt = sqlsrv_query($con, $sql);
+
+                        }
+                        /*     copy($_FILES["upload"]["tmp_name"], "" . $pass . $namepic);*/
+
+
                         if (sqlsrv_rows_affected($stmt) > 0) {
                             echo "
 			  <table width=\"100%\">
