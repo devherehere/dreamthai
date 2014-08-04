@@ -36,8 +36,8 @@ WHERE TEMP.AR_BO_ID = " . $_SESSION['id_bo'] . " ";
         <tr>
             <td><font color="#000000">ส่วนลดตามโปรโมชั่น</font></td>
             <td><input type='text' name='PROMO' size='5' disabled
-                       value='<?php echo number_format($row['PROM_DISCOUNT'], 2); ?>'></td>
-            <td>%</td>
+                       value='<?php echo number_format($row['PROM_DISCOUNT'], 2); ?>'>%</td>
+            <td></td>
             <?php
             $cal_discount = ($sum_product['sumprice'] * $row['PROM_DISCOUNT']) / 100;
             ?>
@@ -60,8 +60,8 @@ WHERE TEMP.AR_BO_ID = " . $_SESSION['id_bo'] . " ";
             <td><font color="#000000">ส่วนลดเงินสด</font></td>
 
             <td><input type='text' name='MONEY' size='5'
-                       value='<?php echo number_format($dis_cash['DISC_NAME'], 2); ?>' disabled></td>
-            <td>%</td>
+                       value='<?php echo number_format($dis_cash['DISC_NAME'], 2); ?>' disabled>%</td>
+            <td ></td>
             <?php
             $cal_dis_cash = ($price_promo_total * $dis_cash['DISC_NAME']) / 100;
             ?>

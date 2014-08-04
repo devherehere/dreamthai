@@ -391,15 +391,15 @@ if (sqlsrv_num_rows(sqlsrv_query($con, $chk)) > 0) {
     sqlsrv_query($con, "UPDATE [Book_Order_Detail_Temp] SET [AR_BO_ID] = " . $_SESSION['id_bo'] . " WHERE AR_BO_ID = " . $temp . " ");
     $rec_run = sqlsrv_fetch_array(sqlsrv_query($con, " SELECT  ISNULL(MAX(AR_BO_ID),0)+1 AS AR_BO_KEY  FROM   [Book_Order] "));
     $_SESSION['id_bo'] = $rec_run[0];
-    $run_id = sprintf("%03d", $rec_run[0]);
-    $run_id2 = sprintf("%03d", ($run_id - 1));
+    $run_id = sprintf("%04d", $rec_run[0]);
+    $run_id2 = sprintf("%04d", ($run_id - 1));
     $BO_KEY = $docresult['DOC_TITLE_NAME'] . "-" . $yy . "" . $mm . "-" . $run_id . "";
     $_SESSION['key_bo'] = $BO_KEY;
     echo "<script>alert('เลขที่ใบจอง ( " . "" . $docresult['DOC_TITLE_NAME'] . "-" . $yy . "" . $mm . "-" . $run_id2 . "" . " ) ซ้ำ เลขที่ใหม่คือ ( " . $_SESSION['key_bo'] . " )')</script>";
 } else {
     $rec_run = sqlsrv_fetch_array(sqlsrv_query($con, " SELECT  ISNULL(MAX(AR_BO_ID),0)+1 AS AR_BO_KEY  FROM   [Book_Order] "));
     $_SESSION['id_bo'] = $rec_run[0];
-    $run_id = sprintf("%03d", $rec_run[0]);
+    $run_id = sprintf("%04d", $rec_run[0]);
     $BO_KEY = $docresult['DOC_TITLE_NAME'] . "-" . $yy . "" . $mm . "-" . $run_id . "";
     $_SESSION['key_bo'] = $BO_KEY;
 }
@@ -472,7 +472,8 @@ AP_File ON Contact.APF_ARF_KEY = AP_File.APF_KEY WHERE  Contact.CONT_STATUS = '1
                        value="<?= $address['ADD_PHONE']; ?>" readonly="readonly">
                 <font color="#000000"> FAX. </font>&nbsp;
                 <input type="text" name="FAX" size="20" class="validate[required,length[0,50]]"
-                       value="<?= $address['ADD_FAX']; ?>" readonly="readonly"></td>
+                       value="<?= $address['ADD_FAX']; ?>" readonly="readonly">
+            </td>
         </tr>
         <tr>
             <td colspan="2"> พนักงานขาย
@@ -614,15 +615,14 @@ WHERE        (Tax_Type.TAXT_STATUS = '1') AND (Condition_Payment.COND_STATUS = '
                                 <option value="1">อื่นๆ</option>
                             </select></td>
                     </tr>
-
+                    <tr>
+                        <td><font color="#000000">ขนส่งอื่นๆ</font></td>
+                        <td><input type="text" name="trans_etc" size="60" id="input" disabled></td>
+                    </tr>
                     <tr>
                         <td>สถานที่ส่ง</td>
                         <td><input type="text" name="send_pl" size="60" class="" id="send_pl">
                         </td>
-                    </tr>
-                    <tr>
-                        <td><font color="#000000">ขนส่งอื่นๆ</font></td>
-                        <td><input type="text" name="trans_etc" size="60" id="input" disabled></td>
                     </tr>
                     <tr>
                         <td><font color="#000000">หมายเหตุ</font></td>
