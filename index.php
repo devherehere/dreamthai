@@ -213,6 +213,13 @@ $(function () {
 
     });
 
+
+ /*   $('select[name="pur_sta"]').on('change', function () {
+
+        alert('test');
+    });
+*/
+
     /*event when start document*/
 
     $.ajax({
@@ -234,6 +241,9 @@ $(function () {
         },
         success: function (data) {
             $('#calculate').html(data);
+        },
+        data: {
+            pur_sta:$('select[name="pur_sta"]').val()
         }
     });
 
@@ -292,14 +302,14 @@ $(function () {
     });
 
     $(document.body).on('click', '.clear_list', function () {
-       var check = confirm('คุณต้องการลบทั้งหมด ?');
-       if(check == true){
-           $.post('ajax/clear_bo_list.php',{id_bo:<?=$_SESSION['id_bo'];?>},function(){
+        var check = confirm('คุณต้องการลบทั้งหมด ?');
+        if (check == true) {
+            $.post('ajax/clear_bo_list.php', {id_bo:<?=$_SESSION['id_bo'];?>}, function () {
 
-               window.location.href = 'index.php';
-           });
+                window.location.href = 'index.php';
+            });
 
-       }
+        }
 
     });
 
@@ -339,7 +349,7 @@ include "include/connect.inc.php";
 <?PHP if (@$_SESSION["user_ses"] != '' && @$_SESSION["user_id"] != '') {
 
 
- $sql_address = "SELECT     Address.APF_ARF_KEY, AR_File.ARF_KEY, Address.ADD_ITEM, Address.ADD_NO, Amphoe.AMPHOE_NAME_THAI, Province.PROVINCE_NAME_THAI, Tambon.TAMBON_NAME_THAI, Address.ADD_PROVINCE, Address.ADD_AMPHOE, Address.ADD_TAMBON, Tambon.TAMBON_POSTCODE, Address.ADD_PHONE,  Address.ADD_MOBILE, Address.ADD_FAX, Address.ADD_EMAIL, Address.ADD_DEFAULT FROM Tambon LEFT OUTER JOIN
+$sql_address = "SELECT     Address.APF_ARF_KEY, AR_File.ARF_KEY, Address.ADD_ITEM, Address.ADD_NO, Amphoe.AMPHOE_NAME_THAI, Province.PROVINCE_NAME_THAI, Tambon.TAMBON_NAME_THAI, Address.ADD_PROVINCE, Address.ADD_AMPHOE, Address.ADD_TAMBON, Tambon.TAMBON_POSTCODE, Address.ADD_PHONE,  Address.ADD_MOBILE, Address.ADD_FAX, Address.ADD_EMAIL, Address.ADD_DEFAULT FROM Tambon LEFT OUTER JOIN
                       Address ON Tambon.TAMBON_KEY = Address.ADD_TAMBON RIGHT OUTER JOIN
                       Amphoe ON Address.ADD_AMPHOE = Amphoe.AMPHOE_KEY RIGHT OUTER JOIN
                       Province ON Address.ADD_PROVINCE = Province.PROVINCE_KEY LEFT OUTER JOIN
@@ -351,7 +361,6 @@ $address = sqlsrv_fetch_array($sql_dbgadd);
 
 $full_address = $address['ADD_NO'] . ' ' . $address['TAMBON_NAME_THAI'] . ' ' . $address['AMPHOE_NAME_THAI'] . ' ' . $address['PROVINCE_NAME_THAI'] . ' ' . $address['TAMBON_POSTCODE'];
 $_SESSION['full_address'] = $full_address;
-
 
 
 $day = explode("-", date("Y-m-d"));
@@ -465,7 +474,7 @@ AP_File ON Contact.APF_ARF_KEY = AP_File.APF_KEY WHERE  Contact.CONT_STATUS = '1
                 <BR>
                 <font color="#000000"> ที่อยู่</font>
                 <input type="text" name="ADDRESS" size="75" class="validate[required,length[0,50]]"
-                       value="<?= $full_address; ?>" readonly="readonly">
+                       value="<?= $full_address; ?>" readonly="readonly" >
                 <BR>
                 <font color="#000000">Tel.</font> &nbsp;
                 <input type="text" name="TEL" size="20" class="validate[required,length[0,50]]"
@@ -533,7 +542,7 @@ WHERE        (Tax_Type.TAXT_STATUS = '1') AND (Condition_Payment.COND_STATUS = '
                     <option value="">------ เลือก-------</option>
                 </select>
                 &nbsp; &nbsp; สถานะการขายสินค้า
-                <select name="pur_sta" class="frominput" >
+                <select name="pur_sta" class="frominput">
                     <?PHP
                     $sql_v = sqlsrv_query($con, $sql_pay_con);
                     while ($vatt = sqlsrv_fetch_array($sql_v)) {
@@ -544,9 +553,9 @@ WHERE        (Tax_Type.TAXT_STATUS = '1') AND (Condition_Payment.COND_STATUS = '
                             $txt = 'ขายเชื่อ';
                         }
 
-                        if ($vatt['COND_ITEM'] ==  $_SESSION["item_pay"]){
+                        if ($vatt['COND_ITEM'] == $_SESSION["item_pay"]) {
                             $selectv = "selected='selected' ";
-                        }else {
+                        } else {
                             $selectv = "";
                         }
 
@@ -559,7 +568,7 @@ WHERE        (Tax_Type.TAXT_STATUS = '1') AND (Condition_Payment.COND_STATUS = '
                     ?>
                 </select>
                 &nbsp; &nbsp; เงื่อนไขการชำระเงิน
-                <select name="tof_name" class="frominput" >
+                <select name="tof_name" class="frominput">
                     <?PHP
                     echo $_SESSION["tof"];
                     $sql_pay = sqlsrv_query($con, "SELECT   TOF_KEY   ,  TOF_NAME  FROM         Term_of_Payment
@@ -592,7 +601,7 @@ WHERE        (Tax_Type.TAXT_STATUS = '1') AND (Condition_Payment.COND_STATUS = '
     </div>
 
 
-    <div  class="clear_list"></div>
+    <div class="clear_list"></div>
     <a href="product_search.php?bo=true" target="_blank" class="add_list"></a>
 </fieldset>
 <table width="100%" border="0" cellspacing="0" cellpadding="0">

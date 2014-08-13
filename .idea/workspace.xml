@@ -2,8 +2,11 @@
 <project version="4">
   <component name="ChangeListManager">
     <list default="true" id="1729dc39-a16d-48f9-9f6f-30d04333f4a1" name="Default" comment="">
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/add_newcust.php" afterPath="$PROJECT_DIR$/add_newcust.php" />
       <change type="MODIFICATION" beforePath="$PROJECT_DIR$/ajax/calculate.php" afterPath="$PROJECT_DIR$/ajax/calculate.php" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/cust_choose.php" afterPath="$PROJECT_DIR$/cust_choose.php" />
       <change type="MODIFICATION" beforePath="$PROJECT_DIR$/index.php" afterPath="$PROJECT_DIR$/index.php" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/state.php" afterPath="$PROJECT_DIR$/state.php" />
       <change type="MODIFICATION" beforePath="$PROJECT_DIR$/.idea/workspace.xml" afterPath="$PROJECT_DIR$/.idea/workspace.xml" />
     </list>
     <ignored path="dreamthai.iws" />
@@ -27,10 +30,10 @@
   </component>
   <component name="FileEditorManager">
     <leaf>
-      <file leaf-file-name="index.php" pinned="false" current="true" current-in-tab="true">
-        <entry file="file://$PROJECT_DIR$/index.php">
+      <file leaf-file-name="cust_choose.php" pinned="false" current="true" current-in-tab="true">
+        <entry file="file://$PROJECT_DIR$/cust_choose.php">
           <provider selected="true" editor-type-id="text-editor">
-            <state line="626" column="0" selection-start="24296" selection-end="24296" vertical-scroll-proportion="0.6708861" vertical-offset="10271" max-vertical-offset="11747">
+            <state line="242" column="125" selection-start="13585" selection-end="13585" vertical-scroll-proportion="-0.11764706" vertical-offset="4182" max-vertical-offset="5984">
               <folding />
             </state>
           </provider>
@@ -54,10 +57,6 @@
   <component name="IdeDocumentHistory">
     <option name="changedFiles">
       <list>
-        <option value="$PROJECT_DIR$/ajax/add_bo_detail.php" />
-        <option value="$PROJECT_DIR$/ajax/add_pic.php" />
-        <option value="$PROJECT_DIR$/ajax/del_item_bod.php" />
-        <option value="$PROJECT_DIR$/ajax/del_item_clam.php" />
         <option value="$PROJECT_DIR$/ajax/clear_bo_list.php" />
         <option value="$PROJECT_DIR$/include/connect.inc.php" />
         <option value="$PROJECT_DIR$/cust_search.php" />
@@ -70,6 +69,10 @@
         <option value="$PROJECT_DIR$/img_view.php" />
         <option value="$PROJECT_DIR$/ajax/calculate.php" />
         <option value="$PROJECT_DIR$/index.php" />
+        <option value="$PROJECT_DIR$/state5.php" />
+        <option value="$PROJECT_DIR$/state.php" />
+        <option value="$PROJECT_DIR$/add_newcust.php" />
+        <option value="$PROJECT_DIR$/cust_choose.php" />
       </list>
     </option>
   </component>
@@ -140,6 +143,20 @@
               <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.PsiDirectoryNode" />
             </PATH_ELEMENT>
             <PATH_ELEMENT>
+              <option name="myItemId" value="include" />
+              <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.PsiDirectoryNode" />
+            </PATH_ELEMENT>
+          </PATH>
+          <PATH>
+            <PATH_ELEMENT>
+              <option name="myItemId" value="dreamthai" />
+              <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.ProjectViewProjectNode" />
+            </PATH_ELEMENT>
+            <PATH_ELEMENT>
+              <option name="myItemId" value="dreamthai" />
+              <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.PsiDirectoryNode" />
+            </PATH_ELEMENT>
+            <PATH_ELEMENT>
               <option name="myItemId" value="ajax" />
               <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.PsiDirectoryNode" />
             </PATH_ELEMENT>
@@ -151,12 +168,12 @@
   <component name="PropertiesComponent">
     <property name="options.splitter.main.proportions" value="0.3" />
     <property name="WebServerToolWindowFactoryState" value="false" />
-    <property name="recentsLimit" value="5" />
     <property name="options.lastSelected" value="reference.settingsdialog.IDE.editor.colors" />
+    <property name="recentsLimit" value="5" />
     <property name="last_opened_file_path" value="$PROJECT_DIR$/../../php5" />
     <property name="FullScreen" value="false" />
-    <property name="options.searchVisible" value="true" />
     <property name="options.splitter.details.proportions" value="0.2" />
+    <property name="options.searchVisible" value="true" />
   </component>
   <component name="PublishConfig">
     <servers>
@@ -275,9 +292,9 @@
       <window_info id="Structure" active="false" anchor="left" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.24015151" sideWeight="0.5" order="1" side_tool="false" content_ui="tabs" />
       <window_info id="Commander" active="false" anchor="right" auto_hide="false" internal_type="SLIDING" type="SLIDING" visible="false" weight="0.4" sideWeight="0.5" order="0" side_tool="false" content_ui="tabs" />
       <window_info id="Project" active="false" anchor="left" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="true" weight="0.15080526" sideWeight="0.5769829" order="0" side_tool="false" content_ui="combo" />
-      <window_info id="Inspection" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.4" sideWeight="0.5" order="5" side_tool="false" content_ui="tabs" />
-      <window_info id="Hierarchy" active="false" anchor="right" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.25" sideWeight="0.5" order="2" side_tool="false" content_ui="combo" />
       <window_info id="Run" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.33" sideWeight="0.5" order="2" side_tool="false" content_ui="tabs" />
+      <window_info id="Hierarchy" active="false" anchor="right" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.25" sideWeight="0.5" order="2" side_tool="false" content_ui="combo" />
+      <window_info id="Inspection" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.4" sideWeight="0.5" order="5" side_tool="false" content_ui="tabs" />
     </layout-to-restore>
   </component>
   <component name="VcsContentAnnotationSettings">
@@ -294,21 +311,6 @@
     </breakpoint-manager>
   </component>
   <component name="editorHistoryManager">
-    <entry file="file://$PROJECT_DIR$/cust_chk.php">
-      <provider selected="true" editor-type-id="text-editor">
-        <state line="182" column="60" selection-start="9087" selection-end="9088" vertical-scroll-proportion="0.33273056" vertical-offset="2910" max-vertical-offset="5202" />
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/cust_search.php">
-      <provider selected="true" editor-type-id="text-editor">
-        <state line="47" column="52" selection-start="2287" selection-end="2287" vertical-scroll-proportion="0.33273056" vertical-offset="615" max-vertical-offset="2669" />
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/report/gen_book_order.php">
-      <provider selected="true" editor-type-id="text-editor">
-        <state line="178" column="48" selection-start="6294" selection-end="9054" vertical-scroll-proportion="0.20588236" vertical-offset="2907" max-vertical-offset="4930" />
-      </provider>
-    </entry>
     <entry file="file://$PROJECT_DIR$/report/gen_clam.php">
       <provider selected="true" editor-type-id="text-editor">
         <state line="70" column="65" selection-start="2019" selection-end="2019" vertical-scroll-proportion="-2.764706" vertical-offset="2788" max-vertical-offset="4318" />
@@ -336,46 +338,27 @@
     </entry>
     <entry file="file://$PROJECT_DIR$/img_view.php">
       <provider selected="true" editor-type-id="text-editor">
-        <state line="34" column="0" selection-start="862" selection-end="862" vertical-scroll-proportion="0.9780034" vertical-offset="0" max-vertical-offset="850">
-          <folding />
-        </state>
+        <state line="34" column="0" selection-start="862" selection-end="862" vertical-scroll-proportion="0.9780034" vertical-offset="0" max-vertical-offset="850" />
       </provider>
     </entry>
     <entry file="file://$PROJECT_DIR$/add_edit_pic_cn.php">
       <provider selected="true" editor-type-id="text-editor">
-        <state line="12" column="60" selection-start="39" selection-end="551" vertical-scroll-proportion="0.0" vertical-offset="204" max-vertical-offset="6171">
-          <folding>
-            <marker date="1406705597563" expanded="true" signature="-1:-1" placeholder="..." />
-            <marker date="1406705597563" expanded="true" signature="-1:-1" placeholder="..." />
-            <marker date="1406705597563" expanded="true" signature="-1:-1" placeholder="..." />
-            <marker date="1406705597563" expanded="true" signature="-1:-1" placeholder="..." />
-            <marker date="1406705597563" expanded="true" signature="-1:-1" placeholder="..." />
-            <marker date="1406705597563" expanded="true" signature="-1:-1" placeholder="..." />
-            <marker date="1406705597563" expanded="true" signature="-1:-1" placeholder="..." />
-            <marker date="1406705597563" expanded="true" signature="-1:-1" placeholder="..." />
-          </folding>
-        </state>
+        <state line="12" column="60" selection-start="39" selection-end="551" vertical-scroll-proportion="0.0" vertical-offset="204" max-vertical-offset="6171" />
       </provider>
     </entry>
     <entry file="file://$PROJECT_DIR$/process_cn.php">
       <provider selected="true" editor-type-id="text-editor">
-        <state line="11" column="0" selection-start="496" selection-end="597" vertical-scroll-proportion="-1.8529412" vertical-offset="1258" max-vertical-offset="8908">
-          <folding />
-        </state>
+        <state line="11" column="0" selection-start="496" selection-end="597" vertical-scroll-proportion="-1.8529412" vertical-offset="1258" max-vertical-offset="8908" />
       </provider>
     </entry>
     <entry file="file://$PROJECT_DIR$/include/productTemp.php">
       <provider selected="true" editor-type-id="text-editor">
-        <state line="76" column="79" selection-start="3939" selection-end="3939" vertical-scroll-proportion="1.2058823" vertical-offset="595" max-vertical-offset="1734">
-          <folding />
-        </state>
+        <state line="76" column="79" selection-start="3939" selection-end="3939" vertical-scroll-proportion="1.2058823" vertical-offset="595" max-vertical-offset="1734" />
       </provider>
     </entry>
     <entry file="file://$PROJECT_DIR$/ajax/cal_vat.php">
       <provider selected="true" editor-type-id="text-editor">
-        <state line="0" column="0" selection-start="0" selection-end="0" vertical-scroll-proportion="0.0" vertical-offset="0" max-vertical-offset="591">
-          <folding />
-        </state>
+        <state line="0" column="0" selection-start="0" selection-end="0" vertical-scroll-proportion="0.0" vertical-offset="0" max-vertical-offset="591" />
       </provider>
     </entry>
     <entry file="file://$PROJECT_DIR$/ajax/cal_total.php">
@@ -387,14 +370,43 @@
     </entry>
     <entry file="file://$PROJECT_DIR$/ajax/calculate.php">
       <provider selected="true" editor-type-id="text-editor">
-        <state line="38" column="86" selection-start="2091" selection-end="2092" vertical-scroll-proportion="1.117647" vertical-offset="0" max-vertical-offset="2567">
+        <state line="68" column="33" selection-start="3351" selection-end="3351" vertical-scroll-proportion="-1.5588236" vertical-offset="2057" max-vertical-offset="2635">
           <folding />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/state.php">
+      <provider selected="true" editor-type-id="text-editor">
+        <state line="43" column="6" selection-start="1501" selection-end="1501" vertical-scroll-proportion="1.2368866" vertical-offset="0" max-vertical-offset="986">
+          <folding />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/add_newcust.php">
+      <provider selected="true" editor-type-id="text-editor">
+        <state line="207" column="0" selection-start="7261" selection-end="7261" vertical-scroll-proportion="6.363472" vertical-offset="0" max-vertical-offset="7072">
+          <folding>
+            <element signature="n#style#0;n#fieldset#0;n#form#0;n#div#1;n#div#0;n#div#0;n#body#0;n#html#0;n#!!top" expanded="true" />
+            <element signature="n#style#0;n#fieldset#1;n#form#0;n#div#1;n#div#0;n#div#0;n#body#0;n#html#0;n#!!top" expanded="true" />
+            <element signature="n#style#0;n#fieldset#2;n#form#0;n#div#1;n#div#0;n#div#0;n#body#0;n#html#0;n#!!top" expanded="true" />
+            <marker date="1407903440830" expanded="true" signature="-1:-1" placeholder="..." />
+            <marker date="1407903440830" expanded="true" signature="-1:-1" placeholder="..." />
+            <marker date="1407903440830" expanded="true" signature="-1:-1" placeholder="..." />
+            <marker date="1407903440830" expanded="true" signature="-1:-1" placeholder="..." />
+          </folding>
         </state>
       </provider>
     </entry>
     <entry file="file://$PROJECT_DIR$/index.php">
       <provider selected="true" editor-type-id="text-editor">
-        <state line="626" column="0" selection-start="24296" selection-end="24296" vertical-scroll-proportion="0.6708861" vertical-offset="10271" max-vertical-offset="11747">
+        <state line="187" column="17" selection-start="4746" selection-end="4873" vertical-scroll-proportion="0.39963832" vertical-offset="2958" max-vertical-offset="11900">
+          <folding />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/cust_choose.php">
+      <provider selected="true" editor-type-id="text-editor">
+        <state line="242" column="125" selection-start="13585" selection-end="13585" vertical-scroll-proportion="-0.11764706" vertical-offset="4182" max-vertical-offset="5984">
           <folding />
         </state>
       </provider>

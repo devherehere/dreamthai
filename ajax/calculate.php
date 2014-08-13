@@ -60,10 +60,14 @@ WHERE TEMP.AR_BO_ID = " . $_SESSION['id_bo'] . " ";
             <td><font color="#000000"> Ë«π≈¥‡ß‘π ¥</font></td>
 
             <td><input type='text' name='MONEY' size='5'
-                       value='<?php echo number_format($dis_cash['DISC_NAME'], 2); ?>' disabled>%</td>
+                       value='<?php  echo ($_POST['pur_sta']==0)?number_format($dis_cash['DISC_NAME'], 2):0; ?>' disabled>%</td>
             <td ></td>
             <?php
-            $cal_dis_cash = ($price_promo_total * $dis_cash['DISC_NAME']) / 100;
+            if($_POST['pur_sta'] == 0):
+                $cal_dis_cash = ($price_promo_total * $dis_cash['DISC_NAME']) / 100;
+            else:
+                $cal_dis_cash = 0 ;
+            endif;
             ?>
 
             <td><input type='text' name='SUMMONEY' size='5'
