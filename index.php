@@ -327,8 +327,6 @@ include "include/connect.inc.php";
 
 </head>
 <body>
-
-
 <div id="wrapper">
 <div class="mian">
 <div class="head">
