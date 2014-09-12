@@ -148,7 +148,7 @@ ob_start ();
 			<div class="content">
     <?PHP
 				
-if ($_SESSION ["user_ses"] != '' && $_SESSION ["user_id"] != '') {
+				if ($_SESSION ["user_ses"] != '' && $_SESSION ["user_id"] != '') {
 					if (isset ( $_GET ['id_item'] ) == 1) {
 						$_SESSION ['id_item'] = $_GET ['id_item'];
 					}
@@ -184,32 +184,17 @@ if ($_SESSION ["user_ses"] != '' && $_SESSION ["user_id"] != '') {
 							?>
                     <tr height="25">
 							<td align="center" bgcolor="#888888"><?= $i ?></td>
+
+							<td align="left" bgcolor="#888888">&nbsp; <font color="#FFFFFF"><?= $arr['AR_CNP_PIC_NAME'] ?></font></td>
 							<td align="left" bgcolor="#888888">
-                        
-                        <?php
-							/* 
-							$image = sqlsrv_get_field ( $result, 3, SQLSRV_PHPTYPE_STREAM ( SQLSRV_ENC_BINARY ) );
-							header ( "Content-Type: image/jpg" );
-							fpassthru ( $image ); */
-							
-							//$base64 =  base64_encode($arr['AR_CNP_PIC']);
-						
-                        ?>
-                           <img
-								src="<?php echo pack('L',$arr['AR_CNP_PIC']);?>"
-								width="200" height="150" alt="" />
-							</td>
-							<td align="left" bgcolor="#888888">&nbsp; <a class="group1"
-								href="_pic_file_cn/&lt;?= $arr['AR_CNP_PIC_NAME'] ?&gt;"
-								title="&lt;?= $arr['AR_CNP_PIC_NAME'] ?&gt;"> <font
-									color="#FFFFFF"><?= $arr['AR_CNP_PIC_NAME'] ?></font>
-							</a>
+							<?php GetPicture($_SESSION ['id_cn'],$arr['AR_CND_ITEM'],$arr['AR_CNP_ITEM']);?>
 							</td>
 							<td align="left" bgcolor="#888888">&nbsp;<?= $arr['AR_CNP_REMARK'] ?></td>
 							<td align="center" bgcolor="#888888"><a
-								href="clear_temp.php?id=&lt;?= md5('del_pic_cn') ?&gt;&amp;gitem=&lt;?= $arr['AR_CNP_ITEM'] ?&gt;&amp;namep=&lt;?= $arr['AR_CNP_PIC_NAME'] ?&gt;&amp;item=&lt;?= $_SESSION['id_item'] ?&gt;"
+								href="clear_temp.php?id=<?= md5('del_pic_cn') ?>&gitem=<?= $arr['AR_CNP_ITEM'] ?>&namep=<?= $arr['AR_CNP_PIC_NAME'] ?>&item=<?= $_SESSION['id_item'] ?>"
 								onclick="return confirm('คุณแน่ใจหรือไม่')"> <img
 									src="img/del_list.png" border="0" alt="" /></a></td>
+
 						</tr>
                     <?PHP
 							$i ++;
@@ -218,8 +203,10 @@ if ($_SESSION ["user_ses"] != '' && $_SESSION ["user_id"] != '') {
 					 else :
 						?>
                     <div style="color: red; text-align: center">ไม่มีรูป!</div>
-
-                
+					
+					
+					
+					
 					<?endif;
 					?>
             </table>
@@ -229,7 +216,7 @@ if ($_SESSION ["user_ses"] != '' && $_SESSION ["user_id"] != '') {
 					style="width: 96%; margin-left: 11px; margin-bottom: 10px;">
 					<legend>อัพโหลดรูป</legend>
 					<form method="post"
-						action="add_edit_pic_cn.php?id_up=&lt;?= $_SESSION['id_cn'] ?&gt;&amp;id_key=&lt;?= md5('add_pic') ?&gt;"
+						action="add_edit_pic_cn.php?id_up=<?= $_SESSION['id_cn'] ?>&id_key=add_pic"
 						name="02" enctype="multipart/form-data">
 						<table width="100%" border="0" cellspacing="0" cellpadding="0">
 							<tr>
@@ -259,7 +246,8 @@ if ($_SESSION ["user_ses"] != '' && $_SESSION ["user_id"] != '') {
 				<br />
 
         <?PHP
-					if ($_REQUEST ['id_key'] == md5 ( 'add_pic' )) {
+					if ($_GET ['id_key'] == 'add_pic') {
+						
 						if (trim ( $_FILES ["upload"] ["tmp_name"] ) != "") {
 							if ((($_FILES ["upload"] ["type"] == "image/gif") || ($_FILES ["upload"] ["type"] == "image/jpeg") || ($_FILES ["upload"] ["type"] == "image/png") || ($_FILES ["upload"] ["type"] == "image/pjpeg")) && 							// ภาพจะอัพได้ แค่ 4 นามสกุลเท่านั้น
 							($_FILES ["upload"] ["size"] < 1048576)) { // limit size ได้ไม่เกิน 1 MB
@@ -269,16 +257,10 @@ if ($_SESSION ["user_ses"] != '' && $_SESSION ["user_id"] != '') {
 									if (file_exists ( "_pic_file_cn/" . $_FILES ["upload"] ["name"] )) {
 										echo $_FILES ["upload"] ["name"] . " already exists. ";
 									} else {
-										/*
-										 * $cn_id = "cn_" . $_SESSION['id_cn'] . "_item_"; $cn_item = $_SESSION['id_item'] . "_"; $day = date("Y-m-dHis"); $fnamepic = $cn_id . $cn_item . $day; if ($_FILES["upload"]["type"] == "image/jpeg") { $namepic = $fnamepic . ".jpg"; } else if ($_FILES["upload"]["type"] == "image/gif") { $namepic = $fnamepic . ".gif"; } else if ($_FILES["upload"]["type"] == "image/png") { $namepic = $fnamepic . ".png"; } $pass = "_pic_file_cn/";
-										 */
-										
-										$DataImage = file_get_contents ( $_FILES ["upload"] ["tmp_name"] );
-										$ArrData = unpack ( "H*hex", $DataImage );
-										$HexData = "0x" . $ArrData ['hex'];
 										
 										$item_pic_run = sqlsrv_fetch_array ( sqlsrv_query ( $con, "SELECT ISNULL(MAX(AR_CNP_ITEM),0)+1 AS  AR_CNP_ITEM
 		  FROM [Customer_Return_Picture]  WHERE AR_CN_ID = " . $_SESSION ['id_cn'] . " AND AR_CND_ITEM = " . $_SESSION ['id_item'] . "" ) );
+										
 										$sql = "INSERT INTO [Customer_Return_Picture]
            ([AR_CN_ID]
            ,[AR_CND_ITEM]
@@ -291,16 +273,28 @@ if ($_SESSION ["user_ses"] != '' && $_SESSION ["user_id"] != '') {
            (" . $_SESSION ['id_cn'] . "
            ," . $_SESSION ['id_item'] . "
            ," . $item_pic_run [0] . "
-           ,'" . $HexData . "'
+           ,?
            ,'" . $_POST ['remark'] . "'
            ,'" . date ( "Y/m/d H:i:s" ) . "'
            ,'" . $_FILES ["upload"] ["name"] . "')";
 										
-										$stmt = sqlsrv_query ( $con, $sql );
+										$fileStream = fopen ( $_FILES ['upload'] ['tmp_name'], "r" );
+										$uploadPic = sqlsrv_prepare ( $con, $sql, array (
+												array (
+														&$fileStream,
+														SQLSRV_PARAM_IN,
+														SQLSRV_PHPTYPE_STREAM ( SQLSRV_ENC_BINARY ),
+														SQLSRV_SQLTYPE_VARBINARY ( 'max' ) 
+												) 
+										) );
+										
+										if ($uploadPic === false)
+											die ( FormatErrors ( sqlsrv_errors () ) );
+										if (sqlsrv_execute ( $uploadPic ) === false)
+											die ( FormatErrors ( sqlsrv_errors () ) );
 									}
-									/* copy($_FILES["upload"]["tmp_name"], "" . $pass . $namepic); */
 									
-									if (sqlsrv_rows_affected ( $stmt ) > 0) {
+									if (sqlsrv_rows_affected ( $uploadPic ) > 0) {
 										echo "
 			  <table width=\"100%\">
 			  	<tr bgcolor = '#d6ffcd'>
@@ -349,7 +343,13 @@ if ($_SESSION ["user_ses"] != '' && $_SESSION ["user_id"] != '') {
 				?>
 </div>
 			<div class="foot">
-    <?PHP include "include/foot.php"; ?>
+    <?PHP
+				function GetPicture($ar_cn_id, $ar_cnd_item, $ar_cnp_item) {
+					echo "<img src='ShowPic.php?ar_cn_id=" . $ar_cn_id . "&ar_cnd_item=" . $ar_cnd_item . "&ar_cnp_item=" . $ar_cnp_item . "' height='150' width='150'/>";
+				}
+				
+				include "include/foot.php";
+				?>
 </div>
 		</div>
 	</div>

@@ -1,6 +1,8 @@
 <?PHP
+
 ob_start();
 @session_start();
+
 include "connect.inc.php";
 
 $sql = "SELECT        Book_Order_Detail.AR_BO_ID, Book_Order_Detail.AR_BOD_ITEM, Book_Order_Detail.UOM_KEY, Book_Order_Detail.AR_BOD_GOODS_SELL,
@@ -17,8 +19,11 @@ $params = array();
 $options = array("Scrollable" => SQLSRV_CURSOR_KEYSET);
 $result = sqlsrv_query($con, $sql, $params, $options);
 $num_rows = sqlsrv_num_rows($result);
+header("Content-Type:text/plain;charset=tis-620");
 if (sqlsrv_has_rows($result)):
+
 ?>
+
 <div style="margin-bottom: 5px;">จำนวนที่เลือก [<?php echo $num_rows ?>]</div>
 <table width="100%" border="0" cellspacing="1" cellpadding="0" style="color:#FFF; font-size:13px;  ">
     <tr bgcolor="#333333" height="20">
@@ -46,7 +51,7 @@ if (sqlsrv_has_rows($result)):
     while (@$reccord = sqlsrv_fetch_array($result)) :
         ?>
         <tr bgcolor="#7f7f7f" height="20">
-            <td align="center" name="bod_item"><?= $reccord['AR_BOD_ITEM'] ?></td>
+            <td align="center" name="bod_item"><?= $reccord['AR_BOD_ITEM']; ?></td>
             <td align="left" bgcolor="#888888">&nbsp;
                 <?= $reccord['GOODS_CODE'] ?></td>
             <td align="left" bgcolor="#888888">&nbsp;
